@@ -1,4 +1,4 @@
-// api/index.js - Vercel Serverless Function for Bots.Business & Channel Check
+// api/index.js - Complete Serverless Backend API for SMARTU Wallet & Bots.Business
 const FIREBASE_URL = "https://smartu-grup-bot-default-rtdb.firebaseio.com";
 
 async function fbGet(path) {
@@ -24,6 +24,22 @@ async function fbUpdate(path, data) {
   return await res.json();
 }
 
+async function getSystemConfig() {
+  const cfg = (await fbGet("config")) || {};
+  return {
+    botToken: cfg.botToken || "",
+    botUsername: cfg.botUsername || "Smartu_grup_bot",
+    referReward: Number(cfg.referReward !== undefined ? cfg.referReward : 200),
+    conversionRate: Number(cfg.conversionRate || 100), // 100 Coins = ₹1
+    minWithdraw: Number(cfg.minWithdraw || 10),
+    maxWithdraw: Number(cfg.maxWithdraw || 5000),
+    gamesEnabled: cfg.gamesEnabled !== undefined ? Boolean(cfg.gamesEnabled) : true,
+    gamePlayLimit: Number(cfg.gamePlayLimit || 50),
+    aviatorMaxBet: Number(cfg.aviatorMaxBet || 5000),
+    channels: Array.isArray(cfg.channels) ? cfg.channels : []
+  };
+}
+
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -35,42 +51,129 @@ export default async function handler(req, res) {
 
   try {
     const params = req.method === "POST" ? { ...req.query, ...req.body } : req.query;
-    const action = params.action || "profile";
+    const action = String(params.action || "profile").trim();
     const userId = String(params.userid || params.user_id || "").trim();
 
-    // 1. CHECK TELEGRAM CHANNEL MEMBERSHIP
+    const config = await getSystemConfig();
+
+    // 1. MULTI-CHANNEL MEMBERSHIP VERIFICATION + AUTO REFERRAL UNLOCK
     if (action === "check_channel") {
-      if (!userId) return res.status(400).json({ status: false, message: "Missing userid" });
-
-      const config = (await fbGet("config")) || {};
-      const botToken = params.bot_token || config.botToken || "";
-      const channelId = params.channel_id || config.channelUsername || "";
-
-      if (!botToken || !channelId) {
-        // Jar admin panel madhe ajun token/channel set nसेल tar allow kara
-        return res.status(200).json({ status: true, joined: true, note: "Channel config not set yet" });
+      if (!userId) {
+        return res.status(400).json({ status: false, message: "User ID is required." });
       }
 
-      const tgUrl = `https://api.telegram.org/bot${botToken}/getChatMember?chat_id=${encodeURIComponent(channelId)}&user_id=${userId}`;
-      const tgRes = await fetch(tgUrl);
-      const tgData = await tgRes.json();
+      const channels = config.channels || [];
+      const botToken = params.bot_token || config.botToken;
 
-      if (!tgData.ok) {
-        return res.status(200).json({ status: true, joined: false, error: tgData.description });
+      let allJoined = true;
+      let missingChannels = [];
+
+      if (channels.length > 0 && botToken) {
+        for (let i = 0; i < channels.length; i++) {
+          const ch = channels[i];
+          if (!ch || !ch.id) continue;
+          try {
+            const tgUrl = `https://api.telegram.org/bot${botToken}/getChatMember?chat_id=${encodeURIComponent(ch.id)}&user_id=${userId}`;
+            const tgRes = await fetch(tgUrl);
+            const tgData = await tgRes.json();
+
+            if (tgData.ok && tgData.result) {
+              const st = tgData.result.status;
+              const joined = ["creator", "administrator", "member", "restricted"].includes(st);
+              if (!joined) {
+                allJoined = false;
+                missingChannels.push(ch);
+              }
+            } else {
+              allJoined = false;
+              missingChannels.push(ch);
+            }
+          } catch (e) {
+            // Network fallback
+          }
+        }
       }
 
-      const memberStatus = tgData.result.status;
-      const isJoined = ["creator", "administrator", "member", "restricted"].includes(memberStatus);
+      // Check and process pending Referral Reward ONLY if:
+      // a) All channels are joined
+      // b) Device is unique (passed from web verification)
+      // c) Referral reward hasn't been claimed yet
+      let referralCredited = false;
+      let referralBonusAmount = 0;
 
-      await fbUpdate(`users/${userId}`, { channelJoined: isJoined, lastChecked: Date.now() });
-      return res.status(200).json({ status: true, joined: isJoined, memberStatus });
+      if (allJoined) {
+        const user = await fbGet(`users/${userId}`);
+        const deviceUnique = params.device_unique !== "false";
+
+        if (
+          user &&
+          user.referredBy &&
+          String(user.referredBy) !== String(userId) &&
+          !user.referralRewardPaid &&
+          deviceUnique
+        ) {
+          const referrerId = String(user.referredBy);
+          const referrerData = await fbGet(`users/${referrerId}`);
+
+          if (referrerData && (!user.deviceId || user.deviceId !== referrerData.deviceId)) {
+            referralBonusAmount = Number(config.referReward || 200);
+            const updatedRefCoins = Number(referrerData.coins || 0) + referralBonusAmount;
+            const updatedRefCount = Number(referrerData.referCount || 0) + 1;
+
+            await fbUpdate(`users/${referrerId}`, {
+              coins: updatedRefCoins,
+              referCount: updatedRefCount
+            });
+
+            await fbUpdate(`users/${userId}`, {
+              referralRewardPaid: true,
+              channelJoined: true,
+              lastChecked: Date.now()
+            });
+
+            referralCredited = true;
+
+            // Optional Telegram Notification to Referrer
+            if (botToken) {
+              const notifyText = `🎉 *New Referral Verified!*\n\n👤 *User ID:* \`${userId}\` joined the required channels & opened the app!\n🪙 *Reward Added:* +${referralBonusAmount} Coins`;
+              await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  chat_id: referrerId,
+                  text: notifyText,
+                  parse_mode: "Markdown"
+                })
+              }).catch(() => {});
+            }
+          } else {
+            // Same device detected, mark as processed without paying
+            await fbUpdate(`users/${userId}`, { referralRewardPaid: "blocked_same_device" });
+          }
+        } else if (user) {
+          await fbUpdate(`users/${userId}`, { channelJoined: true, lastChecked: Date.now() });
+        }
+      }
+
+      return res.status(200).json({
+        status: true,
+        joined: allJoined,
+        channels: channels,
+        missingChannels: missingChannels,
+        referralCredited,
+        referralBonusAmount
+      });
     }
 
-    // 2. GET OR CREATE USER PROFILE (Bots.Business /start or My Profile)
+    // 2. GET OR INITIALIZE USER PROFILE
     if (action === "profile" || action === "get_balance") {
-      if (!userId) return res.status(400).json({ status: false, message: "User ID required" });
+      if (!userId) {
+        return res.status(400).json({ status: false, message: "Missing User ID!" });
+      }
 
       let user = await fbGet(`users/${userId}`);
+      const refParam = String(params.ref || "").trim();
+
       if (!user) {
         user = {
           userId: userId,
@@ -79,24 +182,18 @@ export default async function handler(req, res) {
           upi: "Not Set",
           status: "Verified & Secure ✅",
           deviceId: "",
-          referredBy: params.ref || "",
+          referredBy: (refParam && refParam !== userId) ? refParam : "",
+          referralRewardPaid: false,
           referCount: 0,
+          gamesPlayedToday: 0,
+          lastGameDate: new Date().toISOString().slice(0, 10),
           banned: false,
           createdAt: Date.now()
         };
         await fbSet(`users/${userId}`, user);
-
-        // Referral Bonus logic
-        if (params.ref && params.ref !== userId) {
-          let refUser = await fbGet(`users/${params.ref}`);
-          if (refUser) {
-            const bonusCoins = 200; // 200 coins per refer
-            await fbUpdate(`users/${params.ref}`, {
-              coins: Number(refUser.coins || 0) + bonusCoins,
-              referCount: Number(refUser.referCount || 0) + 1
-            });
-          }
-        }
+      } else if (refParam && !user.referredBy && refParam !== userId && !user.referralRewardPaid) {
+        await fbUpdate(`users/${userId}`, { referredBy: refParam });
+        user.referredBy = refParam;
       }
 
       return res.status(200).json({
@@ -105,78 +202,94 @@ export default async function handler(req, res) {
         coins: Number(user.coins || 0),
         cash: Number(user.cash || 0),
         upi: user.upi || "Not Set",
-        accountStatus: user.banned ? "Banned ❌" : "Verified & Secure ✅",
-        rate: "100 Coins = ₹1",
-        referCount: Number(user.referCount || 0)
+        banned: Boolean(user.banned),
+        accountStatus: user.banned ? "Banned 🚫" : "Verified & Secure ✅",
+        rate: `${config.conversionRate} Coins = ₹1`,
+        conversionRate: config.conversionRate,
+        referCount: Number(user.referCount || 0),
+        config: config
       });
     }
 
-    // 3. UPDATE UPI ID FROM BOT
-    if (action === "set_upi") {
-      if (!userId || !params.upi) return res.status(400).json({ status: false, message: "Missing userid or upi" });
-      await fbUpdate(`users/${userId}`, { upi: params.upi });
-      return res.status(200).json({ status: true, message: "UPI ID Updated Successfully", upi: params.upi });
-    }
-
-    // 4. CONVERT COINS TO CASH FROM BOT OR WEBSITE (100 Coins = ₹1)
+    // 3. CONVERT CUSTOM COINS TO CASH
     if (action === "convert") {
-      if (!userId) return res.status(400).json({ status: false, message: "Missing userid" });
-      let user = await fbGet(`users/${userId}`);
-      if (!user) return res.status(404).json({ status: false, message: "User not found" });
-
-      let coins = Number(user.coins || 0);
-      if (coins < 100) {
-        return res.status(200).json({ status: false, message: "Minimum 100 Coins required to convert!" });
+      if (!userId) {
+        return res.status(400).json({ status: false, message: "User ID required." });
+      }
+      const user = await fbGet(`users/${userId}`);
+      if (!user) {
+        return res.status(404).json({ status: false, message: "Account not found." });
+      }
+      if (user.banned) {
+        return res.status(403).json({ status: false, message: "Your account is banned." });
       }
 
-      let convertibleRupees = Math.floor(coins / 100);
-      let remainingCoins = coins % 100;
-      let newCash = Number((Number(user.cash || 0) + convertibleRupees).toFixed(2));
+      const rate = Number(config.conversionRate || 100);
+      const userCoins = Number(user.coins || 0);
+      const requestedCoins = params.coins ? Number(params.coins) : userCoins;
+
+      if (isNaN(requestedCoins) || requestedCoins < rate) {
+        return res.status(200).json({
+          status: false,
+          message: `Minimum ${rate} Coins required to convert!`
+        });
+      }
+
+      if (requestedCoins > userCoins) {
+        return res.status(200).json({
+          status: false,
+          message: "Insufficient Market Coins in your wallet!"
+        });
+      }
+
+      const cashEarned = Number((requestedCoins / rate).toFixed(2));
+      const newCoins = Math.floor(userCoins - requestedCoins);
+      const newCash = Number((Number(user.cash || 0) + cashEarned).toFixed(2));
 
       await fbUpdate(`users/${userId}`, {
-        coins: remainingCoins,
+        coins: newCoins,
         cash: newCash
       });
 
       return res.status(200).json({
         status: true,
-        message: `Converted ${convertibleRupees * 100} Coins to ₹${convertibleRupees}`,
-        coins: remainingCoins,
+        message: `Successfully converted ${requestedCoins} Coins into ₹${cashEarned}!`,
+        convertedCoins: requestedCoins,
+        cashAdded: cashEarned,
+        coins: newCoins,
         cash: newCash
       });
     }
 
-    // 5. DAILY TASK BONUS FROM BOT
-    if (action === "daily_bonus") {
-      if (!userId) return res.status(400).json({ status: false, message: "Missing userid" });
-      let user = await fbGet(`users/${userId}`);
-      if (!user) return res.status(404).json({ status: false, message: "User not found" });
-
-      const now = Date.now();
-      const lastDaily = Number(user.lastDaily || 0);
-      if (now - lastDaily < 86400000) {
-        return res.status(200).json({ status: false, message: "You already claimed your Daily Task today! Come back tomorrow." });
+    // 4. UPDATE UPI ID
+    if (action === "set_upi") {
+      if (!userId || !params.upi) {
+        return res.status(400).json({ status: false, message: "User ID and UPI ID are required." });
       }
-
-      const reward = Number(params.reward || 100);
-      const newCoins = Number(user.coins || 0) + reward;
-      await fbUpdate(`users/${userId}`, { coins: newCoins, lastDaily: now });
-
-      return res.status(200).json({ status: true, message: `Daily Bonus +${reward} Coins added!`, coins: newCoins });
+      await fbUpdate(`users/${userId}`, { upi: String(params.upi).trim() });
+      return res.status(200).json({
+        status: true,
+        message: "UPI ID saved successfully!",
+        upi: String(params.upi).trim()
+      });
     }
 
-    // 6. REDEEM GIFT CODE FROM BOT OR WEB
+    // 5. REDEEM GIFT CODE
     if (action === "redeem_gift") {
       const code = String(params.code || "").trim().toUpperCase();
-      if (!userId || !code) return res.status(400).json({ status: false, message: "Missing userid or code" });
+      if (!userId || !code) {
+        return res.status(400).json({ status: false, message: "Gift code is required." });
+      }
 
       const gift = await fbGet(`giftCodes/${code}`);
-      if (!gift) return res.status(200).json({ status: false, message: "Invalid Gift Code!" });
+      if (!gift) {
+        return res.status(200).json({ status: false, message: "Invalid Gift Code!" });
+      }
       if (Number(gift.usedCount || 0) >= Number(gift.maxUsers || 1)) {
-        return res.status(200).json({ status: false, message: "Gift Code Limit Expired!" });
+        return res.status(200).json({ status: false, message: "This Gift Code has expired!" });
       }
       if (gift.claimedBy && gift.claimedBy[userId]) {
-        return res.status(200).json({ status: false, message: "You have already redeemed this Gift Code!" });
+        return res.status(200).json({ status: false, message: "You have already claimed this Gift Code!" });
       }
 
       const user = (await fbGet(`users/${userId}`)) || { coins: 0, cash: 0 };
@@ -189,20 +302,37 @@ export default async function handler(req, res) {
 
       return res.status(200).json({
         status: true,
-        message: `Success! You received ${rewardCoins} Coins!`,
+        message: `Congratulations! You received +${rewardCoins} Coins!`,
+        reward: rewardCoins,
         coins: newCoins
       });
     }
 
-    // 7. WITHDRAWAL REQUEST FROM BOT
+    // 6. WITHDRAWAL REQUEST WITH ADMIN LIMITS
     if (action === "withdraw") {
       const amount = Number(params.amount || 0);
-      if (!userId || amount <= 0) return res.status(400).json({ status: false, message: "Invalid withdrawal amount" });
+      if (!userId || isNaN(amount) || amount <= 0) {
+        return res.status(400).json({ status: false, message: "Enter a valid withdrawal amount." });
+      }
+
+      if (amount < config.minWithdraw) {
+        return res.status(200).json({
+          status: false,
+          message: `Minimum withdrawal limit is ₹${config.minWithdraw}!`
+        });
+      }
+      if (amount > config.maxWithdraw) {
+        return res.status(200).json({
+          status: false,
+          message: `Maximum withdrawal limit is ₹${config.maxWithdraw}!`
+        });
+      }
 
       const user = await fbGet(`users/${userId}`);
-      if (!user) return res.status(404).json({ status: false, message: "User not found" });
+      if (!user) return res.status(404).json({ status: false, message: "User not found." });
+      if (user.banned) return res.status(403).json({ status: false, message: "Your account is banned." });
       if (!user.upi || user.upi === "Not Set") {
-        return res.status(200).json({ status: false, message: "Please set your UPI ID in Profile Settings first!" });
+        return res.status(200).json({ status: false, message: "Please save your UPI ID in Profile Settings first!" });
       }
       if (Number(user.cash || 0) < amount) {
         return res.status(200).json({ status: false, message: "Insufficient Real Cash balance!" });
@@ -223,14 +353,49 @@ export default async function handler(req, res) {
 
       return res.status(200).json({
         status: true,
-        message: `Withdrawal of ₹${amount} to ${user.upi} submitted successfully!`,
+        message: `Withdrawal of ₹${amount} to ${user.upi} submitted!`,
         cash: newCash,
         withdrawalId: reqId
       });
     }
 
-    return res.status(200).json({ status: true, message: "SMARTU API is Running" });
-  } catch (error) {
-    return res.status(500).json({ status: false, error: error.message });
+    // 7. BROADCAST MESSAGE TO ALL USERS VIA BOT TOKEN
+    if (action === "broadcast") {
+      const msgText = String(params.message || "").trim();
+      const botToken = params.bot_token || config.botToken;
+      if (!msgText || !botToken) {
+        return res.status(400).json({ status: false, message: "Bot Token and Message are required." });
+      }
+
+      const allUsers = (await fbGet("users")) || {};
+      const userIds = Object.keys(allUsers);
+      let sentCount = 0;
+
+      for (let i = 0; i < userIds.length; i++) {
+        const uid = userIds[i];
+        try {
+          const r = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chat_id: uid,
+              text: `📢 *SMARTU Official Broadcast*\n\n${msgText}`,
+              parse_mode: "Markdown"
+            })
+          });
+          const d = await r.json();
+          if (d.ok) sentCount++;
+        } catch (e) {}
+      }
+
+      return res.status(200).json({
+        status: true,
+        message: `Broadcast delivered to ${sentCount} / ${userIds.length} users!`
+      });
+    }
+
+    return res.status(200).json({ status: true, message: "SMARTU Pro API Active" });
+  } catch (err) {
+    return res.status(500).json({ status: false, error: err.message });
   }
 }
