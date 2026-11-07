@@ -1,4 +1,4 @@
-// api/index.js - Complete API Gateway for SMARTU Website & Bots.Business Bot
+// api/index.js - Fixed & Complete Serverless API Gateway for SMARTU Wallet & Bot
 const FIREBASE_DATABASE_URL = "https://smartu-grup-bot-default-rtdb.firebaseio.com";
 const FIREBASE_PROJECT_ID = "smartu-grup-bot";
 
@@ -30,6 +30,7 @@ async function getSystemConfig() {
   return {
     botToken: cfg.botToken || "",
     botUsername: cfg.botUsername || "Smartu_grup_bot",
+    welcomeBonus: Number(cfg.welcomeBonus !== undefined ? cfg.welcomeBonus : 100),
     referReward: Number(cfg.referReward !== undefined ? cfg.referReward : 200),
     conversionRate: Number(cfg.conversionRate || 100),
     minWithdraw: Number(cfg.minWithdraw || 10),
@@ -45,6 +46,7 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
 
   if (req.method === "OPTIONS") {
     return res.status(200).end();
@@ -56,9 +58,7 @@ export default async function handler(req, res) {
     const userId = String(params.userid || params.user_id || "").trim();
     const config = await getSystemConfig();
 
-    // =================================================================
-    // 1. VERIFY CHANNEL JOIN & TRIGGER REFERRAL REWARD (UNIQUE DEVICE)
-    // =================================================================
+    // 1. CHECK CHANNEL JOIN & PROCESS REFERRAL REWARD
     if (action === "check_channel") {
       if (!userId) {
         return res.status(400).json({ status: false, message: "User ID is required." });
@@ -97,7 +97,6 @@ export default async function handler(req, res) {
       let referralCredited = false;
       let referralBonusAmount = 0;
 
-      // Credit Referral Reward ONLY AFTER Channel Join + Unique Device Check
       if (allJoined) {
         const user = await fbGet(`users/${userId}`);
         const deviceUnique = params.device_unique !== "false";
@@ -163,9 +162,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // =================================================================
-    // 2. USER PROFILE & LIVE BALANCE (FOR BOT & WEBSITE)
-    // =================================================================
+    // 2. USER PROFILE & WELCOME BONUS ON FIRST JOIN
     if (action === "profile" || action === "get_balance") {
       if (!userId) {
         return res.status(400).json({ status: false, message: "Missing User ID" });
@@ -173,17 +170,20 @@ export default async function handler(req, res) {
 
       let user = await fbGet(`users/${userId}`);
       const refParam = String(params.ref || "").trim();
+      let welcomeBonusCredited = false;
+      let welcomeBonusAmount = Number(config.welcomeBonus || 0);
 
       if (!user) {
         user = {
           userId: userId,
-          coins: 0,
+          coins: welcomeBonusAmount,
           cash: 0,
           upi: "Not Set",
           status: "Verified & Secure ✅",
           deviceId: "",
           referredBy: (refParam && refParam !== userId) ? refParam : "",
           referralRewardPaid: false,
+          welcomeBonusClaimed: true,
           referCount: 0,
           gamesPlayedToday: 0,
           lastGameDate: new Date().toISOString().slice(0, 10),
@@ -191,9 +191,24 @@ export default async function handler(req, res) {
           createdAt: Date.now()
         };
         await fbSet(`users/${userId}`, user);
-      } else if (refParam && !user.referredBy && refParam !== userId && !user.referralRewardPaid) {
-        await fbUpdate(`users/${userId}`, { referredBy: refParam });
-        user.referredBy = refParam;
+        if (welcomeBonusAmount > 0) {
+          welcomeBonusCredited = true;
+        }
+      } else {
+        const patchData = {};
+        if (refParam && !user.referredBy && refParam !== userId && !user.referralRewardPaid) {
+          patchData.referredBy = refParam;
+          user.referredBy = refParam;
+        }
+        if (!user.welcomeBonusClaimed && welcomeBonusAmount > 0 && Number(user.coins || 0) === 0 && Number(user.cash || 0) === 0) {
+          patchData.coins = Number(user.coins || 0) + welcomeBonusAmount;
+          patchData.welcomeBonusClaimed = true;
+          user.coins = patchData.coins;
+          welcomeBonusCredited = true;
+        }
+        if (Object.keys(patchData).length > 0) {
+          await fbUpdate(`users/${userId}`, patchData);
+        }
       }
 
       return res.status(200).json({
@@ -208,14 +223,15 @@ export default async function handler(req, res) {
         rate: `${config.conversionRate} Coins = ₹1`,
         conversionRate: config.conversionRate,
         referReward: config.referReward,
+        welcomeBonus: config.welcomeBonus,
+        welcomeBonusCredited,
+        welcomeBonusAmount,
         referCount: Number(user.referCount || 0),
         config
       });
     }
 
-    // =================================================================
-    // 3. CUSTOM COIN CONVERSION (ENTER COINS FIRST -> GET CASH)
-    // =================================================================
+    // 3. CUSTOM COIN CONVERSION
     if (action === "convert") {
       if (!userId) return res.status(400).json({ status: false, message: "User ID required." });
       const user = await fbGet(`users/${userId}`);
@@ -256,9 +272,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // =================================================================
     // 4. SAVE UPI ID
-    // =================================================================
     if (action === "set_upi") {
       if (!userId || !params.upi) {
         return res.status(400).json({ status: false, message: "Missing User ID or UPI ID." });
@@ -272,9 +286,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // =================================================================
     // 5. REDEEM GIFT CODE
-    // =================================================================
     if (action === "redeem_gift") {
       const code = String(params.code || "").trim().toUpperCase();
       if (!userId || !code) {
@@ -306,9 +318,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // =================================================================
     // 6. WITHDRAWAL REQUEST
-    // =================================================================
     if (action === "withdraw") {
       const amount = Number(params.amount || 0);
       if (!userId || isNaN(amount) || amount <= 0) {
@@ -324,9 +334,6 @@ export default async function handler(req, res) {
       const user = await fbGet(`users/${userId}`);
       if (!user) return res.status(404).json({ status: false, message: "User not found." });
       if (user.banned) return res.status(403).json({ status: false, message: "Your account is banned." });
-      if (!user.upi || user.upi === "Not Set") {
-        return res.status(200).json({ status: false, message: "Please set your UPI ID in Profile Settings first!" });
-      }
       if (Number(user.cash || 0) < amount) {
         return res.status(200).json({ status: false, message: "Insufficient Real Cash balance!" });
       }
@@ -339,7 +346,7 @@ export default async function handler(req, res) {
         id: reqId,
         userId,
         amount,
-        upi: user.upi,
+        upi: user.upi || "PlayStore_Redeem_Code",
         status: "Pending",
         timestamp: Date.now()
       });
@@ -348,53 +355,91 @@ export default async function handler(req, res) {
         status: true,
         message: `Withdrawal request of ₹${amount} submitted!`,
         cash: newCash,
-        upi: user.upi,
+        upi: user.upi || "PlayStore_Redeem_Code",
         withdrawalId: reqId
       });
     }
 
-    // =================================================================
-    // 7. DAILY TASKS (FETCH & CLAIM FOR BOT)
-    // =================================================================
+    // 7. DAILY TASKS WITH SCREENSHOT PROOF & CHANNEL ADMIN APPROVAL
     if (action === "get_tasks") {
       const tasksObj = (await fbGet("tasks")) || {};
       const taskList = Object.values(tasksObj);
-      return res.status(200).json({ status: true, tasks: taskList });
+      let userTaskStatuses = {};
+      if (userId) {
+        userTaskStatuses = (await fbGet(`users/${userId}/taskStatuses`)) || {};
+      }
+      return res.status(200).json({
+        status: true,
+        tasks: taskList,
+        userTaskStatuses
+      });
     }
 
-    if (action === "claim_task") {
+    if (action === "submit_task_proof") {
       const taskId = String(params.task_id || "").trim();
       if (!userId || !taskId) {
         return res.status(400).json({ status: false, message: "Missing User ID or Task ID." });
       }
-
-      const task = await fbGet(`tasks/${taskId}`);
-      if (!task) return res.status(200).json({ status: false, message: "Task no longer exists!" });
-
-      const alreadyClaimed = await fbGet(`users/${userId}/claimedTasks/${taskId}`);
-      if (alreadyClaimed) {
-        return res.status(200).json({ status: false, message: "You have already completed this task!" });
+      const currentStatus = await fbGet(`users/${userId}/taskStatuses/${taskId}`);
+      if (currentStatus === "Approved") {
+        return res.status(200).json({ status: false, message: "You have already completed and claimed this task!" });
+      }
+      if (currentStatus === "Pending") {
+        return res.status(200).json({ status: false, message: "Your screenshot proof for this task is already Pending Admin Approval!" });
       }
 
-      const user = (await fbGet(`users/${userId}`)) || { coins: 0 };
-      const reward = Number(task.coins || 0);
-      const newCoins = Number(user.coins || 0) + reward;
+      await fbSet(`users/${userId}/taskStatuses/${taskId}`, "Pending");
+      return res.status(200).json({
+        status: true,
+        message: "Task proof marked as Pending Admin Approval!"
+      });
+    }
 
-      await fbUpdate(`users/${userId}`, { coins: newCoins });
-      await fbSet(`users/${userId}/claimedTasks/${taskId}`, true);
+    if (action === "admin_approve_task") {
+      const targetId = String(params.target_id || userId || "").trim();
+      const taskId = String(params.task_id || "").trim();
+      const rewardCoins = Number(params.coins || 0);
+
+      if (!targetId || !taskId) {
+        return res.status(400).json({ status: false, message: "Missing Target User ID or Task ID." });
+      }
+
+      const currentSt = await fbGet(`users/${targetId}/taskStatuses/${taskId}`);
+      if (currentSt === "Approved") {
+        return res.status(200).json({ status: false, message: "This task was already approved!" });
+      }
+
+      const taskObj = await fbGet(`tasks/${taskId}`);
+      const coinsToAdd = rewardCoins > 0 ? rewardCoins : Number((taskObj && taskObj.coins) || 0);
+      const user = (await fbGet(`users/${targetId}`)) || { userId: targetId, coins: 0, cash: 0 };
+      const newCoins = Number(user.coins || 0) + coinsToAdd;
+
+      await fbUpdate(`users/${targetId}`, { coins: newCoins });
+      await fbSet(`users/${targetId}/taskStatuses/${taskId}`, "Approved");
 
       return res.status(200).json({
         status: true,
-        message: `Task Completed! +${reward} Coins added!`,
-        reward,
-        taskTitle: task.title,
+        message: `Task approved! +${coinsToAdd} Coins added to User ${targetId}`,
+        reward: coinsToAdd,
         coins: newCoins
       });
     }
 
-    // =================================================================
-    // 8. BOT ADMIN PANEL API ENDPOINTS (SO BOT NEVER TOUCHES FIREBASE)
-    // =================================================================
+    if (action === "admin_reject_task") {
+      const targetId = String(params.target_id || userId || "").trim();
+      const taskId = String(params.task_id || "").trim();
+      if (!targetId || !taskId) {
+        return res.status(400).json({ status: false, message: "Missing Target User ID or Task ID." });
+      }
+
+      await fbSet(`users/${targetId}/taskStatuses/${taskId}`, "Rejected");
+      return res.status(200).json({
+        status: true,
+        message: `Task proof rejected for User ${targetId}`
+      });
+    }
+
+    // 8. ADMIN PANEL API ENDPOINTS
     if (action === "admin_stats") {
       const users = (await fbGet("users")) || {};
       const withdrawals = (await fbGet("withdrawals")) || {};
@@ -424,6 +469,7 @@ export default async function handler(req, res) {
 
     if (action === "admin_set_config") {
       const updates = {};
+      if (params.welcomeBonus !== undefined) updates.welcomeBonus = Number(params.welcomeBonus);
       if (params.referReward !== undefined) updates.referReward = Number(params.referReward);
       if (params.conversionRate !== undefined) updates.conversionRate = Number(params.conversionRate);
       if (params.minWithdraw !== undefined) updates.minWithdraw = Number(params.minWithdraw);
@@ -435,7 +481,7 @@ export default async function handler(req, res) {
       if (params.botUsername !== undefined) updates.botUsername = String(params.botUsername).trim();
 
       await fbUpdate("config", updates);
-      return res.status(200).json({ status: true, message: "Configuration updated successfully!", updates });
+      return res.status(200).json({ status: true, message: "System configuration saved to Firebase!", updates });
     }
 
     if (action === "admin_modify_balance") {
@@ -446,12 +492,13 @@ export default async function handler(req, res) {
 
       const u = (await fbGet(`users/${targetId}`)) || { userId: targetId, coins: 0, cash: 0 };
       const newCoins = Math.max(0, Number(u.coins || 0) + deltaCoins);
-      const newCash = Math.max(0, Number((Number(u.cash || 0) + deltaCash).toFixed(2));
+      const calcCash = Number((Number(u.cash || 0) + deltaCash).toFixed(2));
+      const newCash = Math.max(0, calcCash);
 
       await fbUpdate(`users/${targetId}`, { userId: targetId, coins: newCoins, cash: newCash });
       return res.status(200).json({
         status: true,
-        message: `Updated balance for User ${targetId}`,
+        message: `Balance updated for User ${targetId}! New Balance -> Coins: ${newCoins} | Cash: ₹${newCash}`,
         coins: newCoins,
         cash: newCash
       });
@@ -506,7 +553,7 @@ export default async function handler(req, res) {
       const id = "TSK_" + Date.now();
       const taskObj = { id, title, link, coins, createdAt: Date.now() };
       await fbSet(`tasks/${id}`, taskObj);
-      return res.status(200).json({ status: true, message: "Task created!", task: taskObj });
+      return res.status(200).json({ status: true, message: `Task '${title}' (+${coins} Coins) created!`, task: taskObj });
     }
 
     if (action === "admin_remove_task") {
@@ -522,7 +569,7 @@ export default async function handler(req, res) {
       if (!code || coins <= 0) return res.status(400).json({ status: false, message: "Invalid gift code parameters." });
 
       await fbSet(`giftCodes/${code}`, { code, coins, maxUsers, usedCount: 0, createdAt: Date.now() });
-      return res.status(200).json({ status: true, message: `Gift Code ${code} created!` });
+      return res.status(200).json({ status: true, message: `Gift Code ${code} (+${coins} Coins for ${maxUsers} users) created!` });
     }
 
     if (action === "admin_list_codes") {
