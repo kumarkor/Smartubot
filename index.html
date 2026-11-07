@@ -3,16 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>SMARTU Wallet - Pro Gaming Mini App</title>
+  <title>SMARTU Wallet - Official Gaming App</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-deep: #060d18;
       --bg-card: #ffffff;
-      --dark-slate: #1e2b3c;
-      --dark-btn: #253346;
-      --dark-btn-hover: #1b2636;
       --accent-blue: #256ef0;
       --accent-green: #0ea568;
       --accent-red: #ef4444;
@@ -31,31 +27,32 @@
     }
 
     body {
-      background: radial-gradient(circle at top, #13233a 0%, #070e1a 75%);
+      background: #091321;
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      padding: 18px 14px 36px 14px;
+      padding: 18px 14px 34px 14px;
       overflow-x: hidden;
     }
 
     /* =====================================================
-       1% TO 100% REAL GAMING LOADING SCREEN OVERLAY
+       1% TO 100% SMOOTH GAMING LOADING SCREEN
        ===================================================== */
     #loadingScreen {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at center, #101f36 0%, #050a12 100%);
+      background: #070e1a;
       z-index: 99999;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 28px;
+      padding: 26px;
       color: #ffffff;
-      transition: opacity 0.45s ease, visibility 0.45s ease;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+      will-change: opacity;
     }
 
     #loadingScreen.hidden {
@@ -65,32 +62,24 @@
     }
 
     .loader-logo-ring {
-      width: 108px;
-      height: 108px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
-      background: linear-gradient(135deg, rgba(37, 110, 240, 0.2), rgba(14, 165, 104, 0.2));
-      border: 2px solid rgba(59, 130, 246, 0.45);
+      background: rgba(37, 110, 240, 0.15);
+      border: 2px solid #3b82f6;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 48px;
-      box-shadow: 0 0 35px rgba(37, 110, 240, 0.45);
-      margin-bottom: 22px;
-      animation: pulseGlow 1.8s infinite ease-in-out;
-    }
-
-    @keyframes pulseGlow {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(37, 110, 240, 0.4); }
-      50% { transform: scale(1.07); box-shadow: 0 0 45px rgba(14, 165, 104, 0.65); }
+      font-size: 46px;
+      box-shadow: 0 0 28px rgba(37, 110, 240, 0.45);
+      margin-bottom: 20px;
     }
 
     .loader-title {
-      font-size: 26px;
+      font-size: 25px;
       font-weight: 900;
       letter-spacing: 0.8px;
-      background: linear-gradient(90deg, #ffffff, #93c5fd);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #ffffff;
       margin-bottom: 6px;
     }
 
@@ -98,21 +87,19 @@
       font-size: 13px;
       color: #94a3b8;
       font-weight: 500;
-      margin-bottom: 24px;
-      letter-spacing: 0.3px;
+      margin-bottom: 22px;
     }
 
     .loader-bar-wrap {
       width: 100%;
-      max-width: 310px;
-      height: 14px;
-      background: #0d1829;
+      max-width: 300px;
+      height: 13px;
+      background: #0f1b2d;
       border: 1px solid #1e3a5f;
       border-radius: 99px;
       overflow: hidden;
       padding: 2px;
-      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .loader-bar-fill {
@@ -120,31 +107,30 @@
       width: 1%;
       background: linear-gradient(90deg, #256ef0, #0ea568, #38bdf8);
       border-radius: 99px;
-      box-shadow: 0 0 14px rgba(56, 189, 248, 0.8);
-      transition: width 0.08s linear;
+      transition: width 0.04s linear;
+      will-change: width;
     }
 
     .loader-percent {
       font-family: 'Orbitron', sans-serif;
-      font-size: 28px;
+      font-size: 27px;
       font-weight: 900;
       color: #38bdf8;
-      text-shadow: 0 0 14px rgba(56, 189, 248, 0.55);
     }
 
     /* =====================================================
-       MAIN WALLET CONTAINER & HEADER BAR
+       MAIN WALLET CARD (HARDWARE ACCELERATED, ZERO LAG)
        ===================================================== */
     .wallet-card {
       background: var(--bg-card);
       width: 100%;
-      max-width: 410px;
-      border-radius: 24px;
-      padding: 24px 18px 26px 18px;
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      max-width: 405px;
+      border-radius: 22px;
+      padding: 22px 18px 26px 18px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.48);
       text-align: center;
       position: relative;
-      margin-top: 4px;
+      transform: translate3d(0, 0, 0);
     }
 
     .top-utility-bar {
@@ -162,24 +148,21 @@
       font-weight: 700;
       padding: 5px 10px;
       border-radius: 99px;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
     }
 
     .sound-btn {
       background: #f1f5f9;
       border: 1px solid #e2e8f0;
       color: #334155;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
-      padding: 5px 11px;
+      padding: 5px 10px;
       border-radius: 99px;
       cursor: pointer;
     }
 
     .app-title {
-      font-size: 25px;
+      font-size: 24px;
       font-weight: 900;
       color: #162231;
       display: flex;
@@ -188,10 +171,8 @@
       gap: 8px;
       margin-bottom: 8px;
       cursor: pointer;
-      letter-spacing: -0.3px;
     }
 
-    /* Live Mini Balance Strip on Home Screen */
     .mini-balance-strip {
       display: flex;
       justify-content: center;
@@ -203,43 +184,36 @@
       background: #f8fafc;
       border: 1.5px solid #e2e8f0;
       border-radius: 12px;
-      padding: 7px 13px;
+      padding: 6px 13px;
       font-size: 13px;
       font-weight: 800;
       display: flex;
       align-items: center;
       gap: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
     }
 
     .subtitle {
       font-size: 13.5px;
       color: var(--text-muted);
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       font-weight: 500;
     }
 
     .screen {
       display: none;
-      animation: slideUp 0.22s ease-out;
     }
 
     .screen.active {
       display: block;
     }
 
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Main Menu Buttons */
+    /* Main Menu Buttons (Matches 35805.png) */
     .menu-btn {
       width: 100%;
-      background: linear-gradient(180deg, #2b3b50 0%, #202d3e 100%);
+      background: #253346;
       color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 15px;
+      border: none;
+      border-radius: 14px;
       padding: 19px 16px;
       font-size: 15px;
       font-weight: 800;
@@ -250,26 +224,27 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      box-shadow: 0 6px 16px rgba(32, 45, 62, 0.32);
-      transition: transform 0.12s ease, box-shadow 0.15s ease;
+      box-shadow: 0 5px 12px rgba(37, 51, 70, 0.25);
+      transition: transform 0.1s ease;
     }
 
     .menu-btn:active {
-      transform: scale(0.975);
+      transform: scale(0.98);
+      background: #1b2636;
     }
 
     .footer-note {
       font-size: 12.5px;
       color: #7c8b9e;
       font-style: italic;
-      margin-top: 8px;
+      margin-top: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 5px;
     }
 
-    /* Inner Card Containers */
+    /* Inner Containers */
     .inner-box {
       background: #f4f7fa;
       border: 1.5px solid #e5eaf0;
@@ -290,7 +265,7 @@
     }
 
     .balance-row {
-      font-size: 22px;
+      font-size: 21px;
       font-weight: 900;
       color: #1e293b;
       margin-bottom: 10px;
@@ -310,13 +285,12 @@
       margin-top: 4px;
     }
 
-    /* Action Buttons */
     .btn-blue {
       width: 100%;
-      background: linear-gradient(180deg, #3b82f6 0%, #256ef0 100%);
+      background: #256ef0;
       color: #ffffff;
       border: none;
-      border-radius: 13px;
+      border-radius: 12px;
       padding: 15px;
       font-size: 14.5px;
       font-weight: 800;
@@ -325,21 +299,16 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      box-shadow: 0 5px 15px rgba(37, 110, 240, 0.35);
+      box-shadow: 0 4px 12px rgba(37, 110, 240, 0.3);
       margin-bottom: 12px;
-      transition: transform 0.1s;
-    }
-
-    .btn-blue:active, .btn-green:active, .btn-dark:active {
-      transform: scale(0.98);
     }
 
     .btn-green {
       width: 100%;
-      background: linear-gradient(180deg, #10b981 0%, #0ea568 100%);
+      background: #0ea568;
       color: #ffffff;
       border: none;
-      border-radius: 13px;
+      border-radius: 12px;
       padding: 15px;
       font-size: 14.5px;
       font-weight: 800;
@@ -348,7 +317,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      box-shadow: 0 5px 15px rgba(14, 165, 104, 0.35);
+      box-shadow: 0 4px 12px rgba(14, 165, 104, 0.3);
       margin-bottom: 10px;
     }
 
@@ -357,7 +326,7 @@
       background: #141f30;
       color: #ffffff;
       border: none;
-      border-radius: 13px;
+      border-radius: 12px;
       padding: 15px;
       font-size: 14.5px;
       font-weight: 800;
@@ -373,7 +342,7 @@
       background: #e2e8f0;
       color: #1e293b;
       border: 1px solid #cbd5e1;
-      border-radius: 13px;
+      border-radius: 12px;
       padding: 14px;
       font-size: 14px;
       font-weight: 800;
@@ -389,24 +358,22 @@
       width: 100%;
       background: #ffffff;
       border: 1.5px solid #cbd5e1;
-      border-radius: 12px;
+      border-radius: 11px;
       padding: 14px;
-      font-size: 14.5px;
+      font-size: 14px;
       font-weight: 700;
       text-align: center;
       color: #1e293b;
       margin-bottom: 12px;
       outline: none;
-      transition: border-color 0.2s;
     }
 
     .input-field:focus {
       border-color: #256ef0;
-      box-shadow: 0 0 0 3px rgba(37, 110, 240, 0.12);
     }
 
     /* =====================================================
-       REAL GAMING AVIATOR X SCREEN (HTML5 CANVAS + LIVE FEED)
+       AVIATOR X PRO UI (Matches 35806.png)
        ===================================================== */
     .aviator-header {
       display: flex;
@@ -423,7 +390,7 @@
       display: flex;
       gap: 6px;
       overflow-x: auto;
-      padding-bottom: 8px;
+      padding-bottom: 6px;
       margin-bottom: 6px;
     }
 
@@ -438,19 +405,17 @@
     }
 
     .hist-pill.high {
-      color: #a855f7;
-      border: 1px solid rgba(168, 85, 247, 0.4);
+      color: #c084fc;
     }
 
     .aviator-screen {
-      background: radial-gradient(circle at center, #0c192e 0%, #050b14 100%);
+      background: #060d1a;
       border: 2px solid #1e293b;
-      border-radius: 18px;
-      height: 195px;
+      border-radius: 16px;
+      height: 185px;
       position: relative;
       overflow: hidden;
       margin-bottom: 14px;
-      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
     }
 
     #aviatorCanvas {
@@ -473,18 +438,18 @@
 
     .aviator-main-text {
       font-family: 'Orbitron', sans-serif;
-      font-size: 27px;
+      font-size: 26px;
       font-weight: 900;
       color: #3b82f6;
-      text-shadow: 0 0 18px rgba(59, 130, 246, 0.85);
+      text-shadow: 0 0 14px rgba(59, 130, 246, 0.75);
       margin-bottom: 6px;
     }
 
     .aviator-sub-text {
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 700;
       color: #facc15;
-      background: rgba(0, 0, 0, 0.45);
+      background: rgba(0, 0, 0, 0.5);
       padding: 4px 12px;
       border-radius: 99px;
     }
@@ -492,7 +457,7 @@
     .quick-bet-chips {
       display: flex;
       justify-content: center;
-      gap: 8px;
+      gap: 7px;
       margin-bottom: 10px;
     }
 
@@ -500,28 +465,22 @@
       background: #f1f5f9;
       border: 1px solid #cbd5e1;
       border-radius: 8px;
-      padding: 6px 12px;
+      padding: 6px 11px;
       font-size: 12px;
       font-weight: 800;
       color: #334155;
       cursor: pointer;
     }
 
-    .chip-btn:active {
-      background: #256ef0;
-      color: #fff;
-    }
-
     /* =====================================================
-       REAL GAMING 3D MINES GAME (5x5 GRID)
+       MINES GAME PRO UI (Matches 35807.png)
        ===================================================== */
     .mines-card {
-      background: #1a2433;
+      background: #1e293b;
       border-radius: 18px;
-      padding: 16px;
+      padding: 15px;
       margin-bottom: 14px;
       color: #ffffff;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
     }
 
     .mines-top-bar {
@@ -543,53 +502,42 @@
       font-size: 16px;
       font-weight: 900;
       color: #ef4444;
-      letter-spacing: 0.5px;
     }
 
     .mines-grid-box {
-      background: #111823;
+      background: #131b27;
       border-radius: 14px;
       padding: 10px;
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 8px;
       margin-bottom: 14px;
-      border: 1px solid #28364a;
     }
 
     .mine-tile {
       aspect-ratio: 1 / 1;
-      background: linear-gradient(180deg, #28374d 0%, #1e2a3b 100%);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-bottom: 3px solid #131b26;
-      border-radius: 10px;
-      font-size: 20px;
+      background: #243247;
+      border: none;
+      border-bottom: 3px solid #141c29;
+      border-radius: 9px;
+      font-size: 19px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      color: rgba(255, 255, 255, 0.2);
-      transition: transform 0.1s ease, background 0.15s ease;
-    }
-
-    .mine-tile:active {
-      transform: translateY(2px);
+      color: rgba(255, 255, 255, 0.22);
     }
 
     .mine-tile.safe {
-      background: linear-gradient(180deg, #10b981 0%, #059669 100%);
-      border-bottom-color: #047857;
+      background: #10a368;
+      border-bottom-color: #067449;
       color: #ffffff;
-      box-shadow: 0 0 14px rgba(16, 185, 129, 0.55);
-      animation: popIn 0.2s ease-out;
     }
 
     .mine-tile.bomb-hit {
-      background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
+      background: #dc2626;
       border-bottom-color: #7f1d1d;
       color: #ffffff;
-      box-shadow: 0 0 16px rgba(239, 68, 68, 0.7);
-      animation: shakeBomb 0.35s ease-in-out;
     }
 
     .mine-tile.bomb-reveal {
@@ -597,20 +545,8 @@
       color: #ffffff;
     }
 
-    @keyframes popIn {
-      0% { transform: scale(0.8); }
-      70% { transform: scale(1.08); }
-      100% { transform: scale(1); }
-    }
-
-    @keyframes shakeBomb {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      75% { transform: translateX(5px); }
-    }
-
     /* =====================================================
-       ADMIN PANEL GREEN BUTTON LAYOUT (MATCHING 35814 & 35815)
+       STREAMLINED WEBSITE ADMIN PANEL
        ===================================================== */
     .admin-grid {
       display: flex;
@@ -627,31 +563,25 @@
 
     .adm-green-btn {
       width: 100%;
-      background: linear-gradient(180deg, #5c8d67 0%, #4b7855 100%);
+      background: #4e7d58;
       color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      border: none;
       border-radius: 11px;
       padding: 13px 10px;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    .adm-green-btn:active {
-      transform: scale(0.98);
-      background: #3e6547;
     }
 
     .admin-modal-box {
       background: #f8fafc;
       border: 1.5px solid #cbd5e1;
       border-radius: 14px;
-      padding: 15px;
+      padding: 14px;
       margin-bottom: 14px;
       text-align: left;
       display: none;
@@ -662,34 +592,10 @@
     }
 
     .admin-modal-box h4 {
-      font-size: 14.5px;
+      font-size: 14px;
       color: #0f172a;
       margin-bottom: 8px;
       font-weight: 800;
-    }
-
-    .admin-list-item {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 9px;
-      padding: 9px 11px;
-      margin-bottom: 7px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12.5px;
-      font-weight: 600;
-    }
-
-    .del-badge-btn {
-      background: #ef4444;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 5px 9px;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
     }
 
     /* Security Overlays */
@@ -716,11 +622,10 @@
       background: #0f172a;
       color: #ffffff;
       border: 1px solid #334155;
-      padding: 12px 22px;
+      padding: 11px 20px;
       border-radius: 99px;
       font-size: 13px;
       font-weight: 700;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
       z-index: 100000;
       display: none;
       white-space: nowrap;
@@ -729,103 +634,90 @@
 </head>
 <body>
 
-  <!-- =====================================================
-       1% TO 100% ANIMATED LOADING OVERLAY
-       ===================================================== -->
+  <!-- 1% TO 100% ANIMATED LOADING OVERLAY -->
   <div id="loadingScreen">
     <div class="loader-logo-ring">🚀</div>
     <div class="loader-title">SMARTU WALLET</div>
-    <div id="loaderStatusText" class="loader-status">Initializing Secure Gaming Engine...</div>
+    <div id="loaderStatusText" class="loader-status">Connecting to Firebase Realtime Server...</div>
     <div class="loader-bar-wrap">
       <div id="loaderBarFill" class="loader-bar-fill"></div>
     </div>
     <div id="loaderPercentText" class="loader-percent">1%</div>
   </div>
 
-  <!-- =====================================================
-       LOCK OVERLAY 1: MISSING USER ID GATEKEEPER
-       ===================================================== -->
+  <!-- LOCK 1: USER ID REQUIRED -->
   <div id="missingUidOverlay" class="lock-overlay">
     <div class="wallet-card">
       <div class="app-title">⚠️ User ID Required</div>
       <p class="subtitle" style="color:#ef4444; font-weight:700;">
-        Direct Browser Access Without User ID is Restricted!
+        Direct Access Without User ID is Restricted!
       </p>
       <div class="inner-box">
         <p style="font-size:13.5px; color:#334155; line-height:1.6;">
-          To protect your wallet security, SMARTU Wallet requires a valid Telegram User ID.<br><br>
-          Please launch the app from the <b>Official Telegram Bot</b> or use your personal link:<br>
-          <code style="color:#256ef0; font-weight:700;">/userid-YOUR_TELEGRAM_ID</code>
+          Please open SMARTU Wallet directly from the <b>Official Telegram Bot</b> or use your personal User ID URL:<br><br>
+          <code style="color:#256ef0; font-weight:700;">/userid-7335163273</code>
         </p>
       </div>
     </div>
   </div>
 
-  <!-- =====================================================
-       LOCK OVERLAY 2: 1 DEVICE = 1 USER SECURITY
-       ===================================================== -->
+  <!-- LOCK 2: 1 DEVICE = 1 USER SECURITY -->
   <div id="deviceLockOverlay" class="lock-overlay">
     <div class="wallet-card">
       <div class="app-title">🚫 Device Locked</div>
       <p class="subtitle" style="color:#ef4444; font-weight:700;">
-        1 Device = 1 Account Security Policy
+        1 Device = 1 User Security Policy
       </p>
       <div class="inner-box">
         <p style="font-size:13.5px; color:#334155; line-height:1.6;">
-          This device is already registered to Telegram User ID:<br>
+          This device is already linked to Telegram User ID:<br>
           <b id="boundUserIdText" style="font-size:16px; color:#0f172a;"></b><br><br>
-          Multiple accounts and self-referrals on the same device are strictly prohibited.
+          Opening another account on the same device is not permitted.
         </p>
       </div>
     </div>
   </div>
 
-  <!-- =====================================================
-       LOCK OVERLAY 3: BANNED USER OVERLAY
-       ===================================================== -->
+  <!-- LOCK 3: BANNED USER -->
   <div id="bannedUserOverlay" class="lock-overlay">
     <div class="wallet-card">
       <div class="app-title">🚫 Account Suspended</div>
       <p class="subtitle" style="color:#ef4444; font-weight:700;">
-        Access Denied by Administrator
+        Access Restricted by Administrator
       </p>
       <div class="inner-box">
         <p style="font-size:13.5px; color:#334155; line-height:1.6;">
-          Your account (<b id="bannedUidLabel"></b>) has been banned due to a policy violation. Contact Bot Support for assistance.
+          Your account (<b id="bannedUidLabel"></b>) has been suspended. Please contact Support in the Telegram Bot.
         </p>
       </div>
     </div>
   </div>
 
-  <!-- =====================================================
-       LOCK OVERLAY 4: REQUIRED TELEGRAM CHANNELS JOIN
-       ===================================================== -->
+  <!-- LOCK 4: TELEGRAM CHANNEL JOIN REQUIRED -->
   <div id="channelLockOverlay" class="lock-overlay">
     <div class="wallet-card">
-      <div class="app-title">📢 Join Required Channels</div>
+      <div class="app-title">📢 Join Official Channel</div>
       <p class="subtitle">
-        You must join all official channels below to unlock SMARTU Wallet & claim referral rewards!
+        You must join all required Telegram channels below to unlock the website & claim referral rewards!
       </p>
       <div class="inner-box">
         <div id="channelButtonsList" style="margin-bottom: 12px;"></div>
-        <button class="btn-green" onclick="verifyChannelMembership(true)">
-          ✅ I HAVE JOINED (UNLOCK APP)
+        <button class="btn-green" onclick="window.verifyChannelMembership(true)">
+          ✅ I HAVE JOINED (UNLOCK WEBSITE)
         </button>
       </div>
     </div>
   </div>
 
-  <!-- =====================================================
-       MAIN SMARTU WALLET CARD
-       ===================================================== -->
+  <!-- MAIN SMARTU WALLET CARD -->
   <div class="wallet-card">
     <div class="top-utility-bar">
       <div class="uid-pill">🆔 ID: <span id="topUidDisplay">---</span></div>
-      <button id="soundToggleBtn" class="sound-btn" onclick="toggleSound()">🔊 Sound: ON</button>
+      <button id="soundToggleBtn" class="sound-btn" onclick="window.toggleSound()">🔊 Sound: ON</button>
     </div>
 
-    <!-- Tap 5 times on SMARTU Wallet title to open Admin Login (Password: 90+9/0) -->
-    <div class="app-title" onclick="handleTitleTap()">
+    <!-- Tap 5 times on SMARTU Wallet title to open Website Admin Panel (Password: 90+9/0) -->
+    <div class="app-title" onclick="window.handleTitleTap()">
       <span>🚀</span> SMARTU Wallet
     </div>
 
@@ -838,15 +730,15 @@
     <div id="screenHome" class="screen active">
       <p class="subtitle">Welcome! Select an option below to continue.</p>
 
-      <button class="menu-btn" onclick="openGamesMenu()">
+      <button class="menu-btn" onclick="window.openGamesMenu()">
         <span>🎮</span> PLAY GAMES & EARN
       </button>
 
-      <button class="menu-btn" onclick="showScreen('screenWallet')">
+      <button class="menu-btn" onclick="window.showScreen('screenWallet')">
         <span>💳</span> MY WALLET & CONVERT
       </button>
 
-      <button class="menu-btn" onclick="showScreen('screenGift')">
+      <button class="menu-btn" onclick="window.showScreen('screenGift')">
         <span>🎁</span> GIFT CODE & INVITE
       </button>
 
@@ -857,23 +749,23 @@
 
     <!-- SCREEN 2: GAMES SELECTION MENU -->
     <div id="screenGamesMenu" class="screen">
-      <p class="subtitle">Play real-time provably fair games & multiply your Coins!</p>
+      <p class="subtitle">Select a real-time game below & win instant Coins!</p>
 
-      <div class="inner-box" style="padding:12px; margin-bottom:14px;">
+      <div class="inner-box" style="padding:11px; margin-bottom:14px;">
         <span style="font-size:12.5px; font-weight:700; color:#475569;">
           🕹️ Daily Games Played: <b id="gamesPlayedCounter" style="color:#256ef0;">0 / 50</b>
         </span>
       </div>
 
-      <button class="menu-btn" onclick="openAviatorGame()">
-        <span>✈️</span> AVIATOR X (CRASH PRO)
+      <button class="menu-btn" onclick="window.openAviatorGame()">
+        <span>✈️</span> AVIATOR X
       </button>
 
-      <button class="menu-btn" onclick="openMinesGame()">
-        <span>💣</span> MINES PRO (5x5 GRID)
+      <button class="menu-btn" onclick="window.openMinesGame()">
+        <span>💣</span> MINES GAME
       </button>
 
-      <button class="btn-back" onclick="showScreen('screenHome')">
+      <button class="btn-back" onclick="window.showScreen('screenHome')">
         <span>🔙</span> BACK TO HOME
       </button>
     </div>
@@ -886,15 +778,14 @@
       </div>
 
       <div id="aviatorHistoryBar" class="history-pills">
-        <span class="hist-pill">1.42x</span>
-        <span class="hist-pill high">3.85x</span>
-        <span class="hist-pill">1.18x</span>
-        <span class="hist-pill high">5.12x</span>
-        <span class="hist-pill">1.94x</span>
+        <span class="hist-pill">1.35x</span>
+        <span class="hist-pill high">3.40x</span>
+        <span class="hist-pill">1.22x</span>
+        <span class="hist-pill high">4.80x</span>
       </div>
 
       <div class="aviator-screen">
-        <canvas id="aviatorCanvas" width="360" height="195"></canvas>
+        <canvas id="aviatorCanvas" width="350" height="185"></canvas>
         <div class="aviator-overlay-content">
           <div id="aviatorMainDisplay" class="aviator-main-text">Next Round: 00:03</div>
           <div id="aviatorSubDisplay" class="aviator-sub-text">Place your bets! Waiting...</div>
@@ -902,20 +793,20 @@
       </div>
 
       <div class="quick-bet-chips">
-        <button class="chip-btn" onclick="setAviatorBet(20)">20</button>
-        <button class="chip-btn" onclick="setAviatorBet(50)">50</button>
-        <button class="chip-btn" onclick="setAviatorBet(100)">100</button>
-        <button class="chip-btn" onclick="setAviatorBet(500)">500</button>
-        <button class="chip-btn" onclick="setAviatorBetMax()">MAX</button>
+        <button class="chip-btn" onclick="window.setAviatorBet(20)">20</button>
+        <button class="chip-btn" onclick="window.setAviatorBet(50)">50</button>
+        <button class="chip-btn" onclick="window.setAviatorBet(100)">100</button>
+        <button class="chip-btn" onclick="window.setAviatorBet(500)">500</button>
+        <button class="chip-btn" onclick="window.setAviatorBetMax()">MAX</button>
       </div>
 
       <input type="number" id="aviatorBetInput" class="input-field" placeholder="Enter Bet (Coins)" value="50" />
 
-      <button id="aviatorActionBtn" class="btn-blue" onclick="handleAviatorAction()">
+      <button id="aviatorActionBtn" class="btn-blue" onclick="window.handleAviatorAction()">
         <span>🚀</span> PLACE BET
       </button>
 
-      <button class="btn-back" onclick="stopAviatorAndBack()">
+      <button class="btn-back" onclick="window.stopAviatorAndBack()">
         <span>🔙</span> BACK TO GAMES
       </button>
     </div>
@@ -934,19 +825,19 @@
 
         <div id="minesGrid" class="mines-grid-box"></div>
 
-        <input type="number" id="minesBetInput" class="input-field" placeholder="Enter Bet Coins (Min: 10)" value="50" style="margin-bottom:10px; background:#111823; color:#fff; border-color:#334155;" />
+        <input type="number" id="minesBetInput" class="input-field" placeholder="Enter Bet Coins (Min: 10)" value="50" style="margin-bottom:10px; background:#131b27; color:#fff; border-color:#334155;" />
 
-        <button id="minesActionBtn" class="btn-green" onclick="handleMinesAction()">
-          <span>🎮</span> START NEW GAME
+        <button id="minesActionBtn" class="btn-green" onclick="window.handleMinesAction()">
+          <span>💸</span> CASHOUT NOW
         </button>
       </div>
 
-      <button class="btn-back" onclick="showScreen('screenGamesMenu')">
+      <button class="btn-back" onclick="window.showScreen('screenGamesMenu')">
         <span>🔙</span> BACK TO GAMES
       </button>
     </div>
 
-    <!-- SCREEN 5: MY WALLET & CUSTOM COIN CONVERT -->
+    <!-- SCREEN 5: MY WALLET & CONVERT (ENTER COINS FIRST) -->
     <div id="screenWallet" class="screen">
       <div class="section-heading">
         <span>💳</span> Live Balance
@@ -962,7 +853,6 @@
         <div id="walletRateLabel" class="rate-label">(Rate: 100 Coins = ₹1)</div>
       </div>
 
-      <!-- STEP 1: ENTER COINS TO CONVERT INPUT BOX -->
       <div class="inner-box">
         <div class="section-heading" style="font-size:14.5px;">
           <span>💱</span> Enter Coins to Convert
@@ -972,17 +862,17 @@
           id="convertCoinsInput"
           class="input-field"
           placeholder="Enter Coins Amount (e.g. 100)"
-          oninput="updateConvertPreview()"
+          oninput="window.updateConvertPreview()"
         />
         <div id="convertPreviewText" style="font-size:13px; font-weight:700; color:#0ea568; margin-bottom:12px;">
           You will receive: ₹0.00 Real Cash
         </div>
-        <button class="btn-blue" style="margin-bottom:0;" onclick="convertCoinsToCash()">
+        <button class="btn-blue" style="margin-bottom:0;" onclick="window.convertCoinsToCash()">
           <span>💱</span> CONVERT COINS TO CASH
         </button>
       </div>
 
-      <button class="btn-back" onclick="showScreen('screenHome')">
+      <button class="btn-back" onclick="window.showScreen('screenHome')">
         <span>🔙</span> BACK TO HOME
       </button>
     </div>
@@ -994,7 +884,7 @@
           <span>🎁</span> Have a Gift Code?
         </div>
         <input type="text" id="giftCodeInput" class="input-field" placeholder="ENTER GIFT CODE HERE" />
-        <button class="btn-green" onclick="redeemGiftCode()">
+        <button class="btn-green" onclick="window.redeemGiftCode()">
           REDEEM GIFT
         </button>
       </div>
@@ -1004,76 +894,79 @@
           <span>📱</span> My Invite QR Code
         </div>
         <p style="font-size:12.5px; color:#64748b; margin-bottom:12px;">
-          Ask your friends to scan this and join! Earn <b id="referRewardLabel">200 Coins</b> per verified friend!
+          Ask your friends to scan this and join! Earn <b id="referRewardLabel">200 Coins</b> after they join the channel & open the app!
         </p>
         <div id="qrCodeContainer" style="display:none; margin-bottom:14px;">
-          <img id="qrImage" src="" alt="Invite QR" style="width:165px; height:165px; border-radius:12px; border:2px solid #cbd5e1; padding:6px; background:#fff;" />
+          <img id="qrImage" src="" alt="Invite QR" style="width:160px; height:160px; border-radius:12px; border:2px solid #cbd5e1; padding:6px; background:#fff;" />
           <p id="inviteLinkText" style="font-size:11px; color:#475569; word-break:break-all; margin-top:6px;"></p>
         </div>
-        <button class="btn-dark" onclick="generateInviteQR()">
+        <button class="btn-dark" onclick="window.generateInviteQR()">
           <span>🔄</span> GENERATE MY QR
         </button>
       </div>
 
-      <button class="btn-back" onclick="showScreen('screenHome')">
+      <button class="btn-back" onclick="window.showScreen('screenHome')">
         <span>🔙</span> BACK TO HOME
       </button>
     </div>
 
     <!-- =====================================================
-         SCREEN 7: FULL ADMIN CONTROL PANEL (MATCHES 35814 & 35815)
-         Password: 90+9/0
+         SCREEN 7: WEBSITE-ONLY ADMIN PANEL (Password: 90+9/0)
+         All other settings are managed in the Bot /admin panel!
          ===================================================== -->
     <div id="screenAdmin" class="screen">
-      <div class="section-heading">👑 Master Admin Control Panel</div>
+      <div class="section-heading">⚙️ Website Admin Settings</div>
+      <p style="font-size:12px; color:#64748b; margin-bottom:12px;">
+        Website-specific controls below. Channels, Tasks, Broadcasts & Withdrawals are managed directly in your Telegram Bot <code>/admin</code> panel.
+      </p>
 
-      <!-- Dynamic Action Modal Area inside Admin Panel -->
       <div id="adminActionModal" class="admin-modal-box"></div>
 
-      <!-- Exact Button Layout from Screenshots 35814.jpg & 35815.jpg -->
       <div class="admin-grid">
-        <button class="adm-green-btn" onclick="openAdminTool('dailyTask')">📝 Set Daily Task</button>
-        <button class="adm-green-btn" onclick="openAdminTool('liveStats')">📊 Live App Stats</button>
-        <button class="adm-green-btn" onclick="openAdminTool('addDeductCoins')">🛠️ Add/Deduct Coins</button>
-        <button class="adm-green-btn" onclick="openAdminTool('totalUsers')">👥 Total Users Count</button>
-        <button class="adm-green-btn" onclick="openAdminTool('setReferReward')">🎁 Set Refer Reward</button>
-        <button class="adm-green-btn" onclick="openAdminTool('bannedUsers')">🚫 Banned Users List</button>
+        <button class="adm-green-btn" onclick="window.openWebAdminTool('toggleGames')">⚙️ All Games (ON / OFF)</button>
 
         <div class="admin-row-2">
-          <button class="adm-green-btn" onclick="openAdminTool('addChannel')">➕ Add Channel</button>
-          <button class="adm-green-btn" onclick="openAdminTool('removeChannel')">➖ Remove Channel</button>
+          <button class="adm-green-btn" onclick="window.openWebAdminTool('gamePlayLimit')">🕹️ Game Play Limit</button>
+          <button class="adm-green-btn" onclick="window.openWebAdminTool('aviatorMaxBet')">✈️ Aviator Max Bet</button>
         </div>
 
-        <button class="adm-green-btn" onclick="openAdminTool('checkChannels')">📋 Check Channel List</button>
-        <button class="adm-green-btn" onclick="openAdminTool('broadcastMsg')">🚀 Send Message to All Users</button>
-
-        <div class="admin-row-2">
-          <button class="adm-green-btn" onclick="openAdminTool('activeCodes')">✅ Active Codes</button>
-          <button class="adm-green-btn" onclick="openAdminTool('expiredCodes')">🕰️ Expired Codes</button>
-        </div>
-
-        <button class="adm-green-btn" onclick="openAdminTool('deleteCode')">🗑️ Delete Specific Code</button>
-        <button class="adm-green-btn" onclick="openAdminTool('conversionRate')">💱 Change Conversion Rate</button>
-        <button class="adm-green-btn" onclick="openAdminTool('withdrawLimits')">💳 Set Withdraw Limits</button>
-        <button class="adm-green-btn" onclick="openAdminTool('toggleGames')">⚙️ All Games (ON/OFF)</button>
-
-        <div class="admin-row-2">
-          <button class="adm-green-btn" onclick="openAdminTool('gamePlayLimit')">🕹️ Game Play Limit</button>
-          <button class="adm-green-btn" onclick="openAdminTool('aviatorMaxBet')">✈️ Aviator Max Bet</button>
-        </div>
+        <button class="adm-green-btn" onclick="window.openWebAdminTool('conversionRate')">💱 Change Conversion Rate</button>
+        <button class="adm-green-btn" onclick="window.openWebAdminTool('resetDevice')">🔓 Reset 1-Device Lock</button>
       </div>
 
-      <button class="btn-back" onclick="showScreen('screenHome')">🔙 EXIT ADMIN PANEL</button>
+      <button class="btn-back" onclick="window.showScreen('screenHome')">🔙 EXIT WEBSITE ADMIN</button>
     </div>
   </div>
 
   <div id="toastBox" class="toast"></div>
 
-  <script>
-    // =====================================================
-    // GLOBAL CONFIG & FIREBASE REALTIME DATABASE
-    // =====================================================
-    const FIREBASE_DB = "https://smartu-grup-bot-default-rtdb.firebaseio.com";
+  <!-- =====================================================
+       OFFICIAL FIREBASE MODULAR SDK (EXACT CONFIG PROVIDED)
+       ===================================================== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+    import { getDatabase, ref, get, set, update, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBPlTvs8e_3F1Yb9Kr-ZHZp0nBmiG7tu44",
+      authDomain: "smartu-grup-bot.firebaseapp.com",
+      databaseURL: "https://smartu-grup-bot-default-rtdb.firebaseio.com",
+      projectId: "smartu-grup-bot",
+      storageBucket: "smartu-grup-bot.firebasestorage.app",
+      messagingSenderId: "45156926991",
+      appId: "1:45156926991:web:99eaf8853fdeb4a9abc57a",
+      measurementId: "G-QB1ZCEE15H"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    let analytics = null;
+    try { analytics = getAnalytics(app); } catch (e) {}
+    const db = getDatabase(app);
+
+    // State Variables
     let currentUserId = "";
     let isDeviceUniqueForUser = true;
     let soundEnabled = true;
@@ -1088,21 +981,16 @@
     };
 
     let appConfig = {
-      botToken: "",
       botUsername: "Smartu_grup_bot",
       referReward: 200,
       conversionRate: 100,
-      minWithdraw: 10,
-      maxWithdraw: 5000,
       gamesEnabled: true,
       gamePlayLimit: 50,
       aviatorMaxBet: 5000,
       channels: []
     };
 
-    // =====================================================
-    // WEB AUDIO SYNTHESIZER (REAL GAME SOUND EFFECTS)
-    // =====================================================
+    // Sound Synthesizer (Zero external MP3 lag)
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
 
@@ -1111,142 +999,96 @@
       try {
         if (!audioCtx) audioCtx = new AudioCtx();
         if (audioCtx.state === "suspended") audioCtx.resume();
-
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.connect(gain);
         gain.connect(audioCtx.destination);
-
         const now = audioCtx.currentTime;
+
         if (type === "click") {
           osc.type = "sine";
-          osc.frequency.setValueAtTime(520, now);
-          osc.frequency.exponentialRampToValueAtTime(240, now + 0.06);
-          gain.gain.setValueAtTime(0.12, now);
-          gain.gain.linearRampToValueAtTime(0.01, now + 0.06);
+          osc.frequency.setValueAtTime(500, now);
+          osc.frequency.exponentialRampToValueAtTime(240, now + 0.05);
+          gain.gain.setValueAtTime(0.1, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.05);
           osc.start(now);
-          osc.stop(now + 0.06);
+          osc.stop(now + 0.05);
         } else if (type === "win") {
           osc.type = "triangle";
-          osc.frequency.setValueAtTime(587.33, now);
-          osc.frequency.setValueAtTime(880, now + 0.09);
-          gain.gain.setValueAtTime(0.22, now);
-          gain.gain.linearRampToValueAtTime(0.01, now + 0.28);
+          osc.frequency.setValueAtTime(587, now);
+          osc.frequency.setValueAtTime(880, now + 0.08);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
           osc.start(now);
-          osc.stop(now + 0.28);
+          osc.stop(now + 0.25);
         } else if (type === "boom") {
           osc.type = "sawtooth";
-          osc.frequency.setValueAtTime(140, now);
-          osc.frequency.exponentialRampToValueAtTime(38, now + 0.35);
-          gain.gain.setValueAtTime(0.28, now);
-          gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+          osc.frequency.setValueAtTime(130, now);
+          osc.frequency.exponentialRampToValueAtTime(40, now + 0.3);
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
           osc.start(now);
-          osc.stop(now + 0.35);
+          osc.stop(now + 0.3);
         }
       } catch (e) {}
     }
 
-    function toggleSound() {
+    window.toggleSound = function () {
       soundEnabled = !soundEnabled;
       document.getElementById("soundToggleBtn").innerText = soundEnabled ? "🔊 Sound: ON" : "🔇 Sound: OFF";
       if (soundEnabled) playSound("click");
-    }
+    };
 
     function showToast(msg) {
       const t = document.getElementById("toastBox");
       t.innerText = msg;
       t.style.display = "block";
-      setTimeout(() => { t.style.display = "none"; }, 2800);
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => { t.style.display = "none"; }, 2600);
     }
 
-    // =====================================================
-    // FIREBASE REST HELPERS
-    // =====================================================
-    async function dbGet(path) {
-      try {
-        const r = await fetch(`${FIREBASE_DB}/${path}.json`);
-        return await r.json();
-      } catch (e) { return null; }
-    }
-
-    async function dbSet(path, data) {
-      try {
-        const r = await fetch(`${FIREBASE_DB}/${path}.json`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
-        return await r.json();
-      } catch (e) { return null; }
-    }
-
-    async function dbUpdate(path, data) {
-      try {
-        const r = await fetch(`${FIREBASE_DB}/${path}.json`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
-        return await r.json();
-      } catch (e) { return null; }
-    }
-
-    // =====================================================
-    // 1% TO 100% LOADING BAR CONTROLLER
-    // =====================================================
-    function runSmoothLoadingBar(onComplete) {
+    // 1% to 100% Smooth Loader
+    function startSmoothLoader() {
       let pct = 1;
       const fillEl = document.getElementById("loaderBarFill");
       const textEl = document.getElementById("loaderPercentText");
       const statusEl = document.getElementById("loaderStatusText");
 
-      const timer = setInterval(() => {
+      const iv = setInterval(() => {
         pct++;
         if (pct > 100) pct = 100;
-
         fillEl.style.width = pct + "%";
         textEl.innerText = pct + "%";
 
-        if (pct === 20) statusEl.innerText = "Verifying Telegram User ID...";
-        if (pct === 45) statusEl.innerText = "Checking 1-Device Security Lock...";
-        if (pct === 70) statusEl.innerText = "Verifying Channel Membership & Referrals...";
-        if (pct === 90) statusEl.innerText = "Loading SMARTU Pro Gaming Engine...";
+        if (pct === 25) statusEl.innerText = "Verifying Telegram User ID...";
+        if (pct === 55) statusEl.innerText = "Checking 1-Device Security Lock...";
+        if (pct === 80) statusEl.innerText = "Checking Channel Join & Referrals...";
 
         if (pct >= 100) {
-          clearInterval(timer);
+          clearInterval(iv);
           setTimeout(() => {
             document.getElementById("loadingScreen").classList.add("hidden");
-            if (typeof onComplete === "function") onComplete();
-          }, 220);
+          }, 180);
         }
-      }, 24); // Smooth 1% to 100% in ~2.4 seconds
+      }, 20);
     }
 
-    // =====================================================
-    // STRICT USER ID DETECTION (NO USER ID = NO OPEN)
-    // =====================================================
+    // Strict User ID Extractor
     function extractStrictUserId() {
-      // 1. Check URL path /userid-7335163273
       const pathMatch = window.location.pathname.match(/userid-(\d+)/i);
       if (pathMatch && pathMatch[1]) return pathMatch[1].trim();
 
-      // 2. Check Query Params ?userid=7335163273 or ?user_id=7335163273
       const q = new URLSearchParams(window.location.search);
       if (q.get("userid") && /^\d+$/.test(q.get("userid").trim())) return q.get("userid").trim();
       if (q.get("user_id") && /^\d+$/.test(q.get("user_id").trim())) return q.get("user_id").trim();
 
-      // 3. Check Telegram Mini App initDataUnsafe
       if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe?.user?.id) {
         return String(window.Telegram.WebApp.initDataUnsafe.user.id);
       }
-
-      // If no User ID is found, return empty string to trigger lock screen
       return "";
     }
 
-    // =====================================================
-    // HARDWARE FINGERPRINT & 1 DEVICE = 1 USER LOCK
-    // =====================================================
+    // Device Fingerprint
     function getDeviceFingerprint() {
       let devId = localStorage.getItem("smartu_device_fingerprint");
       if (!devId) {
@@ -1254,8 +1096,7 @@
           navigator.userAgent,
           screen.width + "x" + screen.height,
           screen.colorDepth,
-          Intl.DateTimeFormat().resolvedOptions().timeZone,
-          navigator.language
+          Intl.DateTimeFormat().resolvedOptions().timeZone
         ].join("|");
         let hash = 0;
         for (let i = 0; i < raw.length; i++) {
@@ -1270,17 +1111,19 @@
 
     async function verifyOneDeviceOneUser(userId) {
       const deviceId = getDeviceFingerprint();
-      const localBoundUser = localStorage.getItem("smartu_bound_userid");
+      const localBound = localStorage.getItem("smartu_bound_userid");
 
-      if (localBoundUser && localBoundUser !== userId) {
+      if (localBound && localBound !== userId) {
         isDeviceUniqueForUser = false;
-        document.getElementById("boundUserIdText").innerText = localBoundUser;
+        document.getElementById("boundUserIdText").innerText = localBound;
         document.getElementById("deviceLockOverlay").classList.add("active");
         return false;
       }
 
-      const existingOwner = await dbGet(`deviceLocks/${deviceId}`);
-      if (existingOwner && String(existingOwner) !== String(userId)) {
+      const snap = await get(ref(db, `deviceLocks/${deviceId}`));
+      const existingOwner = snap.exists() ? String(snap.val()) : "";
+
+      if (existingOwner && existingOwner !== String(userId)) {
         isDeviceUniqueForUser = false;
         document.getElementById("boundUserIdText").innerText = existingOwner;
         document.getElementById("deviceLockOverlay").classList.add("active");
@@ -1288,151 +1131,52 @@
       }
 
       localStorage.setItem("smartu_bound_userid", userId);
-      await dbSet(`deviceLocks/${deviceId}`, userId);
+      await set(ref(db, `deviceLocks/${deviceId}`), userId);
       isDeviceUniqueForUser = true;
       return true;
     }
 
-    // =====================================================
-    // CHANNEL JOIN LOCK + AUTO REFERRAL REWARD TRIGGER
-    // =====================================================
-    async function verifyChannelMembership(manualClick = false) {
+    // Channel Verification + Auto Referral Trigger
+    window.verifyChannelMembership = async function (manualClick = false) {
       try {
         const resp = await fetch(`/api?action=check_channel&userid=${currentUserId}&device_unique=${isDeviceUniqueForUser}`);
         const data = await resp.json();
 
         if (data && data.referralCredited) {
-          showToast(`🎉 Referral Verified! +${data.referralBonusAmount} Coins credited to inviter!`);
+          showToast(`🎉 Referral Verified! +${data.referralBonusAmount} Coins credited!`);
         }
 
         if (data && data.joined === false) {
           const listBox = document.getElementById("channelButtonsList");
           listBox.innerHTML = "";
-          const chans = data.missingChannels && data.missingChannels.length > 0
+          const chans = (data.missingChannels && data.missingChannels.length > 0)
             ? data.missingChannels
             : (appConfig.channels || []);
 
           chans.forEach((ch, idx) => {
             const btn = document.createElement("button");
             btn.className = "btn-blue";
-            btn.innerHTML = `📢 Join Official Channel #${idx + 1} (${ch.id})`;
-            btn.onclick = () => openExternalLink(ch.link || "https://t.me/");
+            btn.innerHTML = `📢 Join Channel #${idx + 1} (${ch.id})`;
+            btn.onclick = () => {
+              const url = ch.link || "https://t.me/";
+              if (window.Telegram && window.Telegram.WebApp) window.Telegram.WebApp.openTelegramLink(url);
+              else window.open(url, "_blank");
+            };
             listBox.appendChild(btn);
           });
 
           document.getElementById("channelLockOverlay").classList.add("active");
-          if (manualClick) showToast("❌ You have not joined all required channels yet!");
+          if (manualClick) showToast("❌ Please join all required channels first!");
           return false;
         } else {
           document.getElementById("channelLockOverlay").classList.remove("active");
-          if (manualClick) showToast("✅ Channels Verified! Welcome to SMARTU Wallet!");
+          if (manualClick) showToast("✅ Channel Verified! Welcome!");
           return true;
         }
       } catch (e) {
         return true;
       }
-    }
-
-    function openExternalLink(url) {
-      if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.openTelegramLink(url);
-      } else {
-        window.open(url, "_blank");
-      }
-    }
-
-    // =====================================================
-    // APP INITIALIZATION
-    // =====================================================
-    async function initApp() {
-      if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand();
-      }
-
-      // Start 1% to 100% Loader immediately
-      runSmoothLoadingBar();
-
-      currentUserId = extractStrictUserId();
-      if (!currentUserId) {
-        document.getElementById("missingUidOverlay").classList.add("active");
-        return;
-      }
-
-      document.getElementById("topUidDisplay").innerText = currentUserId;
-
-      // Load Global Admin Config
-      const savedCfg = await dbGet("config");
-      if (savedCfg) {
-        appConfig = { ...appConfig, ...savedCfg };
-      }
-
-      // Check 1 Device = 1 User
-      const deviceOk = await verifyOneDeviceOneUser(currentUserId);
-      if (!deviceOk) return;
-
-      // Load or Create User via API (handles referral linking)
-      const urlParams = new URLSearchParams(window.location.search);
-      const refCode = urlParams.get("ref") || "";
-      await fetch(`/api?action=profile&userid=${currentUserId}&ref=${encodeURIComponent(refCode)}`);
-
-      let user = await dbGet(`users/${currentUserId}`);
-      if (!user) {
-        user = {
-          userId: currentUserId,
-          coins: 0,
-          cash: 0,
-          upi: "Not Set",
-          deviceId: getDeviceFingerprint(),
-          gamesPlayedToday: 0,
-          lastGameDate: new Date().toISOString().slice(0, 10),
-          banned: false,
-          createdAt: Date.now()
-        };
-        await dbSet(`users/${currentUserId}`, user);
-      } else if (!user.deviceId) {
-        await dbUpdate(`users/${currentUserId}`, { deviceId: getDeviceFingerprint() });
-      }
-
-      // Reset Daily Game Counter if new day
-      const todayStr = new Date().toISOString().slice(0, 10);
-      if (user.lastGameDate !== todayStr) {
-        user.gamesPlayedToday = 0;
-        user.lastGameDate = todayStr;
-        await dbUpdate(`users/${currentUserId}`, { gamesPlayedToday: 0, lastGameDate: todayStr });
-      }
-
-      currentUserData = user;
-
-      // Check Ban Status
-      if (currentUserData.banned) {
-        document.getElementById("bannedUidLabel").innerText = currentUserId;
-        document.getElementById("bannedUserOverlay").classList.add("active");
-        return;
-      }
-
-      refreshAllUI();
-
-      // Check Channel Join & Trigger Referral Reward if eligible
-      await verifyChannelMembership(false);
-
-      // Live Real-time Sync Every 7 Seconds (Checks Channel Leave + Balance + Ban)
-      setInterval(async () => {
-        await verifyChannelMembership(false);
-        const latestCfg = await dbGet("config");
-        if (latestCfg) appConfig = { ...appConfig, ...latestCfg };
-
-        const latestUser = await dbGet(`users/${currentUserId}`);
-        if (latestUser) {
-          currentUserData = latestUser;
-          if (currentUserData.banned) {
-            document.getElementById("bannedUidLabel").innerText = currentUserId;
-            document.getElementById("bannedUserOverlay").classList.add("active");
-          }
-          refreshAllUI();
-        }
-      }, 7000);
-    }
+    };
 
     function refreshAllUI() {
       const c = Number(currentUserData.coins || 0);
@@ -1450,105 +1194,95 @@
         `${Number(currentUserData.gamesPlayedToday || 0)} / ${Number(appConfig.gamePlayLimit || 50)}`;
     }
 
-    function showScreen(screenId) {
+    window.showScreen = function (screenId) {
       playSound("click");
+      if (screenId !== "screenAviator" && aviatorInterval) {
+        clearInterval(aviatorInterval);
+        aviatorInterval = null;
+      }
       document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
       document.getElementById(screenId).classList.add("active");
       refreshAllUI();
-    }
+    };
 
-    function openGamesMenu() {
+    window.openGamesMenu = function () {
       if (appConfig.gamesEnabled === false) {
-        return showToast("⚙️ All Games are currently paused by Administrator!");
+        return showToast("⚙️ All Games are currently paused by Admin!");
       }
-      showScreen("screenGamesMenu");
-    }
+      window.showScreen("screenGamesMenu");
+    };
 
     async function checkAndIncrementGamePlay() {
       if (appConfig.gamesEnabled === false) {
-        showToast("⚙️ All Games are currently turned OFF by Admin!");
+        showToast("⚙️ Games are currently disabled by Admin!");
         return false;
       }
       const played = Number(currentUserData.gamesPlayedToday || 0);
       const limit = Number(appConfig.gamePlayLimit || 50);
       if (played >= limit) {
-        showToast(`🕹️ Daily Game Play Limit (${limit}) reached! Come back tomorrow.`);
+        showToast(`🕹️ Daily Game Limit (${limit}) reached!`);
         return false;
       }
-      currentUserData.gamesPlayedToday = played + 1;
-      await dbUpdate(`users/${currentUserId}`, { gamesPlayedToday: currentUserData.gamesPlayedToday });
-      refreshAllUI();
+      const nextCount = played + 1;
+      currentUserData.gamesPlayedToday = nextCount;
+      await update(ref(db, `users/${currentUserId}`), { gamesPlayedToday: nextCount });
       return true;
     }
 
-    // =====================================================
-    // CUSTOM COIN CONVERSION LOGIC (INPUT COINS FIRST)
-    // =====================================================
-    function updateConvertPreview() {
+    // Custom Coin Conversion
+    window.updateConvertPreview = function () {
       const rate = Number(appConfig.conversionRate || 100);
-      const inputCoins = Number(document.getElementById("convertCoinsInput").value || 0);
-      const previewEl = document.getElementById("convertPreviewText");
-
-      if (inputCoins <= 0) {
-        previewEl.innerText = "You will receive: ₹0.00 Real Cash";
+      const val = Number(document.getElementById("convertCoinsInput").value || 0);
+      const el = document.getElementById("convertPreviewText");
+      if (val <= 0) {
+        el.innerText = "You will receive: ₹0.00 Real Cash";
         return;
       }
-      const rupees = (inputCoins / rate).toFixed(2);
-      previewEl.innerText = `You will receive: ₹${rupees} Real Cash`;
-    }
+      el.innerText = `You will receive: ₹${(val / rate).toFixed(2)} Real Cash`;
+    };
 
-    async function convertCoinsToCash() {
+    window.convertCoinsToCash = async function () {
       playSound("click");
       const rate = Number(appConfig.conversionRate || 100);
       const enteredCoins = Number(document.getElementById("convertCoinsInput").value || 0);
 
       if (!enteredCoins || enteredCoins < rate) {
-        return showToast(`⚠️ Please enter at least ${rate} Coins to convert!`);
+        return showToast(`⚠️ Minimum ${rate} Coins required to convert!`);
       }
-
       if (enteredCoins > Number(currentUserData.coins || 0)) {
         return showToast("❌ Insufficient Coins in your wallet!");
       }
 
       const resp = await fetch(`/api?action=convert&userid=${currentUserId}&coins=${enteredCoins}`);
       const data = await resp.json();
-
       if (data && data.status) {
         playSound("win");
-        currentUserData.coins = data.coins;
-        currentUserData.cash = data.cash;
         document.getElementById("convertCoinsInput").value = "";
-        updateConvertPreview();
-        refreshAllUI();
+        window.updateConvertPreview();
         showToast(`✅ ${data.message}`);
       } else {
         showToast(`⚠️ ${data.message || "Conversion failed!"}`);
       }
-    }
+    };
 
-    // =====================================================
-    // GIFT CODE & QR GENERATOR
-    // =====================================================
-    async function redeemGiftCode() {
+    // Gift Code & QR
+    window.redeemGiftCode = async function () {
       playSound("click");
       const code = document.getElementById("giftCodeInput").value.trim().toUpperCase();
-      if (!code) return showToast("⚠️ Please enter a Gift Code!");
+      if (!code) return showToast("⚠️ Enter a Gift Code first!");
 
       const resp = await fetch(`/api?action=redeem_gift&userid=${currentUserId}&code=${encodeURIComponent(code)}`);
       const data = await resp.json();
-
       if (data && data.status) {
         playSound("win");
-        currentUserData.coins = data.coins;
         document.getElementById("giftCodeInput").value = "";
-        refreshAllUI();
         showToast(`🎉 ${data.message}`);
       } else {
         showToast(`❌ ${data.message || "Invalid Gift Code!"}`);
       }
-    }
+    };
 
-    function generateInviteQR() {
+    window.generateInviteQR = function () {
       playSound("click");
       const botUser = appConfig.botUsername || "Smartu_grup_bot";
       const inviteUrl = `https://t.me/${botUser}?start=${currentUserId}`;
@@ -1557,11 +1291,11 @@
       document.getElementById("qrImage").src = qrApi;
       document.getElementById("inviteLinkText").innerText = inviteUrl;
       document.getElementById("qrCodeContainer").style.display = "block";
-      showToast("📱 Personal Invite QR Generated!");
-    }
+      showToast("📱 Invite QR Code Generated!");
+    };
 
     // =====================================================
-    // REAL GAMING AVIATOR X (CANVAS FLIGHT CURVE + BETTING)
+    // AVIATOR X ENGINE (OPTIMIZED ZERO-LAG CANVAS)
     // =====================================================
     let aviatorInterval = null;
     let aviatorState = "WAITING";
@@ -1569,18 +1303,17 @@
     let aviatorCrashPoint = 1.8;
     let userAviatorBet = 0;
     let userCashedOut = false;
-    let flightProgress = 0;
 
-    function setAviatorBet(val) {
+    window.setAviatorBet = function (val) {
       playSound("click");
       document.getElementById("aviatorBetInput").value = val;
-    }
+    };
 
-    function setAviatorBetMax() {
+    window.setAviatorBetMax = function () {
       playSound("click");
-      const maxAllowed = Math.min(Number(currentUserData.coins || 0), Number(appConfig.aviatorMaxBet || 5000));
-      document.getElementById("aviatorBetInput").value = maxAllowed > 0 ? maxAllowed : 50;
-    }
+      const m = Math.min(Number(currentUserData.coins || 0), Number(appConfig.aviatorMaxBet || 5000));
+      document.getElementById("aviatorBetInput").value = m > 0 ? m : 50;
+    };
 
     function drawAviatorCanvas(state, progress) {
       const canvas = document.getElementById("aviatorCanvas");
@@ -1588,50 +1321,24 @@
       const ctx = canvas.getContext("2d");
       const w = canvas.width;
       const h = canvas.height;
-
       ctx.clearRect(0, 0, w, h);
-
-      // Subtle Radar Grid Lines
-      ctx.strokeStyle = "rgba(59, 130, 246, 0.12)";
-      ctx.lineWidth = 1;
-      for (let x = 0; x < w; x += 45) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
-      }
-      for (let y = 0; y < h; y += 40) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
-      }
 
       if (state === "WAITING") return;
 
-      const startX = 24;
-      const startY = h - 22;
-      const curX = startX + Math.min(progress * (w - 75), w - 65);
-      const curY = startY - Math.min(Math.pow(progress, 1.35) * (h - 55), h - 45);
-
-      // Area Gradient Under Flight Curve
-      const grad = ctx.createLinearGradient(0, curY, 0, h);
-      grad.addColorStop(0, state === "CRASHED" ? "rgba(239, 68, 68, 0.38)" : "rgba(16, 185, 129, 0.38)");
-      grad.addColorStop(1, "rgba(16, 185, 129, 0.0)");
+      const startX = 20;
+      const startY = h - 20;
+      const curX = startX + Math.min(progress * (w - 65), w - 55);
+      const curY = startY - Math.min(Math.pow(progress, 1.3) * (h - 50), h - 42);
 
       ctx.beginPath();
       ctx.moveTo(startX, startY);
-      ctx.quadraticCurveTo(startX + (curX - startX) * 0.55, startY, curX, curY);
-      ctx.lineTo(curX, startY);
-      ctx.closePath();
-      ctx.fillStyle = grad;
-      ctx.fill();
-
-      // Glowing Flight Line
-      ctx.beginPath();
-      ctx.moveTo(startX, startY);
-      ctx.quadraticCurveTo(startX + (curX - startX) * 0.55, startY, curX, curY);
+      ctx.quadraticCurveTo(startX + (curX - startX) * 0.5, startY, curX, curY);
       ctx.strokeStyle = state === "CRASHED" ? "#ef4444" : "#10b981";
       ctx.lineWidth = 3.5;
       ctx.stroke();
 
-      // Plane / Rocket Icon at Tip
-      ctx.font = "22px sans-serif";
-      ctx.fillText(state === "CRASHED" ? "💥" : "✈️", curX - 10, curY + 6);
+      ctx.font = "20px sans-serif";
+      ctx.fillText(state === "CRASHED" ? "💥" : "✈️", curX - 8, curY + 5);
     }
 
     function pushAviatorHistoryPill(mult) {
@@ -1640,23 +1347,25 @@
       span.className = mult >= 2.0 ? "hist-pill high" : "hist-pill";
       span.innerText = mult.toFixed(2) + "x";
       bar.prepend(span);
-      if (bar.children.length > 7) bar.removeChild(bar.lastChild);
+      if (bar.children.length > 6) bar.removeChild(bar.lastChild);
     }
 
-    function openAviatorGame() {
-      showScreen("screenAviator");
+    window.openAviatorGame = function () {
+      window.showScreen("screenAviator");
       startAviatorCycle();
-    }
+    };
 
-    function stopAviatorAndBack() {
-      if (aviatorInterval) clearInterval(aviatorInterval);
-      showScreen("screenGamesMenu");
-    }
+    window.stopAviatorAndBack = function () {
+      if (aviatorInterval) {
+        clearInterval(aviatorInterval);
+        aviatorInterval = null;
+      }
+      window.showScreen("screenGamesMenu");
+    };
 
     function startAviatorCycle() {
       if (aviatorInterval) clearInterval(aviatorInterval);
       aviatorState = "WAITING";
-      flightProgress = 0;
       let countdown = 4;
 
       const mainDisp = document.getElementById("aviatorMainDisplay");
@@ -1679,10 +1388,9 @@
           if (countdown < 0) {
             aviatorState = "FLYING";
             aviatorMultiplier = 1.00;
-            const r = Math.random();
-            aviatorCrashPoint = r < 0.35
+            aviatorCrashPoint = Math.random() < 0.35
               ? Number((1.12 + Math.random() * 0.7).toFixed(2))
-              : Number((1.85 + Math.random() * 4.5).toFixed(2));
+              : Number((1.85 + Math.random() * 4.2).toFixed(2));
             userCashedOut = false;
 
             if (userAviatorBet > 0) {
@@ -1691,91 +1399,87 @@
             }
           }
         } else if (aviatorState === "FLYING") {
-          aviatorMultiplier = Number((aviatorMultiplier + 0.03 + aviatorMultiplier * 0.012).toFixed(2));
-          flightProgress = Math.min(1, (aviatorMultiplier - 1) / 4.5);
-          drawAviatorCanvas("FLYING", flightProgress);
+          aviatorMultiplier = Number((aviatorMultiplier + 0.04).toFixed(2));
+          const prog = Math.min(1, (aviatorMultiplier - 1) / 4.2);
+          drawAviatorCanvas("FLYING", prog);
 
           mainDisp.style.color = "#10b981";
           mainDisp.innerText = `${aviatorMultiplier.toFixed(2)}x`;
           subDisp.innerText = (userAviatorBet > 0 && !userCashedOut)
-            ? `Cashout Now: ${Math.floor(userAviatorBet * aviatorMultiplier)} Coins`
-            : "Plane is flying live...";
+            ? `Cashout: ${Math.floor(userAviatorBet * aviatorMultiplier)} Coins`
+            : "Plane is flying...";
 
           if (aviatorMultiplier >= aviatorCrashPoint) {
             aviatorState = "CRASHED";
             playSound("boom");
-            drawAviatorCanvas("CRASHED", flightProgress);
+            drawAviatorCanvas("CRASHED", prog);
             pushAviatorHistoryPill(aviatorMultiplier);
 
             mainDisp.style.color = "#ef4444";
-            mainDisp.innerText = `FLEW AWAY @ ${aviatorMultiplier.toFixed(2)}x`;
-            subDisp.innerText = "Round Ended! Preparing next round...";
+            mainDisp.innerText = `CRASHED @ ${aviatorMultiplier.toFixed(2)}x`;
+            subDisp.innerText = "Next round starting soon...";
             userAviatorBet = 0;
             btn.innerHTML = "<span>🚀</span> PLACE BET";
             btn.className = "btn-blue";
 
             clearInterval(aviatorInterval);
+            aviatorInterval = null;
             setTimeout(() => {
               if (document.getElementById("screenAviator").classList.contains("active")) {
                 startAviatorCycle();
               }
-            }, 2400);
+            }, 2200);
           }
         }
-      }, 150);
+      }, 160);
     }
 
-    async function handleAviatorAction() {
+    window.handleAviatorAction = async function () {
       if (aviatorState === "WAITING") {
-        if (userAviatorBet > 0) return showToast("✅ Bet already placed for this round!");
-
+        if (userAviatorBet > 0) return showToast("✅ Bet already locked!");
         const betVal = Number(document.getElementById("aviatorBetInput").value || 0);
         const maxBet = Number(appConfig.aviatorMaxBet || 5000);
 
         if (betVal < 10) return showToast("⚠️ Minimum bet is 10 Coins!");
-        if (betVal > maxBet) return showToast(`⚠️ Max allowed bet is ${maxBet} Coins!`);
+        if (betVal > maxBet) return showToast(`⚠️ Max Bet is ${maxBet} Coins!`);
         if (betVal > Number(currentUserData.coins || 0)) return showToast("❌ Insufficient Coins!");
 
-        const canPlay = await checkAndIncrementGamePlay();
-        if (!canPlay) return;
+        const ok = await checkAndIncrementGamePlay();
+        if (!ok) return;
 
         playSound("click");
-        currentUserData.coins -= betVal;
+        const nextCoins = Number(currentUserData.coins || 0) - betVal;
         userAviatorBet = betVal;
-        await dbUpdate(`users/${currentUserId}`, { coins: currentUserData.coins });
-        refreshAllUI();
-
-        document.getElementById("aviatorActionBtn").innerHTML = "<span>⏳</span> BET LOCKED (WAITING)";
+        await update(ref(db, `users/${currentUserId}`), { coins: nextCoins });
+        document.getElementById("aviatorActionBtn").innerHTML = "<span>⏳</span> BET PLACED";
         showToast(`🚀 Bet of ${betVal} Coins Placed!`);
       } else if (aviatorState === "FLYING" && userAviatorBet > 0 && !userCashedOut) {
         userCashedOut = true;
         playSound("win");
         const winCoins = Math.floor(userAviatorBet * aviatorMultiplier);
-        currentUserData.coins += winCoins;
+        const nextCoins = Number(currentUserData.coins || 0) + winCoins;
         userAviatorBet = 0;
 
-        await dbUpdate(`users/${currentUserId}`, { coins: currentUserData.coins });
-        refreshAllUI();
-
+        await update(ref(db, `users/${currentUserId}`), { coins: nextCoins });
         const btn = document.getElementById("aviatorActionBtn");
         btn.innerHTML = `<span>✅</span> WON ${winCoins} COINS!`;
         btn.className = "btn-blue";
-        showToast(`🎉 Cashed Out ${winCoins} Coins at ${aviatorMultiplier.toFixed(2)}x!`);
+        showToast(`🎉 Won ${winCoins} Coins!`);
       }
-    }
+    };
 
     // =====================================================
-    // REAL GAMING 3D MINES GAME (5x5 GRID)
+    // MINES GAME ENGINE
     // =====================================================
     let minesActive = false;
     let minesBombPositions = [];
     let minesRevealedCount = 0;
     let minesCurrentBet = 50;
 
-    function openMinesGame() {
-      showScreen("screenMines");
+    window.openMinesGame = function () {
+      window.showScreen("screenMines");
       renderMinesBoard(true);
-    }
+    };
 
     function renderMinesBoard(resetStatus = true) {
       const grid = document.getElementById("minesGrid");
@@ -1794,7 +1498,7 @@
       }
     }
 
-    async function handleMinesAction() {
+    window.handleMinesAction = async function () {
       const actionBtn = document.getElementById("minesActionBtn");
 
       if (!minesActive) {
@@ -1802,14 +1506,13 @@
         if (betVal < 10) return showToast("⚠️ Minimum bet is 10 Coins!");
         if (betVal > Number(currentUserData.coins || 0)) return showToast("❌ Insufficient Coins!");
 
-        const canPlay = await checkAndIncrementGamePlay();
-        if (!canPlay) return;
+        const ok = await checkAndIncrementGamePlay();
+        if (!ok) return;
 
         playSound("click");
-        currentUserData.coins -= betVal;
+        const nextCoins = Number(currentUserData.coins || 0) - betVal;
         minesCurrentBet = betVal;
-        await dbUpdate(`users/${currentUserId}`, { coins: currentUserData.coins });
-        refreshAllUI();
+        await update(ref(db, `users/${currentUserId}`), { coins: nextCoins });
 
         minesActive = true;
         minesRevealedCount = 0;
@@ -1824,31 +1527,27 @@
         st.innerText = "1.00x";
         st.style.color = "#38bdf8";
         actionBtn.innerHTML = "<span>💸</span> CASHOUT NOW";
-        showToast("💣 Game Started! Tap tiles to find Diamonds!");
+        showToast("💣 Mines Game Started!");
       } else {
-        if (minesRevealedCount < 1) {
-          return showToast("⚠️ Open at least 1 diamond before Cashout!");
-        }
+        if (minesRevealedCount < 1) return showToast("⚠️ Open at least 1 diamond first!");
         playSound("win");
-        const multiplier = 1 + (minesRevealedCount * 0.28);
-        const winAmount = Math.floor(minesCurrentBet * multiplier);
-        currentUserData.coins += winAmount;
+        const mult = 1 + (minesRevealedCount * 0.28);
+        const winAmount = Math.floor(minesCurrentBet * mult);
+        const nextCoins = Number(currentUserData.coins || 0) + winAmount;
         minesActive = false;
 
-        await dbUpdate(`users/${currentUserId}`, { coins: currentUserData.coins });
-        refreshAllUI();
-
+        await update(ref(db, `users/${currentUserId}`), { coins: nextCoins });
         const st = document.getElementById("minesStatusText");
         st.innerText = `WON +${winAmount}`;
         st.style.color = "#10b981";
         actionBtn.innerHTML = "<span>🎮</span> START NEW GAME";
         showToast(`🎉 Cashed Out ${winAmount} Coins!`);
       }
-    }
+    };
 
     function clickMineTile(index, tileEl) {
       if (!minesActive) {
-        handleMinesAction();
+        window.handleMinesAction();
         return;
       }
       if (tileEl.classList.contains("safe") || tileEl.classList.contains("bomb-hit")) return;
@@ -1871,7 +1570,7 @@
         const st = document.getElementById("minesStatusText");
         st.innerText = "CRASHED";
         st.style.color = "#ef4444";
-        document.getElementById("minesActionBtn").innerHTML = "<span>🎮</span> PLAY AGAIN";
+        document.getElementById("minesActionBtn").innerHTML = "<span>💸</span> CASHOUT NOW";
         showToast("💥 BOOM! You hit a mine!");
       } else {
         playSound("win");
@@ -1882,411 +1581,158 @@
         const st = document.getElementById("minesStatusText");
         st.innerText = `${nextMult}x`;
         st.style.color = "#10b981";
-        const potentialWin = Math.floor(minesCurrentBet * Number(nextMult));
-        document.getElementById("minesActionBtn").innerHTML = `<span>💸</span> CASHOUT (${potentialWin} COINS)`;
       }
     }
 
     // =====================================================
-    // FULL 16-FEATURE ADMIN PANEL (PASSWORD: 90+9/0)
+    // WEBSITE-SPECIFIC ADMIN PANEL (PASSWORD: 90+9/0)
     // =====================================================
     let titleTapCount = 0;
     let titleTapTimer = null;
 
-    function handleTitleTap() {
+    window.handleTitleTap = function () {
       titleTapCount++;
       clearTimeout(titleTapTimer);
       titleTapTimer = setTimeout(() => { titleTapCount = 0; }, 1800);
 
       if (titleTapCount >= 5) {
         titleTapCount = 0;
-        const pwd = prompt("🔐 Enter Master Admin Password:");
+        const pwd = prompt("🔐 Enter Website Admin Password:");
         if (pwd === "90+9/0") {
-          showScreen("screenAdmin");
-          showToast("👑 Master Admin Panel Unlocked!");
+          window.showScreen("screenAdmin");
+          showToast("🔓 Website Admin Unlocked!");
         } else if (pwd !== null) {
-          showToast("❌ Invalid Admin Password!");
+          showToast("❌ Wrong Password!");
         }
       }
-    }
+    };
 
-    async function openAdminTool(tool) {
+    window.openWebAdminTool = function (tool) {
       playSound("click");
       const box = document.getElementById("adminActionModal");
       box.classList.add("active");
 
-      const freshCfg = (await dbGet("config")) || {};
-      appConfig = { ...appConfig, ...freshCfg };
-
-      // 1. SET DAILY TASK
-      if (tool === "dailyTask") {
-        const tasks = (await dbGet("tasks")) || {};
-        let listHtml = "";
-        Object.keys(tasks).forEach(k => {
-          const t = tasks[k];
-          listHtml += `
-            <div class="admin-list-item">
-              <span>🎯 ${t.title} (+${t.coins} Coins)</span>
-              <button class="del-badge-btn" onclick="adminDeleteTask('${k}')">Delete</button>
-            </div>`;
-        });
-
-        box.innerHTML = `
-          <h4>📝 Set Daily Task (Coins Reward)</h4>
-          <input id="admTaskTitle" class="input-field" placeholder="Task Title (e.g. Join Promo Channel)" />
-          <input id="admTaskLink" class="input-field" placeholder="Task Link (https://t.me/...)" />
-          <input id="admTaskCoins" type="number" class="input-field" placeholder="Reward in Coins (e.g. 200)" />
-          <button class="btn-green" onclick="adminSaveTask()">➕ Add Daily Task</button>
-          <div style="margin-top:10px;">${listHtml || "<p style='font-size:12px;color:#64748b;'>No active tasks.</p>"}</div>
-        `;
-      }
-
-      // 2. LIVE APP STATS
-      if (tool === "liveStats") {
-        const users = (await dbGet("users")) || {};
-        const withdrawals = (await dbGet("withdrawals")) || {};
-        const uKeys = Object.keys(users);
-        let totalCoins = 0, totalCash = 0, bannedCount = 0;
-        uKeys.forEach(k => {
-          totalCoins += Number(users[k].coins || 0);
-          totalCash += Number(users[k].cash || 0);
-          if (users[k].banned) bannedCount++;
-        });
-
-        box.innerHTML = `
-          <h4>📊 Live App Statistics</h4>
-          <div class="admin-list-item"><span>👥 Total Users</span><b>${uKeys.length}</b></div>
-          <div class="admin-list-item"><span>🪙 Total Market Coins</span><b>${totalCoins}</b></div>
-          <div class="admin-list-item"><span>💵 Total Real Cash</span><b>₹${totalCash.toFixed(2)}</b></div>
-          <div class="admin-list-item"><span>🚫 Banned Accounts</span><b>${bannedCount}</b></div>
-          <div class="admin-list-item"><span>💸 Withdrawal Requests</span><b>${Object.keys(withdrawals).length}</b></div>
-        `;
-      }
-
-      // 3. ADD / DEDUCT COINS
-      if (tool === "addDeductCoins") {
-        box.innerHTML = `
-          <h4>🛠️ Add / Deduct User Coins & Cash</h4>
-          <input id="admTargetUid" class="input-field" placeholder="Enter User ID" value="${currentUserId}" />
-          <input id="admDeltaCoins" type="number" class="input-field" placeholder="Coins (+500 to Add, -200 to Deduct)" />
-          <input id="admDeltaCash" type="number" class="input-field" placeholder="Cash ₹ (+10 to Add, -5 to Deduct)" />
-          <button class="btn-blue" onclick="adminModifyBalance()">✅ Apply Balance Change</button>
-        `;
-      }
-
-      // 4. TOTAL USERS COUNT
-      if (tool === "totalUsers") {
-        const users = (await dbGet("users")) || {};
-        const keys = Object.keys(users);
-        let rows = keys.slice(0, 12).map(u =>
-          `<div class="admin-list-item"><span>🆔 ${u}</span><span>🪙 ${users[u].coins || 0} | ₹${users[u].cash || 0}</span></div>`
-        ).join("");
-        box.innerHTML = `
-          <h4>👥 Total Registered Users: ${keys.length}</h4>
-          ${rows || "<p style='font-size:12px;'>No users found.</p>"}
-        `;
-      }
-
-      // 5. SET REFER REWARD
-      if (tool === "setReferReward") {
-        box.innerHTML = `
-          <h4>🎁 Set Per-Referral Coins Reward</h4>
-          <input id="admRefRewardInput" type="number" class="input-field" value="${appConfig.referReward || 200}" placeholder="Enter Refer Coins (e.g. 250)" />
-          <button class="btn-green" onclick="adminSaveConfigField('referReward', Number(document.getElementById('admRefRewardInput').value))">💾 Save Refer Reward</button>
-        `;
-      }
-
-      // 6. BANNED USERS LIST
-      if (tool === "bannedUsers") {
-        const users = (await dbGet("users")) || {};
-        let bannedHtml = "";
-        Object.keys(users).forEach(u => {
-          if (users[u].banned) {
-            bannedHtml += `
-              <div class="admin-list-item">
-                <span>🚫 User ID: ${u}</span>
-                <button class="del-badge-btn" style="background:#10b981;" onclick="adminToggleBan('${u}', false)">Unban</button>
-              </div>`;
-          }
-        });
-
-        box.innerHTML = `
-          <h4>🚫 Ban / Unban User</h4>
-          <input id="admBanUid" class="input-field" placeholder="Enter User ID to Ban" />
-          <button class="btn-blue" style="background:#ef4444;" onclick="adminToggleBan(document.getElementById('admBanUid').value, true)">🚫 Ban User Now</button>
-          <div style="margin-top:10px;">${bannedHtml || "<p style='font-size:12px;color:#64748b;'>No banned users currently.</p>"}</div>
-        `;
-      }
-
-      // 7. ADD CHANNEL (COMMA SEPARATED LIKE SCREENSHOT 35815.jpg)
-      if (tool === "addChannel") {
-        box.innerHTML = `
-          <h4>📢 Add New Required Channel</h4>
-          <p style="font-size:12px; color:#475569; margin-bottom:8px;">
-            Send the Channel ID and Invite Link separated by a comma (,).<br>
-            Example: <code>@SmartuChannel, https://t.me/SmartuChannel</code>
-          </p>
-          <input id="admBotTokInput" class="input-field" value="${appConfig.botToken || ''}" placeholder="Bot Token (Required for Join Check)" />
-          <input id="admChCommaInput" class="input-field" placeholder="@ChannelID, https://t.me/InviteLink" />
-          <button class="btn-green" onclick="adminAddCommaChannel()">➕ Add Required Channel</button>
-        `;
-      }
-
-      // 8. REMOVE CHANNEL (SELECT TO REMOVE)
-      if (tool === "removeChannel") {
-        const chans = appConfig.channels || [];
-        let html = chans.map((c, idx) => `
-          <div class="admin-list-item">
-            <span>📢 ${c.id}</span>
-            <button class="del-badge-btn" onclick="adminRemoveChannelIndex(${idx})">➖ Remove</button>
-          </div>
-        `).join("");
-        box.innerHTML = `
-          <h4>➖ Select Channel to Remove</h4>
-          ${html || "<p style='font-size:12px;color:#64748b;'>No channels added yet.</p>"}
-        `;
-      }
-
-      // 9. CHECK CHANNEL LIST
-      if (tool === "checkChannels") {
-        const chans = appConfig.channels || [];
-        let html = chans.map((c, idx) => `
-          <div class="admin-list-item">
-            <span>#${idx + 1}: <b>${c.id}</b></span>
-            <a href="${c.link}" target="_blank" style="font-size:11px;color:#256ef0;">Open Link</a>
-          </div>
-        `).join("");
-        box.innerHTML = `
-          <h4>📋 Required Channels List (${chans.length})</h4>
-          ${html || "<p style='font-size:12px;color:#64748b;'>No required channels configured.</p>"}
-        `;
-      }
-
-      // 10. SEND MESSAGE TO ALL USERS
-      if (tool === "broadcastMsg") {
-        box.innerHTML = `
-          <h4>🚀 Send Message to All Users</h4>
-          <input id="admBroadText" class="input-field" placeholder="Enter Broadcast Message..." />
-          <button class="btn-blue" onclick="adminSendBroadcast()">🚀 Send Broadcast Now</button>
-        `;
-      }
-
-      // 11. ACTIVE CODES & CREATE CODE
-      if (tool === "activeCodes") {
-        const codes = (await dbGet("giftCodes")) || {};
-        let html = "";
-        Object.keys(codes).forEach(k => {
-          const g = codes[k];
-          if (Number(g.usedCount || 0) < Number(g.maxUsers || 1)) {
-            html += `<div class="admin-list-item"><span>✅ <b>${g.code}</b> (+${g.coins} Coins)</span><span>Used: ${g.usedCount || 0}/${g.maxUsers}</span></div>`;
-          }
-        });
-        box.innerHTML = `
-          <h4>✅ Active Gift Codes & Create New</h4>
-          <input id="admNewCodeName" class="input-field" placeholder="Gift Code Name (e.g. BONUS500)" />
-          <input id="admNewCodeCoins" type="number" class="input-field" placeholder="Coins Reward (e.g. 500)" />
-          <input id="admNewCodeMax" type="number" class="input-field" placeholder="Max Users Limit (e.g. 50)" />
-          <button class="btn-green" onclick="adminCreateGiftCode()">➕ Create Gift Code</button>
-          <div style="margin-top:10px;">${html || "<p style='font-size:12px;color:#64748b;'>No active codes.</p>"}</div>
-        `;
-      }
-
-      // 12. EXPIRED CODES
-      if (tool === "expiredCodes") {
-        const codes = (await dbGet("giftCodes")) || {};
-        let html = "";
-        Object.keys(codes).forEach(k => {
-          const g = codes[k];
-          if (Number(g.usedCount || 0) >= Number(g.maxUsers || 1)) {
-            html += `<div class="admin-list-item"><span>🕰️ <b>${g.code}</b> (+${g.coins} Coins)</span><span>Expired (${g.usedCount}/${g.maxUsers})</span></div>`;
-          }
-        });
-        box.innerHTML = `
-          <h4>🕰️ Expired Gift Codes</h4>
-          ${html || "<p style='font-size:12px;color:#64748b;'>No expired codes found.</p>"}
-        `;
-      }
-
-      // 13. DELETE SPECIFIC CODE
-      if (tool === "deleteCode") {
-        const codes = (await dbGet("giftCodes")) || {};
-        let html = Object.keys(codes).map(k => `
-          <div class="admin-list-item">
-            <span>🎁 ${k} (+${codes[k].coins} Coins)</span>
-            <button class="del-badge-btn" onclick="adminDeleteGiftCode('${k}')">🗑️ Delete</button>
-          </div>
-        `).join("");
-        box.innerHTML = `
-          <h4>🗑️ Delete Specific Gift Code</h4>
-          ${html || "<p style='font-size:12px;color:#64748b;'>No gift codes available.</p>"}
-        `;
-      }
-
-      // 14. CHANGE CONVERSION RATE
-      if (tool === "conversionRate") {
-        box.innerHTML = `
-          <h4>💱 Change Coins Conversion Rate</h4>
-          <p style="font-size:12px; color:#475569; margin-bottom:8px;">Current Rate: <b>${appConfig.conversionRate || 100} Coins = ₹1</b></p>
-          <input id="admConvRateInput" type="number" class="input-field" value="${appConfig.conversionRate || 100}" placeholder="Coins per ₹1 (e.g. 100)" />
-          <button class="btn-green" onclick="adminSaveConfigField('conversionRate', Number(document.getElementById('admConvRateInput').value))">💾 Update Conversion Rate</button>
-        `;
-      }
-
-      // 15. SET WITHDRAW LIMITS
-      if (tool === "withdrawLimits") {
-        box.innerHTML = `
-          <h4>💳 Set Withdrawal Limits (₹)</h4>
-          <input id="admMinWdr" type="number" class="input-field" value="${appConfig.minWithdraw || 10}" placeholder="Minimum Withdraw ₹ (e.g. 10)" />
-          <input id="admMaxWdr" type="number" class="input-field" value="${appConfig.maxWithdraw || 5000}" placeholder="Maximum Withdraw ₹ (e.g. 5000)" />
-          <button class="btn-green" onclick="adminSaveWithdrawLimits()">💾 Save Withdraw Limits</button>
-        `;
-      }
-
-      // 16. ALL GAMES (ON/OFF)
       if (tool === "toggleGames") {
         const isOn = appConfig.gamesEnabled !== false;
         box.innerHTML = `
           <h4>⚙️ All Games Master Switch</h4>
-          <p style="font-size:13px; margin-bottom:10px;">Current Status: <b style="color:${isOn ? '#10b981' : '#ef4444'};">${isOn ? '🟢 GAMES ON' : '🔴 GAMES OFF'}</b></p>
-          <button class="btn-blue" onclick="adminSaveConfigField('gamesEnabled', ${!isOn})">
-            🔄 Turn All Games ${isOn ? 'OFF' : 'ON'}
+          <p style="font-size:13px; margin-bottom:10px;">Status: <b>${isOn ? '🟢 ON' : '🔴 OFF'}</b></p>
+          <button class="btn-blue" onclick="window.saveWebConfig('gamesEnabled', ${!isOn})">
+            Turn All Games ${isOn ? 'OFF' : 'ON'}
           </button>
         `;
       }
 
-      // 17. GAME PLAY LIMIT
       if (tool === "gamePlayLimit") {
         box.innerHTML = `
-          <h4>🕹️ Set Daily Game Play Limit Per User</h4>
-          <input id="admGameLimitInput" type="number" class="input-field" value="${appConfig.gamePlayLimit || 50}" placeholder="Max Games Per Day (e.g. 50)" />
-          <button class="btn-green" onclick="adminSaveConfigField('gamePlayLimit', Number(document.getElementById('admGameLimitInput').value))">💾 Save Game Play Limit</button>
+          <h4>🕹️ Set Daily Game Play Limit</h4>
+          <input id="webAdmGameLimit" type="number" class="input-field" value="${appConfig.gamePlayLimit || 50}" />
+          <button class="btn-green" onclick="window.saveWebConfig('gamePlayLimit', Number(document.getElementById('webAdmGameLimit').value))">💾 Save Limit</button>
         `;
       }
 
-      // 18. AVIATOR MAX BET
       if (tool === "aviatorMaxBet") {
         box.innerHTML = `
           <h4>✈️ Set Aviator Max Bet (Coins)</h4>
-          <input id="admMaxBetInput" type="number" class="input-field" value="${appConfig.aviatorMaxBet || 5000}" placeholder="Max Bet Coins (e.g. 5000)" />
-          <button class="btn-green" onclick="adminSaveConfigField('aviatorMaxBet', Number(document.getElementById('admMaxBetInput').value))">💾 Save Aviator Max Bet</button>
+          <input id="webAdmMaxBet" type="number" class="input-field" value="${appConfig.aviatorMaxBet || 5000}" />
+          <button class="btn-green" onclick="window.saveWebConfig('aviatorMaxBet', Number(document.getElementById('webAdmMaxBet').value))">💾 Save Max Bet</button>
         `;
       }
-    }
 
-    // Admin Action Helpers
-    async function adminSaveConfigField(key, val) {
-      appConfig[key] = val;
-      await dbUpdate("config", { [key]: val });
-      refreshAllUI();
-      showToast(`✅ Updated ${key} successfully!`);
+      if (tool === "conversionRate") {
+        box.innerHTML = `
+          <h4>💱 Change Coins Conversion Rate</h4>
+          <input id="webAdmConvRate" type="number" class="input-field" value="${appConfig.conversionRate || 100}" />
+          <button class="btn-green" onclick="window.saveWebConfig('conversionRate', Number(document.getElementById('webAdmConvRate').value))">💾 Save Rate</button>
+        `;
+      }
+
+      if (tool === "resetDevice") {
+        box.innerHTML = `
+          <h4>🔓 Reset 1-Device Lock</h4>
+          <input id="webAdmResetUid" class="input-field" placeholder="Enter User ID or type ALL" value="${currentUserId}" />
+          <button class="btn-blue" style="background:#ef4444;" onclick="window.resetWebDeviceLock()">🔓 Reset Device Lock</button>
+        `;
+      }
+    };
+
+    window.saveWebConfig = async function (key, val) {
+      await update(ref(db, "config"), { [key]: val });
+      showToast("✅ Website Setting Saved!");
       document.getElementById("adminActionModal").classList.remove("active");
-    }
+    };
 
-    async function adminSaveWithdrawLimits() {
-      const minW = Number(document.getElementById("admMinWdr").value || 10);
-      const maxW = Number(document.getElementById("admMaxWdr").value || 5000);
-      appConfig.minWithdraw = minW;
-      appConfig.maxWithdraw = maxW;
-      await dbUpdate("config", { minWithdraw: minW, maxWithdraw: maxW });
-      showToast(`✅ Withdraw Limits set to ₹${minW} - ₹${maxW}!`);
-    }
+    window.resetWebDeviceLock = async function () {
+      const target = document.getElementById("webAdmResetUid").value.trim() || "ALL";
+      await fetch(`/api?action=admin_reset_device&target_id=${encodeURIComponent(target)}`);
+      localStorage.removeItem("smartu_bound_userid");
+      showToast(`🔓 Device Lock Reset for ${target}!`);
+    };
 
-    async function adminSaveTask() {
-      const title = document.getElementById("admTaskTitle").value.trim();
-      const link = document.getElementById("admTaskLink").value.trim();
-      const coins = Number(document.getElementById("admTaskCoins").value || 0);
-      if (!title || !link || coins <= 0) return showToast("⚠️ Fill all task fields properly!");
-      const id = "TSK_" + Date.now();
-      await dbSet(`tasks/${id}`, { id, title, link, coins, createdAt: Date.now() });
-      showToast("✅ Daily Task Added!");
-      openAdminTool("dailyTask");
-    }
-
-    async function adminDeleteTask(id) {
-      await dbSet(`tasks/${id}`, null);
-      showToast("🗑️ Task Removed!");
-      openAdminTool("dailyTask");
-    }
-
-    async function adminModifyBalance() {
-      const uid = document.getElementById("admTargetUid").value.trim();
-      const dCoins = Number(document.getElementById("admDeltaCoins").value || 0);
-      const dCash = Number(document.getElementById("admDeltaCash").value || 0);
-      if (!uid) return showToast("⚠️ Enter a valid User ID!");
-
-      const u = (await dbGet(`users/${uid}`)) || { coins: 0, cash: 0 };
-      const newCoins = Math.max(0, Number(u.coins || 0) + dCoins);
-      const newCash = Math.max(0, Number((Number(u.cash || 0) + dCash).toFixed(2)));
-
-      await dbUpdate(`users/${uid}`, { coins: newCoins, cash: newCash });
-      if (uid === currentUserId) {
-        currentUserData.coins = newCoins;
-        currentUserData.cash = newCash;
-        refreshAllUI();
+    // =====================================================
+    // BOOTSTRAP APPLICATION WITH REALTIME WEBSOCKET LISTENERS
+    // =====================================================
+    async function initApp() {
+      if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
       }
-      showToast(`✅ Balance updated for User ${uid}!`);
-    }
 
-    async function adminToggleBan(uid, banState) {
-      if (!uid) return showToast("⚠️ Enter User ID!");
-      await dbUpdate(`users/${uid.trim()}`, { banned: banState });
-      showToast(banState ? `🚫 User ${uid} Banned!` : `✅ User ${uid} Unbanned!`);
-      openAdminTool("bannedUsers");
-    }
+      startSmoothLoader();
 
-    async function adminAddCommaChannel() {
-      const tok = document.getElementById("admBotTokInput").value.trim();
-      const raw = document.getElementById("admChCommaInput").value.trim();
-      if (!raw || !raw.includes(",")) {
-        return showToast("⚠️ Use format: @ChannelID, https://t.me/InviteLink");
+      currentUserId = extractStrictUserId();
+      if (!currentUserId) {
+        document.getElementById("missingUidOverlay").classList.add("active");
+        return;
       }
-      const parts = raw.split(",");
-      const chId = parts[0].trim();
-      const chLink = parts[1].trim();
 
-      const chans = Array.isArray(appConfig.channels) ? appConfig.channels : [];
-      chans.push({ id: chId, link: chLink });
-      appConfig.channels = chans;
-      if (tok) appConfig.botToken = tok;
+      document.getElementById("topUidDisplay").innerText = currentUserId;
 
-      await dbUpdate("config", { channels: chans, botToken: appConfig.botToken });
-      showToast(`✅ Channel ${chId} added!`);
-      openAdminTool("checkChannels");
-    }
+      const deviceOk = await verifyOneDeviceOneUser(currentUserId);
+      if (!deviceOk) return;
 
-    async function adminRemoveChannelIndex(idx) {
-      const chans = Array.isArray(appConfig.channels) ? appConfig.channels : [];
-      chans.splice(idx, 1);
-      appConfig.channels = chans;
-      await dbUpdate("config", { channels: chans });
-      showToast("🗑️ Channel Removed!");
-      openAdminTool("removeChannel");
-    }
+      const q = new URLSearchParams(window.location.search);
+      const refCode = q.get("ref") || "";
+      await fetch(`/api?action=profile&userid=${currentUserId}&ref=${encodeURIComponent(refCode)}`);
 
-    async function adminCreateGiftCode() {
-      const code = document.getElementById("admNewCodeName").value.trim().toUpperCase();
-      const coins = Number(document.getElementById("admNewCodeCoins").value || 0);
-      const maxUsers = Number(document.getElementById("admNewCodeMax").value || 1);
-      if (!code || coins <= 0) return showToast("⚠️ Enter valid code name & coins!");
+      // Real-time Firebase Listener 1: Global Config (Zero Polling Lag)
+      onValue(ref(db, "config"), (snapshot) => {
+        if (snapshot.exists()) {
+          appConfig = { ...appConfig, ...snapshot.val() };
+          refreshAllUI();
+        }
+      });
 
-      await dbSet(`giftCodes/${code}`, { code, coins, maxUsers, usedCount: 0, createdAt: Date.now() });
-      showToast(`🎁 Code ${code} Created!`);
-      openAdminTool("activeCodes");
-    }
+      // Real-time Firebase Listener 2: User Balance & Status (Instant Sync)
+      onValue(ref(db, `users/${currentUserId}`), async (snapshot) => {
+        if (snapshot.exists()) {
+          const u = snapshot.val();
+          const todayStr = new Date().toISOString().slice(0, 10);
+          if (u.lastGameDate !== todayStr) {
+            u.gamesPlayedToday = 0;
+            await update(ref(db, `users/${currentUserId}`), {
+              gamesPlayedToday: 0,
+              lastGameDate: todayStr,
+              deviceId: getDeviceFingerprint()
+            });
+          }
+          currentUserData = u;
 
-    async function adminDeleteGiftCode(code) {
-      await dbSet(`giftCodes/${code}`, null);
-      showToast(`🗑️ Code ${code} Deleted!`);
-      openAdminTool("deleteCode");
-    }
+          if (currentUserData.banned) {
+            document.getElementById("bannedUidLabel").innerText = currentUserId;
+            document.getElementById("bannedUserOverlay").classList.add("active");
+          } else {
+            document.getElementById("bannedUserOverlay").classList.remove("active");
+          }
+          refreshAllUI();
+        }
+      });
 
-    async function adminSendBroadcast() {
-      const msg = document.getElementById("admBroadText").value.trim();
-      if (!msg) return showToast("⚠️ Enter a message to broadcast!");
-      showToast("⏳ Sending broadcast to all users...");
-      const r = await fetch(`/api?action=broadcast&message=${encodeURIComponent(msg)}`);
-      const d = await r.json();
-      showToast(d.message || "✅ Broadcast complete!");
+      // Verify Channel Membership on load + passive check every 15 seconds
+      await window.verifyChannelMembership(false);
+      setInterval(() => {
+        window.verifyChannelMembership(false);
+      }, 15000);
     }
 
     window.addEventListener("DOMContentLoaded", initApp);
