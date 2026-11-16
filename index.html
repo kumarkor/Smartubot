@@ -207,7 +207,7 @@
       display: block;
     }
 
-    /* Main Menu Buttons (Matches 35805.png) */
+    /* Main Menu Buttons */
     .menu-btn {
       width: 100%;
       background: #253346;
@@ -373,7 +373,38 @@
     }
 
     /* =====================================================
-       AVIATOR X PRO UI (Matches 35806.png)
+       TWO-WAY CONVERSION MODE TABS (COINS <-> RUPEES)
+       ===================================================== */
+    .convert-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: #e2e8f0;
+      padding: 5px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+    }
+
+    .conv-tab-btn {
+      border: none;
+      background: transparent;
+      color: #475569;
+      font-size: 12.5px;
+      font-weight: 800;
+      padding: 10px 6px;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .conv-tab-btn.active {
+      background: #256ef0;
+      color: #ffffff;
+      box-shadow: 0 3px 8px rgba(37, 110, 240, 0.3);
+    }
+
+    /* =====================================================
+       AVIATOR X PRO UI
        ===================================================== */
     .aviator-header {
       display: flex;
@@ -459,6 +490,7 @@
       justify-content: center;
       gap: 7px;
       margin-bottom: 10px;
+      flex-wrap: wrap;
     }
 
     .chip-btn {
@@ -472,8 +504,14 @@
       cursor: pointer;
     }
 
+    .chip-btn.active {
+      background: #256ef0;
+      color: #ffffff;
+      border-color: #256ef0;
+    }
+
     /* =====================================================
-       MINES GAME PRO UI (Matches 35807.png)
+       MINES GAME PRO UI + SELECTABLE MINES BAR
        ===================================================== */
     .mines-card {
       background: #1e293b;
@@ -487,21 +525,65 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       padding: 0 4px;
     }
 
     .mines-count-label {
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 800;
       color: #cbd5e1;
     }
 
     .mines-status-label {
       font-family: 'Orbitron', sans-serif;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 900;
-      color: #ef4444;
+      color: #10b981;
+    }
+
+    .mines-selector-wrap {
+      background: #131b27;
+      border: 1px solid #28364a;
+      border-radius: 12px;
+      padding: 9px 8px;
+      margin-bottom: 12px;
+    }
+
+    .mines-selector-title {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #94a3b8;
+      margin-bottom: 7px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 4px;
+    }
+
+    .mines-Select-pills {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 5px;
+    }
+
+    .mine-count-btn {
+      background: #243247;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      border-radius: 8px;
+      padding: 7px 0;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.12s ease;
+    }
+
+    .mine-count-btn.active {
+      background: #f59e0b;
+      color: #0f172a;
+      border-color: #fbbf24;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.45);
     }
 
     .mines-grid-box {
@@ -543,6 +625,122 @@
     .mine-tile.bomb-reveal {
       background: #64748b;
       color: #ffffff;
+    }
+
+    /* =====================================================
+       OX GAME (TIC-TAC-TOE) UI - EASY / NORMAL / HARD
+       ===================================================== */
+    .ox-card {
+      background: #1e293b;
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 14px;
+      color: #ffffff;
+    }
+
+    .ox-diff-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+
+    .ox-diff-btn {
+      background: #131b27;
+      border: 1.5px solid #334155;
+      color: #cbd5e1;
+      border-radius: 11px;
+      padding: 9px 4px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.15s ease;
+    }
+
+    .ox-diff-btn .diff-name {
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.3px;
+    }
+
+    .ox-diff-btn .diff-reward {
+      font-size: 11px;
+      font-weight: 800;
+      color: #f59e0b;
+    }
+
+    .ox-diff-btn.active.easy {
+      background: rgba(16, 185, 129, 0.18);
+      border-color: #10b981;
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .ox-diff-btn.active.normal {
+      background: rgba(59, 130, 246, 0.2);
+      border-color: #3b82f6;
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.35);
+    }
+
+    .ox-diff-btn.active.hard {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.35);
+    }
+
+    .ox-board {
+      background: #131b27;
+      border-radius: 16px;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+      border: 1px solid #28364a;
+    }
+
+    .ox-cell {
+      aspect-ratio: 1 / 1;
+      background: #243247;
+      border: none;
+      border-bottom: 4px solid #141c29;
+      border-radius: 13px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 34px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #ffffff;
+      transition: transform 0.1s ease, background 0.15s ease;
+    }
+
+    .ox-cell:active {
+      transform: translateY(2px);
+    }
+
+    .ox-cell.x-mark {
+      color: #38bdf8;
+      text-shadow: 0 0 12px rgba(56, 189, 248, 0.7);
+      background: #1b283b;
+    }
+
+    .ox-cell.o-mark {
+      color: #f43f5e;
+      text-shadow: 0 0 12px rgba(244, 63, 94, 0.7);
+      background: #1b283b;
+    }
+
+    .ox-cell.win-cell {
+      background: #0ea568 !important;
+      color: #ffffff !important;
+      border-bottom-color: #047857;
+      box-shadow: 0 0 16px rgba(14, 165, 104, 0.65);
     }
 
     /* =====================================================
@@ -596,6 +794,14 @@
       color: #0f172a;
       margin-bottom: 8px;
       font-weight: 800;
+    }
+
+    .adm-field-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 4px;
+      display: block;
     }
 
     /* Security Overlays */
@@ -765,6 +971,10 @@
         <span>💣</span> MINES GAME
       </button>
 
+      <button class="menu-btn" onclick="window.openOXGame()">
+        <span>❌⭕</span> OX GAME (EASY / NORMAL / HARD)
+      </button>
+
       <button class="btn-back" onclick="window.showScreen('screenHome')">
         <span>🔙</span> BACK TO HOME
       </button>
@@ -811,7 +1021,7 @@
       </button>
     </div>
 
-    <!-- SCREEN 4: MINES GAME -->
+    <!-- SCREEN 4: MINES GAME (WITH CUSTOM MINES COUNT SELECTOR) -->
     <div id="screenMines" class="screen">
       <div class="section-heading">
         <span>💣</span> Mines Game
@@ -819,8 +1029,36 @@
 
       <div class="mines-card">
         <div class="mines-top-bar">
-          <span class="mines-count-label">Mines: <span id="minesCountDisplay">3</span></span>
+          <span class="mines-count-label">💣 Active Mines: <span id="minesCountDisplay" style="color:#f59e0b;">3</span></span>
           <span id="minesStatusText" class="mines-status-label" style="color:#10b981;">READY</span>
+        </div>
+
+        <!-- SELECT HOW MANY MINES YOU WANT -->
+        <div class="mines-selector-wrap">
+          <div class="mines-selector-title">
+            <span>🎯 SELECT NUMBER OF MINES (1 - 24):</span>
+            <span id="minesNextMultPreview" style="color:#38bdf8;">Next Tile: +0.28x</span>
+          </div>
+          <div class="mines-Select-pills">
+            <button class="mine-count-btn" id="mineBtn1" onclick="window.selectMinesCount(1)">1</button>
+            <button class="mine-count-btn active" id="mineBtn3" onclick="window.selectMinesCount(3)">3</button>
+            <button class="mine-count-btn" id="mineBtn5" onclick="window.selectMinesCount(5)">5</button>
+            <button class="mine-count-btn" id="mineBtn10" onclick="window.selectMinesCount(10)">10</button>
+            <button class="mine-count-btn" id="mineBtn15" onclick="window.selectMinesCount(15)">15</button>
+            <button class="mine-count-btn" id="mineBtn20" onclick="window.selectMinesCount(20)">20</button>
+          </div>
+          <div style="margin-top:8px; display:flex; align-items:center; justify-content:space-between; gap:8px;">
+            <span style="font-size:11px; color:#94a3b8; font-weight:700;">Custom Mines (1-24):</span>
+            <input
+              type="number"
+              id="customMinesInput"
+              min="1"
+              max="24"
+              value="3"
+              oninput="window.onCustomMinesInput(this.value)"
+              style="width:75px; padding:5px 8px; border-radius:7px; border:1px solid #334155; background:#1e293b; color:#fbbf24; font-weight:800; text-align:center; font-size:12.5px; outline:none;"
+            />
+          </div>
         </div>
 
         <div id="minesGrid" class="mines-grid-box"></div>
@@ -828,7 +1066,7 @@
         <input type="number" id="minesBetInput" class="input-field" placeholder="Enter Bet Coins (Min: 10)" value="50" style="margin-bottom:10px; background:#131b27; color:#fff; border-color:#334155;" />
 
         <button id="minesActionBtn" class="btn-green" onclick="window.handleMinesAction()">
-          <span>💸</span> CASHOUT NOW
+          <span>🎮</span> START MINES GAME
         </button>
       </div>
 
@@ -837,7 +1075,54 @@
       </button>
     </div>
 
-    <!-- SCREEN 5: MY WALLET & CONVERT (ENTER COINS FIRST) -->
+    <!-- SCREEN 4B: OX GAME (TIC-TAC-TOE: EASY / NORMAL / HARD) -->
+    <div id="screenOX" class="screen">
+      <div class="section-heading">
+        <span>❌⭕</span> OX Game (Tic-Tac-Toe)
+      </div>
+
+      <div class="ox-card">
+        <div style="font-size:12px; font-weight:800; color:#94a3b8; margin-bottom:8px;">
+          🎯 SELECT DIFFICULTY LEVEL & WIN REWARD:
+        </div>
+
+        <!-- Difficulty Selector: Easy, Normal, Hard -->
+        <div class="ox-diff-grid">
+          <button id="oxDiffEasy" class="ox-diff-btn active easy" onclick="window.selectOXDifficulty('EASY')">
+            <span class="diff-name">🟢 EASY</span>
+            <span id="oxRewardEasyText" class="diff-reward">+20 Coins</span>
+          </button>
+
+          <button id="oxDiffNormal" class="ox-diff-btn normal" onclick="window.selectOXDifficulty('NORMAL')">
+            <span class="diff-name">🔵 NORMAL</span>
+            <span id="oxRewardNormalText" class="diff-reward">+50 Coins</span>
+          </button>
+
+          <button id="oxDiffHard" class="ox-diff-btn hard" onclick="window.selectOXDifficulty('HARD')">
+            <span class="diff-name">🔴 HARD</span>
+            <span id="oxRewardHardText" class="diff-reward">+150 Coins</span>
+          </button>
+        </div>
+
+        <div class="mines-top-bar" style="margin-bottom:10px;">
+          <span class="mines-count-label">You: <b style="color:#38bdf8;">❌</b> vs Bot: <b style="color:#f43f5e;">⭕</b></span>
+          <span id="oxStatusText" class="mines-status-label" style="color:#10b981; font-size:13.5px;">YOUR TURN (❌)</span>
+        </div>
+
+        <!-- 3x3 OX Board -->
+        <div id="oxBoardGrid" class="ox-board"></div>
+
+        <button id="oxRestartBtn" class="btn-green" style="margin-bottom:0;" onclick="window.startNewOXRound(true)">
+          <span>🔄</span> NEW OX GAME
+        </button>
+      </div>
+
+      <button class="btn-back" onclick="window.showScreen('screenGamesMenu')">
+        <span>🔙</span> BACK TO GAMES
+      </button>
+    </div>
+
+    <!-- SCREEN 5: MY WALLET & TWO-WAY CONVERT (COINS TO RUPEES + RUPEES TO COINS) -->
     <div id="screenWallet" class="screen">
       <div class="section-heading">
         <span>💳</span> Live Balance
@@ -854,22 +1139,53 @@
       </div>
 
       <div class="inner-box">
-        <div class="section-heading" style="font-size:14.5px;">
-          <span>💱</span> Enter Coins to Convert
+        <div class="section-heading" style="font-size:14.5px; margin-bottom:10px;">
+          <span>💱</span> Instant Two-Way Converter
         </div>
-        <input
-          type="number"
-          id="convertCoinsInput"
-          class="input-field"
-          placeholder="Enter Coins Amount (e.g. 100)"
-          oninput="window.updateConvertPreview()"
-        />
-        <div id="convertPreviewText" style="font-size:13px; font-weight:700; color:#0ea568; margin-bottom:12px;">
-          You will receive: ₹0.00 Real Cash
+
+        <!-- Two-Way Mode Selector Tabs -->
+        <div class="convert-tabs">
+          <button id="tabCoinsToRupees" class="conv-tab-btn active" onclick="window.setConversionDirection('COINS_TO_RUPEES')">
+            🪙 Coins ➔ ₹ Rupees
+          </button>
+          <button id="tabRupeesToCoins" class="conv-tab-btn" onclick="window.setConversionDirection('RUPEES_TO_COINS')">
+            💵 ₹ Rupees ➔ 🪙 Coins
+          </button>
         </div>
-        <button class="btn-blue" style="margin-bottom:0;" onclick="window.convertCoinsToCash()">
-          <span>💱</span> CONVERT COINS TO CASH
-        </button>
+
+        <!-- PANEL A: COINS TO RUPEES -->
+        <div id="panelCoinsToRupees">
+          <input
+            type="number"
+            id="convertCoinsInput"
+            class="input-field"
+            placeholder="Enter Coins Amount (e.g. 100)"
+            oninput="window.updateConvertPreview()"
+          />
+          <div id="convertPreviewText" style="font-size:13px; font-weight:700; color:#0ea568; margin-bottom:12px;">
+            You will receive: ₹0.00 Real Cash
+          </div>
+          <button class="btn-blue" style="margin-bottom:0;" onclick="window.convertCoinsToCash()">
+            <span>💱</span> CONVERT COINS TO RUPEES (₹)
+          </button>
+        </div>
+
+        <!-- PANEL B: RUPEES TO COINS -->
+        <div id="panelRupeesToCoins" style="display:none;">
+          <input
+            type="number"
+            id="convertRupeesInput"
+            class="input-field"
+            placeholder="Enter Rupees ₹ Amount (e.g. 10)"
+            oninput="window.updateRupeesToCoinsPreview()"
+          />
+          <div id="convertRupeesPreviewText" style="font-size:13px; font-weight:700; color:#f59e0b; margin-bottom:12px;">
+            You will receive: 0 Market Coins
+          </div>
+          <button class="btn-green" style="margin-bottom:0;" onclick="window.convertRupeesToCoins()">
+            <span>🪙</span> CONVERT RUPEES (₹) TO COINS
+          </button>
+        </div>
       </div>
 
       <button class="btn-back" onclick="window.showScreen('screenHome')">
@@ -911,19 +1227,21 @@
     </div>
 
     <!-- =====================================================
-         SCREEN 7: WEBSITE-ONLY ADMIN PANEL (Password: 90+9/0)
-         All other settings are managed in the Bot /admin panel!
+         SCREEN 7: WEBSITE ADMIN PANEL (Password: 90+9/0)
+         Includes OX Game Rewards (Easy / Normal / Hard)!
          ===================================================== -->
     <div id="screenAdmin" class="screen">
       <div class="section-heading">⚙️ Website Admin Settings</div>
       <p style="font-size:12px; color:#64748b; margin-bottom:12px;">
-        Website-specific controls below. Channels, Tasks, Broadcasts & Withdrawals are managed directly in your Telegram Bot <code>/admin</code> panel.
+        Configure Website Games, OX Difficulty Rewards, Conversion Rate & Device Locks below.
       </p>
 
       <div id="adminActionModal" class="admin-modal-box"></div>
 
       <div class="admin-grid">
         <button class="adm-green-btn" onclick="window.openWebAdminTool('toggleGames')">⚙️ All Games (ON / OFF)</button>
+
+        <button class="adm-green-btn" onclick="window.openWebAdminTool('oxRewards')">❌⭕ Set OX Game Rewards (Easy / Normal / Hard)</button>
 
         <div class="admin-row-2">
           <button class="adm-green-btn" onclick="window.openWebAdminTool('gamePlayLimit')">🕹️ Game Play Limit</button>
@@ -987,6 +1305,9 @@
       gamesEnabled: true,
       gamePlayLimit: 50,
       aviatorMaxBet: 5000,
+      oxEasyCoins: 20,
+      oxNormalCoins: 50,
+      oxHardCoins: 150,
       channels: []
     };
 
@@ -1192,6 +1513,15 @@
       document.getElementById("referRewardLabel").innerText = (appConfig.referReward || 200) + " Coins";
       document.getElementById("gamesPlayedCounter").innerText =
         `${Number(currentUserData.gamesPlayedToday || 0)} / ${Number(appConfig.gamePlayLimit || 50)}`;
+
+      // Update OX Game Reward Labels from Admin Config
+      const easyC = Number(appConfig.oxEasyCoins !== undefined ? appConfig.oxEasyCoins : 20);
+      const normC = Number(appConfig.oxNormalCoins !== undefined ? appConfig.oxNormalCoins : 50);
+      const hardC = Number(appConfig.oxHardCoins !== undefined ? appConfig.oxHardCoins : 150);
+
+      document.getElementById("oxRewardEasyText").innerText = `+${easyC} Coins`;
+      document.getElementById("oxRewardNormalText").innerText = `+${normC} Coins`;
+      document.getElementById("oxRewardHardText").innerText = `+${hardC} Coins`;
     }
 
     window.showScreen = function (screenId) {
@@ -1229,7 +1559,32 @@
       return true;
     }
 
-    // Custom Coin Conversion
+    // =====================================================
+    // TWO-WAY CURRENCY CONVERSION (COINS <-> RUPEES)
+    // =====================================================
+    window.setConversionDirection = function (mode) {
+      playSound("click");
+      const tabC2R = document.getElementById("tabCoinsToRupees");
+      const tabR2C = document.getElementById("tabRupeesToCoins");
+      const panelC2R = document.getElementById("panelCoinsToRupees");
+      const panelR2C = document.getElementById("panelRupeesToCoins");
+
+      if (mode === "COINS_TO_RUPEES") {
+        tabC2R.classList.add("active");
+        tabR2C.classList.remove("active");
+        panelC2R.style.display = "block";
+        panelR2C.style.display = "none";
+        window.updateConvertPreview();
+      } else {
+        tabR2C.classList.add("active");
+        tabC2R.classList.remove("active");
+        panelR2C.style.display = "block";
+        panelC2R.style.display = "none";
+        window.updateRupeesToCoinsPreview();
+      }
+    };
+
+    // 1. Coins -> Rupees Preview & Action
     window.updateConvertPreview = function () {
       const rate = Number(appConfig.conversionRate || 100);
       const val = Number(document.getElementById("convertCoinsInput").value || 0);
@@ -1245,24 +1600,69 @@
       playSound("click");
       const rate = Number(appConfig.conversionRate || 100);
       const enteredCoins = Number(document.getElementById("convertCoinsInput").value || 0);
+      const userCoins = Number(currentUserData.coins || 0);
 
       if (!enteredCoins || enteredCoins < rate) {
         return showToast(`⚠️ Minimum ${rate} Coins required to convert!`);
       }
-      if (enteredCoins > Number(currentUserData.coins || 0)) {
-        return showToast("❌ Insufficient Coins in your wallet!");
+      if (enteredCoins > userCoins) {
+        return showToast("❌ Insufficient Market Coins in your wallet!");
       }
 
-      const resp = await fetch(`/api?action=convert&userid=${currentUserId}&coins=${enteredCoins}`);
-      const data = await resp.json();
-      if (data && data.status) {
-        playSound("win");
-        document.getElementById("convertCoinsInput").value = "";
-        window.updateConvertPreview();
-        showToast(`✅ ${data.message}`);
-      } else {
-        showToast(`⚠️ ${data.message || "Conversion failed!"}`);
+      const cashAdded = Number((enteredCoins / rate).toFixed(2));
+      const newCoins = Math.floor(userCoins - enteredCoins);
+      const newCash = Number((Number(currentUserData.cash || 0) + cashAdded).toFixed(2));
+
+      await update(ref(db, `users/${currentUserId}`), {
+        coins: newCoins,
+        cash: newCash
+      });
+
+      playSound("win");
+      document.getElementById("convertCoinsInput").value = "";
+      window.updateConvertPreview();
+      showToast(`✅ Converted ${enteredCoins} Coins to ₹${cashAdded} Real Cash!`);
+    };
+
+    // 2. Rupees -> Coins Preview & Action
+    window.updateRupeesToCoinsPreview = function () {
+      const rate = Number(appConfig.conversionRate || 100);
+      const val = Number(document.getElementById("convertRupeesInput").value || 0);
+      const el = document.getElementById("convertRupeesPreviewText");
+      if (val <= 0) {
+        el.innerText = "You will receive: 0 Market Coins";
+        return;
       }
+      const coinsOut = Math.floor(val * rate);
+      el.innerText = `You will receive: +${coinsOut} Market Coins`;
+    };
+
+    window.convertRupeesToCoins = async function () {
+      playSound("click");
+      const rate = Number(appConfig.conversionRate || 100);
+      const enteredRupees = Number(document.getElementById("convertRupeesInput").value || 0);
+      const userCash = Number(currentUserData.cash || 0);
+
+      if (isNaN(enteredRupees) || enteredRupees < 1) {
+        return showToast("⚠️ Minimum ₹1 required to convert into Coins!");
+      }
+      if (enteredRupees > userCash) {
+        return showToast("❌ Insufficient Real Cash (₹) in your wallet!");
+      }
+
+      const coinsAdded = Math.floor(enteredRupees * rate);
+      const newCash = Number((userCash - enteredRupees).toFixed(2));
+      const newCoins = Number(currentUserData.coins || 0) + coinsAdded;
+
+      await update(ref(db, `users/${currentUserId}`), {
+        coins: newCoins,
+        cash: newCash
+      });
+
+      playSound("win");
+      document.getElementById("convertRupeesInput").value = "";
+      window.updateRupeesToCoinsPreview();
+      showToast(`✅ Converted ₹${enteredRupees} into +${coinsAdded} Market Coins!`);
     };
 
     // Gift Code & QR
@@ -1469,15 +1869,59 @@
     };
 
     // =====================================================
-    // MINES GAME ENGINE
+    // MINES GAME ENGINE (WITH SELECTABLE MINES 1 - 24)
     // =====================================================
     let minesActive = false;
+    let selectedMinesCount = 3;
     let minesBombPositions = [];
     let minesRevealedCount = 0;
     let minesCurrentBet = 50;
 
+    function getMinesStepBoost(minesCount) {
+      // Dynamic risk-based multiplier boost per safe diamond
+      return Number(((0.12 + (minesCount / (25 - minesCount)) * 0.85)).toFixed(2));
+    }
+
+    function calculateMinesMultiplier(minesCount, revealed) {
+      if (revealed <= 0) return 1.00;
+      const step = getMinesStepBoost(minesCount);
+      return Number((1 + revealed * step).toFixed(2));
+    }
+
+    window.selectMinesCount = function (count) {
+      if (minesActive) {
+        return showToast("⚠️ Finish or Cashout current round before changing mines!");
+      }
+      playSound("click");
+      let validCount = Math.max(1, Math.min(24, Number(count || 3)));
+      selectedMinesCount = validCount;
+
+      document.getElementById("minesCountDisplay").innerText = validCount;
+      document.getElementById("customMinesInput").value = validCount;
+
+      const stepBoost = getMinesStepBoost(validCount);
+      document.getElementById("minesNextMultPreview").innerText = `Per Diamond: +${stepBoost.toFixed(2)}x`;
+
+      document.querySelectorAll(".mine-count-btn").forEach(b => b.classList.remove("active"));
+      const presetBtn = document.getElementById("mineBtn" + validCount);
+      if (presetBtn) presetBtn.classList.add("active");
+    };
+
+    window.onCustomMinesInput = function (val) {
+      if (minesActive) {
+        document.getElementById("customMinesInput").value = selectedMinesCount;
+        return showToast("⚠️ Cannot change mines during an active game!");
+      }
+      let num = parseInt(val, 10);
+      if (isNaN(num)) return;
+      if (num < 1) num = 1;
+      if (num > 24) num = 24;
+      window.selectMinesCount(num);
+    };
+
     window.openMinesGame = function () {
       window.showScreen("screenMines");
+      window.selectMinesCount(selectedMinesCount);
       renderMinesBoard(true);
     };
 
@@ -1495,6 +1939,7 @@
         const st = document.getElementById("minesStatusText");
         st.innerText = "READY";
         st.style.color = "#10b981";
+        document.getElementById("minesActionBtn").innerHTML = "<span>🎮</span> START MINES GAME";
       }
     }
 
@@ -1517,7 +1962,7 @@
         minesActive = true;
         minesRevealedCount = 0;
         minesBombPositions = [];
-        while (minesBombPositions.length < 3) {
+        while (minesBombPositions.length < selectedMinesCount) {
           const r = Math.floor(Math.random() * 25);
           if (!minesBombPositions.includes(r)) minesBombPositions.push(r);
         }
@@ -1527,11 +1972,11 @@
         st.innerText = "1.00x";
         st.style.color = "#38bdf8";
         actionBtn.innerHTML = "<span>💸</span> CASHOUT NOW";
-        showToast("💣 Mines Game Started!");
+        showToast(`💣 Game Started with ${selectedMinesCount} Mines!`);
       } else {
         if (minesRevealedCount < 1) return showToast("⚠️ Open at least 1 diamond first!");
         playSound("win");
-        const mult = 1 + (minesRevealedCount * 0.28);
+        const mult = calculateMinesMultiplier(selectedMinesCount, minesRevealedCount);
         const winAmount = Math.floor(minesCurrentBet * mult);
         const nextCoins = Number(currentUserData.coins || 0) + winAmount;
         minesActive = false;
@@ -1541,7 +1986,7 @@
         st.innerText = `WON +${winAmount}`;
         st.style.color = "#10b981";
         actionBtn.innerHTML = "<span>🎮</span> START NEW GAME";
-        showToast(`🎉 Cashed Out ${winAmount} Coins!`);
+        showToast(`🎉 Cashed Out ${winAmount} Coins at ${mult.toFixed(2)}x!`);
       }
     };
 
@@ -1570,17 +2015,283 @@
         const st = document.getElementById("minesStatusText");
         st.innerText = "CRASHED";
         st.style.color = "#ef4444";
-        document.getElementById("minesActionBtn").innerHTML = "<span>💸</span> CASHOUT NOW";
+        document.getElementById("minesActionBtn").innerHTML = "<span>🎮</span> PLAY AGAIN";
         showToast("💥 BOOM! You hit a mine!");
       } else {
         playSound("win");
         tileEl.classList.add("safe");
         tileEl.innerHTML = "💎";
         minesRevealedCount++;
-        const nextMult = (1 + minesRevealedCount * 0.28).toFixed(2);
+
+        const nextMult = calculateMinesMultiplier(selectedMinesCount, minesRevealedCount);
         const st = document.getElementById("minesStatusText");
-        st.innerText = `${nextMult}x`;
+        st.innerText = `${nextMult.toFixed(2)}x`;
         st.style.color = "#10b981";
+
+        const potentialWin = Math.floor(minesCurrentBet * nextMult);
+        document.getElementById("minesActionBtn").innerHTML = `<span>💸</span> CASHOUT (${potentialWin} COINS)`;
+
+        // Auto-Cashout if user cleared all safe tiles on the board!
+        if (minesRevealedCount >= (25 - selectedMinesCount)) {
+          window.handleMinesAction();
+        }
+      }
+    }
+
+    // =====================================================
+    // OX GAME (TIC-TAC-TOE) ENGINE - EASY / NORMAL / HARD
+    // =====================================================
+    let oxDifficulty = "EASY"; // EASY, NORMAL, HARD
+    let oxBoardState = ["", "", "", "", "", "", "", "", ""];
+    let oxGameActive = false;
+    let oxPlayerTurn = true;
+
+    const OX_WIN_LINES = [
+      [0, 1, 2], [3, 4, 5], [6, 7, 8],
+      [0, 3, 6], [1, 4, 7], [2, 5, 8],
+      [0, 4, 8], [2, 4, 6]
+    ];
+
+    function getOXRewardForDifficulty(diff) {
+      if (diff === "EASY") return Number(appConfig.oxEasyCoins !== undefined ? appConfig.oxEasyCoins : 20);
+      if (diff === "NORMAL") return Number(appConfig.oxNormalCoins !== undefined ? appConfig.oxNormalCoins : 50);
+      if (diff === "HARD") return Number(appConfig.oxHardCoins !== undefined ? appConfig.oxHardCoins : 150);
+      return 20;
+    }
+
+    window.openOXGame = function () {
+      window.showScreen("screenOX");
+      window.selectOXDifficulty(oxDifficulty, false);
+      window.startNewOXRound(false);
+    };
+
+    window.selectOXDifficulty = function (diff, playClick = true) {
+      if (playClick) playSound("click");
+      oxDifficulty = diff;
+
+      document.getElementById("oxDiffEasy").classList.toggle("active", diff === "EASY");
+      document.getElementById("oxDiffNormal").classList.toggle("active", diff === "NORMAL");
+      document.getElementById("oxDiffHard").classList.toggle("active", diff === "HARD");
+
+      window.startNewOXRound(false);
+    };
+
+    window.startNewOXRound = async function (countPlayLimit = true) {
+      if (countPlayLimit) {
+        const ok = await checkAndIncrementGamePlay();
+        if (!ok) return;
+        playSound("click");
+      }
+
+      oxBoardState = ["", "", "", "", "", "", "", "", ""];
+      oxGameActive = true;
+      oxPlayerTurn = true;
+
+      const statusEl = document.getElementById("oxStatusText");
+      statusEl.innerText = "YOUR TURN (❌)";
+      statusEl.style.color = "#38bdf8";
+
+      renderOXBoard([]);
+    };
+
+    function renderOXBoard(winLineIndices = []) {
+      const boardEl = document.getElementById("oxBoardGrid");
+      boardEl.innerHTML = "";
+
+      for (let i = 0; i < 9; i++) {
+        const cell = document.createElement("button");
+        cell.className = "ox-cell";
+        const mark = oxBoardState[i];
+
+        if (mark === "X") {
+          cell.classList.add("x-mark");
+          cell.innerText = "❌";
+        } else if (mark === "O") {
+          cell.classList.add("o-mark");
+          cell.innerText = "⭕";
+        }
+
+        if (winLineIndices.includes(i)) {
+          cell.classList.add("win-cell");
+        }
+
+        cell.onclick = () => handlePlayerOXMove(i);
+        boardEl.appendChild(cell);
+      }
+    }
+
+    function checkOXWinner(board) {
+      for (const line of OX_WIN_LINES) {
+        const [a, b, c] = line;
+        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+          return { winner: board[a], line };
+        }
+      }
+      if (!board.includes("")) {
+        return { winner: "DRAW", line: [] };
+      }
+      return null;
+    }
+
+    async function handlePlayerOXMove(idx) {
+      if (!oxGameActive || !oxPlayerTurn || oxBoardState[idx] !== "") return;
+
+      // Count daily game limit on the first move of the board
+      const movesMade = oxBoardState.filter(x => x !== "").length;
+      if (movesMade === 0) {
+        const ok = await checkAndIncrementGamePlay();
+        if (!ok) return;
+      }
+
+      playSound("click");
+      oxBoardState[idx] = "X";
+      oxPlayerTurn = false;
+      renderOXBoard([]);
+
+      const result = checkOXWinner(oxBoardState);
+      if (result) {
+        await finishOXGame(result);
+        return;
+      }
+
+      const statusEl = document.getElementById("oxStatusText");
+      statusEl.innerText = "BOT THINKING (⭕)...";
+      statusEl.style.color = "#f59e0b";
+
+      setTimeout(async () => {
+        if (!oxGameActive) return;
+        const botIdx = computeBotOXMove(oxBoardState, oxDifficulty);
+        if (botIdx !== -1) {
+          oxBoardState[botIdx] = "O";
+        }
+        renderOXBoard([]);
+
+        const botRes = checkOXWinner(oxBoardState);
+        if (botRes) {
+          await finishOXGame(botRes);
+        } else {
+          oxPlayerTurn = true;
+          statusEl.innerText = "YOUR TURN (❌)";
+          statusEl.style.color = "#38bdf8";
+        }
+      }, 320);
+    }
+
+    function computeBotOXMove(board, difficulty) {
+      const emptyIndices = [];
+      for (let i = 0; i < 9; i++) {
+        if (board[i] === "") emptyIndices.push(i);
+      }
+      if (emptyIndices.length === 0) return -1;
+
+      // EASY MODE: 80% Random moves, 20% Smart moves
+      if (difficulty === "EASY") {
+        if (Math.random() < 0.80) {
+          return emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+        }
+      }
+
+      // NORMAL MODE: Checks immediate win or block, otherwise random
+      if (difficulty === "NORMAL" || difficulty === "EASY") {
+        // 1. Check if Bot ("O") can win immediately
+        for (const idx of emptyIndices) {
+          board[idx] = "O";
+          const res = checkOXWinner(board);
+          board[idx] = "";
+          if (res && res.winner === "O") return idx;
+        }
+        // 2. Check if Player ("X") is about to win and block (75% chance in Normal)
+        if (Math.random() < 0.75) {
+          for (const idx of emptyIndices) {
+            board[idx] = "X";
+            const res = checkOXWinner(board);
+            board[idx] = "";
+            if (res && res.winner === "X") return idx;
+          }
+        }
+        if (board[4] === "" && Math.random() < 0.5) return 4;
+        return emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+      }
+
+      // HARD MODE: Minimax Tactical AI (Small 12% opening variance so skilled players can strategize & win)
+      if (emptyIndices.length >= 7 && Math.random() < 0.12) {
+        return emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+      }
+      return findBestMinimaxMove(board);
+    }
+
+    function findBestMinimaxMove(board) {
+      let bestScore = -Infinity;
+      let move = -1;
+      for (let i = 0; i < 9; i++) {
+        if (board[i] === "") {
+          board[i] = "O";
+          const score = minimaxOX(board, 0, false);
+          board[i] = "";
+          if (score > bestScore) {
+            bestScore = score;
+            move = i;
+          }
+        }
+      }
+      return move;
+    }
+
+    function minimaxOX(board, depth, isMaximizing) {
+      const res = checkOXWinner(board);
+      if (res) {
+        if (res.winner === "O") return 10 - depth;
+        if (res.winner === "X") return depth - 10;
+        return 0;
+      }
+
+      if (isMaximizing) {
+        let best = -Infinity;
+        for (let i = 0; i < 9; i++) {
+          if (board[i] === "") {
+            board[i] = "O";
+            best = Math.max(best, minimaxOX(board, depth + 1, false));
+            board[i] = "";
+          }
+        }
+        return best;
+      } else {
+        let best = Infinity;
+        for (let i = 0; i < 9; i++) {
+          if (board[i] === "") {
+            board[i] = "X";
+            best = Math.min(best, minimaxOX(board, depth + 1, true));
+            board[i] = "";
+          }
+        }
+        return best;
+      }
+    }
+
+    async function finishOXGame(result) {
+      oxGameActive = false;
+      const statusEl = document.getElementById("oxStatusText");
+      renderOXBoard(result.line || []);
+
+      if (result.winner === "X") {
+        playSound("win");
+        const reward = getOXRewardForDifficulty(oxDifficulty);
+        const nextCoins = Number(currentUserData.coins || 0) + reward;
+        await update(ref(db, `users/${currentUserId}`), { coins: nextCoins });
+
+        statusEl.innerText = `YOU WON +${reward} 🪙!`;
+        statusEl.style.color = "#10b981";
+        showToast(`🎉 Victory on ${oxDifficulty}! You won +${reward} Coins!`);
+      } else if (result.winner === "O") {
+        playSound("boom");
+        statusEl.innerText = "BOT WON! TRY AGAIN";
+        statusEl.style.color = "#ef4444";
+        showToast("🤖 Bot won this round! Tap New OX Game to try again.");
+      } else {
+        playSound("click");
+        statusEl.innerText = "MATCH DRAW!";
+        statusEl.style.color = "#f59e0b";
+        showToast("🤝 It's a Draw! Tap New OX Game to play again.");
       }
     }
 
@@ -1623,6 +2334,26 @@
         `;
       }
 
+      if (tool === "oxRewards") {
+        const eVal = Number(appConfig.oxEasyCoins !== undefined ? appConfig.oxEasyCoins : 20);
+        const nVal = Number(appConfig.oxNormalCoins !== undefined ? appConfig.oxNormalCoins : 50);
+        const hVal = Number(appConfig.oxHardCoins !== undefined ? appConfig.oxHardCoins : 150);
+
+        box.innerHTML = `
+          <h4>❌⭕ Set OX Game Win Rewards (Coins)</h4>
+          <label class="adm-field-label">🟢 Easy Mode Win Coins:</label>
+          <input id="webAdmOxEasy" type="number" class="input-field" value="${eVal}" placeholder="Easy Coins (e.g. 20)" />
+
+          <label class="adm-field-label">🔵 Normal Mode Win Coins:</label>
+          <input id="webAdmOxNormal" type="number" class="input-field" value="${nVal}" placeholder="Normal Coins (e.g. 50)" />
+
+          <label class="adm-field-label">🔴 Hard Mode Win Coins:</label>
+          <input id="webAdmOxHard" type="number" class="input-field" value="${hVal}" placeholder="Hard Coins (e.g. 150)" />
+
+          <button class="btn-green" onclick="window.saveOXRewardsConfig()">💾 Save OX Game Rewards</button>
+        `;
+      }
+
       if (tool === "gamePlayLimit") {
         box.innerHTML = `
           <h4>🕹️ Set Daily Game Play Limit</h4>
@@ -1641,7 +2372,7 @@
 
       if (tool === "conversionRate") {
         box.innerHTML = `
-          <h4>💱 Change Coins Conversion Rate</h4>
+          <h4>💱 Change Coins Conversion Rate (Coins = ₹1)</h4>
           <input id="webAdmConvRate" type="number" class="input-field" value="${appConfig.conversionRate || 100}" />
           <button class="btn-green" onclick="window.saveWebConfig('conversionRate', Number(document.getElementById('webAdmConvRate').value))">💾 Save Rate</button>
         `;
@@ -1654,6 +2385,22 @@
           <button class="btn-blue" style="background:#ef4444;" onclick="window.resetWebDeviceLock()">🔓 Reset Device Lock</button>
         `;
       }
+    };
+
+    window.saveOXRewardsConfig = async function () {
+      const easyC = Math.max(0, Number(document.getElementById("webAdmOxEasy").value || 20));
+      const normalC = Math.max(0, Number(document.getElementById("webAdmOxNormal").value || 50));
+      const hardC = Math.max(0, Number(document.getElementById("webAdmOxHard").value || 150));
+
+      await update(ref(db, "config"), {
+        oxEasyCoins: easyC,
+        oxNormalCoins: normalC,
+        oxHardCoins: hardC
+      });
+
+      refreshAllUI();
+      showToast(`✅ OX Rewards Saved! (Easy: ${easyC}, Normal: ${normalC}, Hard: ${hardC})`);
+      document.getElementById("adminActionModal").classList.remove("active");
     };
 
     window.saveWebConfig = async function (key, val) {
