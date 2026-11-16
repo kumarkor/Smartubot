@@ -3,55 +3,60 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>SMARTU Wallet - Official Gaming App</title>
+  <title>SMARTU Wallet - Pro Gaming & Rewards App</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Orbitron:wght@700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
+      --bg-deep: #060b16;
       --bg-card: #ffffff;
-      --accent-blue: #256ef0;
-      --accent-green: #0ea568;
-      --accent-red: #ef4444;
-      --accent-gold: #f59e0b;
-      --text-main: #152232;
-      --text-muted: #64748b;
+      --primary-blue: #2563eb;
+      --primary-Blue-dark: #1d4ed8;
+      --emerald-green: #10b981;
+      --emerald-dark: #059669;
+      --crimson-red: #ef4444;
+      --amber-gold: #f59e0b;
+      --slate-dark: #0f172a;
+      --slate-mid: #334155;
+      --slate-muted: #64748b;
+      --border-soft: #e2e8f0;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-tap-highlight-color: transparent;
       user-select: none;
     }
 
     body {
-      background: #091321;
-      color: var(--text-main);
+      background: radial-gradient(circle at 50% 0%, #172a4a 0%, #091122 55%, #050912 100%);
+      color: var(--slate-dark);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      padding: 18px 14px 34px 14px;
+      padding: 16px 14px 36px 14px;
       overflow-x: hidden;
     }
 
     /* =====================================================
-       1% TO 100% SMOOTH GAMING LOADING SCREEN
+       1% TO 100% ULTRA-STYLISH GAMING LOADING SCREEN
        ===================================================== */
     #loadingScreen {
       position: fixed;
       inset: 0;
-      background: #070e1a;
+      background: radial-gradient(circle at center, #111e38 0%, #050a14 100%);
       z-index: 99999;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 26px;
+      padding: 28px;
       color: #ffffff;
-      transition: opacity 0.35s ease, visibility 0.35s ease;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
       will-change: opacity;
     }
 
@@ -61,194 +66,304 @@
       pointer-events: none;
     }
 
-    .loader-logo-ring {
-      width: 100px;
-      height: 100px;
+    .loader-orb {
+      width: 108px;
+      height: 108px;
       border-radius: 50%;
-      background: rgba(37, 110, 240, 0.15);
-      border: 2px solid #3b82f6;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.25), rgba(16, 185, 129, 0.25));
+      border: 2.5px solid #38bdf8;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 46px;
-      box-shadow: 0 0 28px rgba(37, 110, 240, 0.45);
-      margin-bottom: 20px;
+      font-size: 48px;
+      box-shadow: 0 0 38px rgba(56, 189, 248, 0.5), inset 0 0 20px rgba(56, 189, 248, 0.3);
+      margin-bottom: 22px;
+      animation: floatPulse 2s infinite ease-in-out;
+    }
+
+    @keyframes floatPulse {
+      0%, 100% { transform: translateY(0) scale(1); box-shadow: 0 0 28px rgba(56, 189, 248, 0.45); }
+      50% { transform: translateY(-6px) scale(1.05); box-shadow: 0 0 48px rgba(16, 185, 129, 0.7); }
     }
 
     .loader-title {
-      font-size: 25px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 26px;
       font-weight: 900;
-      letter-spacing: 0.8px;
-      color: #ffffff;
-      margin-bottom: 6px;
+      letter-spacing: 1.5px;
+      background: linear-gradient(90deg, #ffffff, #38bdf8, #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
     }
 
     .loader-status {
       font-size: 13px;
       color: #94a3b8;
-      font-weight: 500;
-      margin-bottom: 22px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      letter-spacing: 0.3px;
     }
 
     .loader-bar-wrap {
       width: 100%;
-      max-width: 300px;
-      height: 13px;
-      background: #0f1b2d;
-      border: 1px solid #1e3a5f;
+      max-width: 310px;
+      height: 14px;
+      background: #0b1426;
+      border: 1.5px solid #1e3a5f;
       border-radius: 99px;
       overflow: hidden;
       padding: 2px;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.7);
     }
 
     .loader-bar-fill {
       height: 100%;
       width: 1%;
-      background: linear-gradient(90deg, #256ef0, #0ea568, #38bdf8);
+      background: linear-gradient(90deg, #2563eb, #0ea5e9, #10b981);
       border-radius: 99px;
+      box-shadow: 0 0 12px rgba(14, 165, 233, 0.8);
       transition: width 0.04s linear;
       will-change: width;
     }
 
     .loader-percent {
       font-family: 'Orbitron', sans-serif;
-      font-size: 27px;
+      font-size: 29px;
       font-weight: 900;
       color: #38bdf8;
+      text-shadow: 0 0 16px rgba(56, 189, 248, 0.6);
     }
 
     /* =====================================================
-       MAIN WALLET CARD (HARDWARE ACCELERATED, ZERO LAG)
+       MAIN LUXURY WALLET CARD
        ===================================================== */
     .wallet-card {
       background: var(--bg-card);
       width: 100%;
-      max-width: 405px;
-      border-radius: 22px;
-      padding: 22px 18px 26px 18px;
-      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.48);
+      max-width: 412px;
+      border-radius: 26px;
+      padding: 20px 18px 26px 18px;
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.12);
       text-align: center;
       position: relative;
       transform: translate3d(0, 0, 0);
+      overflow: hidden;
+    }
+
+    .wallet-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #2563eb, #10b981, #f59e0b);
     }
 
     .top-utility-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .uid-pill {
       background: #f1f5f9;
-      border: 1px solid #e2e8f0;
-      color: #334155;
+      border: 1px solid #cbd5e1;
+      color: #1e293b;
       font-size: 11.5px;
-      font-weight: 700;
-      padding: 5px 10px;
+      font-weight: 800;
+      padding: 5px 11px;
       border-radius: 99px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .online-dot {
+      width: 7px;
+      height: 7px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #10b981;
     }
 
     .sound-btn {
       background: #f1f5f9;
-      border: 1px solid #e2e8f0;
-      color: #334155;
+      border: 1px solid #cbd5e1;
+      color: #1e293b;
       font-size: 11.5px;
-      font-weight: 700;
-      padding: 5px 10px;
+      font-weight: 800;
+      padding: 5px 11px;
       border-radius: 99px;
       cursor: pointer;
+      transition: transform 0.1s;
+    }
+
+    .sound-btn:active {
+      transform: scale(0.94);
     }
 
     .app-title {
-      font-size: 24px;
+      font-size: 25px;
       font-weight: 900;
-      color: #162231;
+      color: #0f172a;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
       cursor: pointer;
+      letter-spacing: -0.4px;
     }
 
+    /* Dual Gradient Balance Strip */
     .mini-balance-strip {
-      display: flex;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     .mini-bal-chip {
-      background: #f8fafc;
+      background: linear-gradient(145deg, #f8fafc, #f1f5f9);
       border: 1.5px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 6px 13px;
-      font-size: 13px;
-      font-weight: 800;
+      border-radius: 14px;
+      padding: 9px 12px;
       display: flex;
       align-items: center;
-      gap: 5px;
+      justify-content: center;
+      gap: 7px;
+      box-shadow: 0 3px 8px rgba(15, 23, 42, 0.04);
     }
 
+    .mini-bal-chip.coins-chip {
+      border-color: rgba(245, 158, 11, 0.35);
+      background: linear-gradient(145deg, #fffbeb, #fef3c7);
+    }
+
+    .mini-bal-chip.cash-chip {
+      border-color: rgba(16, 185, 129, 0.35);
+      background: linear-gradient(145deg, #ecfdf5, #d1fae5);
+    }
+
+    .chip-val {
+      font-size: 14.5px;
+      font-weight: 900;
+    }
+
+    .coins-val { color: #d97706; }
+    .cash-val { color: #059669; }
+
     .subtitle {
-      font-size: 13.5px;
-      color: var(--text-muted);
+      font-size: 13px;
+      color: var(--slate-muted);
       margin-bottom: 18px;
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .screen {
       display: none;
+      animation: fadeSlide 0.2s ease-out;
     }
 
     .screen.active {
       display: block;
     }
 
-    /* Main Menu Buttons */
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =====================================================
+       3D TACTILE PRO MENU BUTTONS
+       ===================================================== */
     .menu-btn {
       width: 100%;
-      background: #253346;
+      background: linear-gradient(180deg, #27374d 0%, #1a2636 100%);
       color: #ffffff;
-      border: none;
-      border-radius: 14px;
-      padding: 19px 16px;
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: 0.4px;
-      margin-bottom: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 4px solid #0f1722;
+      border-radius: 16px;
+      padding: 16px 16px;
+      margin-bottom: 14px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
-      box-shadow: 0 5px 12px rgba(37, 51, 70, 0.25);
-      transition: transform 0.1s ease;
+      justify-content: space-between;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.22);
+      transition: transform 0.1s ease, filter 0.15s ease;
     }
 
     .menu-btn:active {
-      transform: scale(0.98);
-      background: #1b2636;
+      transform: translateY(2px);
+      border-bottom-width: 2px;
+    }
+
+    .menu-btn-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .menu-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .menu-btn-title {
+      font-size: 14.5px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      display: block;
+    }
+
+    .menu-btn-sub {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 600;
+      display: block;
+      margin-top: 2px;
+    }
+
+    .menu-arrow {
+      font-size: 20px;
+      color: #64748b;
+      font-weight: 900;
     }
 
     .footer-note {
-      font-size: 12.5px;
-      color: #7c8b9e;
-      font-style: italic;
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 600;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 10px 12px;
       margin-top: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
+      gap: 6px;
     }
 
-    /* Inner Containers */
+    /* =====================================================
+       INNER CONTAINERS & ACTION BUTTONS
+       ===================================================== */
     .inner-box {
-      background: #f4f7fa;
-      border: 1.5px solid #e5eaf0;
-      border-radius: 16px;
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 18px;
       padding: 18px 15px;
       margin-bottom: 16px;
     }
@@ -256,7 +371,7 @@
     .section-heading {
       font-size: 16px;
       font-weight: 800;
-      color: #253346;
+      color: #0f172a;
       margin-bottom: 12px;
       display: flex;
       align-items: center;
@@ -265,32 +380,34 @@
     }
 
     .balance-row {
-      font-size: 21px;
+      font-size: 22px;
       font-weight: 900;
-      color: #1e293b;
-      margin-bottom: 10px;
+      color: #0f172a;
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
     }
 
-    .coins-val { color: #f59e0b; }
-    .cash-val { color: #10b981; }
-
     .rate-label {
-      font-size: 12.5px;
-      color: #64748b;
-      font-weight: 600;
+      display: inline-block;
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 99px;
       margin-top: 4px;
     }
 
     .btn-blue {
       width: 100%;
-      background: #256ef0;
+      background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
       color: #ffffff;
       border: none;
-      border-radius: 12px;
+      border-bottom: 4px solid #1d4ed8;
+      border-radius: 14px;
       padding: 15px;
       font-size: 14.5px;
       font-weight: 800;
@@ -299,16 +416,18 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      box-shadow: 0 4px 12px rgba(37, 110, 240, 0.3);
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.32);
       margin-bottom: 12px;
+      transition: transform 0.1s;
     }
 
     .btn-green {
       width: 100%;
-      background: #0ea568;
+      background: linear-gradient(180deg, #10b981 0%, #059669 100%);
       color: #ffffff;
       border: none;
-      border-radius: 12px;
+      border-bottom: 4px solid #047857;
+      border-radius: 14px;
       padding: 15px;
       font-size: 14.5px;
       font-weight: 800;
@@ -317,24 +436,31 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      box-shadow: 0 4px 12px rgba(14, 165, 104, 0.3);
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.32);
       margin-bottom: 10px;
+      transition: transform 0.1s;
     }
 
     .btn-dark {
       width: 100%;
-      background: #141f30;
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
       color: #ffffff;
       border: none;
-      border-radius: 12px;
+      border-bottom: 4px solid #020617;
+      border-radius: 14px;
       padding: 15px;
-      font-size: 14.5px;
+      font-size: 14px;
       font-weight: 800;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      transition: transform 0.1s;
+    }
+
+    .btn-blue:active, .btn-green:active, .btn-dark:active {
+      transform: translateY(2px);
     }
 
     .btn-back {
@@ -342,9 +468,9 @@
       background: #e2e8f0;
       color: #1e293b;
       border: 1px solid #cbd5e1;
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 14px;
+      border-radius: 13px;
+      padding: 13px;
+      font-size: 13.5px;
       font-weight: 800;
       cursor: pointer;
       display: flex;
@@ -357,31 +483,33 @@
     .input-field {
       width: 100%;
       background: #ffffff;
-      border: 1.5px solid #cbd5e1;
-      border-radius: 11px;
-      padding: 14px;
-      font-size: 14px;
-      font-weight: 700;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 13px 14px;
+      font-size: 14.5px;
+      font-weight: 800;
       text-align: center;
-      color: #1e293b;
-      margin-bottom: 12px;
+      color: #0f172a;
+      margin-bottom: 10px;
       outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     .input-field:focus {
-      border-color: #256ef0;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
     }
 
     /* =====================================================
-       TWO-WAY CONVERSION MODE TABS (COINS <-> RUPEES)
+       TWO-WAY CURRENCY CONVERTER TABS & QUICK CHIPS
        ===================================================== */
     .convert-tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      gap: 6px;
       background: #e2e8f0;
       padding: 5px;
-      border-radius: 12px;
+      border-radius: 13px;
       margin-bottom: 14px;
     }
 
@@ -389,7 +517,7 @@
       border: none;
       background: transparent;
       color: #475569;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 800;
       padding: 10px 6px;
       border-radius: 9px;
@@ -398,23 +526,35 @@
     }
 
     .conv-tab-btn.active {
-      background: #256ef0;
+      background: #2563eb;
       color: #ffffff;
-      box-shadow: 0 3px 8px rgba(37, 110, 240, 0.3);
+      box-shadow: 0 3px 10px rgba(37, 99, 235, 0.35);
+    }
+
+    .preview-banner {
+      background: #ffffff;
+      border: 1.5px dashed #cbd5e1;
+      border-radius: 11px;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 12px;
     }
 
     /* =====================================================
-       AVIATOR X PRO UI
+       AVIATOR X PRO ARENA UI
        ===================================================== */
     .aviator-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 800;
-      color: #475569;
+      color: #334155;
+      background: #f1f5f9;
+      padding: 8px 12px;
+      border-radius: 11px;
       margin-bottom: 8px;
-      padding: 0 4px;
     }
 
     .history-pills {
@@ -426,27 +566,32 @@
     }
 
     .hist-pill {
-      font-size: 11px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10.5px;
       font-weight: 800;
-      padding: 3px 9px;
+      padding: 4px 10px;
       border-radius: 99px;
       background: #0f172a;
       color: #38bdf8;
+      border: 1px solid #1e293b;
       white-space: nowrap;
     }
 
     .hist-pill.high {
-      color: #c084fc;
+      color: #e879f9;
+      border-color: rgba(232, 121, 249, 0.4);
+      background: #1e1035;
     }
 
     .aviator-screen {
-      background: #060d1a;
-      border: 2px solid #1e293b;
-      border-radius: 16px;
-      height: 185px;
+      background: radial-gradient(circle at center, #0f1e38 0%, #050b16 100%);
+      border: 2.5px solid #1e293b;
+      border-radius: 18px;
+      height: 195px;
       position: relative;
       overflow: hidden;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
+      box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.85);
     }
 
     #aviatorCanvas {
@@ -469,247 +614,178 @@
 
     .aviator-main-text {
       font-family: 'Orbitron', sans-serif;
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 900;
-      color: #3b82f6;
-      text-shadow: 0 0 14px rgba(59, 130, 246, 0.75);
+      color: #38bdf8;
+      text-shadow: 0 0 18px rgba(56, 189, 248, 0.85);
       margin-bottom: 6px;
     }
 
     .aviator-sub-text {
-      font-size: 12.5px;
-      font-weight: 700;
-      color: #facc15;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #fde047;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(253, 224, 71, 0.3);
+      padding: 4px 14px;
       border-radius: 99px;
     }
 
     .quick-bet-chips {
       display: flex;
       justify-content: center;
-      gap: 7px;
+      gap: 6px;
       margin-bottom: 10px;
       flex-wrap: wrap;
     }
 
     .chip-btn {
       background: #f1f5f9;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 9px;
       padding: 6px 11px;
-      font-size: 12px;
-      font-weight: 800;
-      color: #334155;
-      cursor: pointer;
-    }
-
-    .chip-btn.active {
-      background: #256ef0;
-      color: #ffffff;
-      border-color: #256ef0;
-    }
-
-    /* =====================================================
-       MINES GAME PRO UI + SELECTABLE MINES BAR
-       ===================================================== */
-    .mines-card {
-      background: #1e293b;
-      border-radius: 18px;
-      padding: 15px;
-      margin-bottom: 14px;
-      color: #ffffff;
-    }
-
-    .mines-top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      padding: 0 4px;
-    }
-
-    .mines-count-label {
-      font-size: 13.5px;
-      font-weight: 800;
-      color: #cbd5e1;
-    }
-
-    .mines-status-label {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 15px;
-      font-weight: 900;
-      color: #10b981;
-    }
-
-    .mines-selector-wrap {
-      background: #131b27;
-      border: 1px solid #28364a;
-      border-radius: 12px;
-      padding: 9px 8px;
-      margin-bottom: 12px;
-    }
-
-    .mines-selector-title {
       font-size: 11.5px;
       font-weight: 800;
-      color: #94a3b8;
-      margin-bottom: 7px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 4px;
-    }
-
-    .mines-Select-pills {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 5px;
-    }
-
-    .mine-count-btn {
-      background: #243247;
-      border: 1px solid #334155;
-      color: #cbd5e1;
-      border-radius: 8px;
-      padding: 7px 0;
-      font-size: 12px;
-      font-weight: 800;
+      color: #1e293b;
       cursor: pointer;
-      transition: all 0.12s ease;
+      transition: all 0.12s;
     }
 
-    .mine-count-btn.active {
-      background: #f59e0b;
-      color: #0f172a;
-      border-color: #fbbf24;
-      box-shadow: 0 0 10px rgba(245, 158, 11, 0.45);
-    }
-
-    .mines-grid-box {
-      background: #131b27;
-      border-radius: 14px;
-      padding: 10px;
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    .mine-tile {
-      aspect-ratio: 1 / 1;
-      background: #243247;
-      border: none;
-      border-bottom: 3px solid #141c29;
-      border-radius: 9px;
-      font-size: 19px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: rgba(255, 255, 255, 0.22);
-    }
-
-    .mine-tile.safe {
-      background: #10a368;
-      border-bottom-color: #067449;
+    .chip-btn:active {
+      background: #2563eb;
       color: #ffffff;
-    }
-
-    .mine-tile.bomb-hit {
-      background: #dc2626;
-      border-bottom-color: #7f1d1d;
-      color: #ffffff;
-    }
-
-    .mine-tile.bomb-reveal {
-      background: #64748b;
-      color: #ffffff;
+      border-color: #2563eb;
     }
 
     /* =====================================================
-       OX GAME (TIC-TAC-TOE) UI - EASY / NORMAL / HARD
+       OX GAME (TIC-TAC-TOE) NEON CYBER ARENA UI
        ===================================================== */
     .ox-card {
-      background: #1e293b;
-      border-radius: 18px;
+      background: linear-gradient(180deg, #162235 0%, #0d1524 100%);
+      border: 2px solid #263854;
+      border-radius: 20px;
       padding: 16px;
       margin-bottom: 14px;
       color: #ffffff;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
     }
 
     .ox-diff-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 7px;
-      margin-bottom: 14px;
+      gap: 8px;
+      margin-bottom: 12px;
     }
 
     .ox-diff-btn {
-      background: #131b27;
-      border: 1.5px solid #334155;
-      color: #cbd5e1;
-      border-radius: 11px;
-      padding: 9px 4px;
+      background: #0b1220;
+      border: 1.5px solid #283a56;
+      color: #94a3b8;
+      border-radius: 12px;
+      padding: 10px 4px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
       transition: all 0.15s ease;
     }
 
     .ox-diff-btn .diff-name {
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 900;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.4px;
     }
 
     .ox-diff-btn .diff-reward {
       font-size: 11px;
       font-weight: 800;
-      color: #f59e0b;
+      color: #fbbf24;
+      background: rgba(251, 191, 36, 0.12);
+      padding: 2px 7px;
+      border-radius: 99px;
     }
 
     .ox-diff-btn.active.easy {
       background: rgba(16, 185, 129, 0.18);
       border-color: #10b981;
       color: #ffffff;
-      box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.35);
     }
 
     .ox-diff-btn.active.normal {
-      background: rgba(59, 130, 246, 0.2);
+      background: rgba(59, 130, 246, 0.22);
       border-color: #3b82f6;
       color: #ffffff;
-      box-shadow: 0 0 12px rgba(59, 130, 246, 0.35);
+      box-shadow: 0 0 14px rgba(59, 130, 246, 0.4);
     }
 
     .ox-diff-btn.active.hard {
-      background: rgba(239, 68, 68, 0.2);
+      background: rgba(239, 68, 68, 0.22);
       border-color: #ef4444;
       color: #ffffff;
-      box-shadow: 0 0 12px rgba(239, 68, 68, 0.35);
+      box-shadow: 0 0 14px rgba(239, 68, 68, 0.4);
+    }
+
+    /* Live OX Session Scoreboard */
+    .ox-scoreboard {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      background: #0b1220;
+      border: 1px solid #22324c;
+      border-radius: 12px;
+      padding: 8px;
+      margin-bottom: 12px;
+    }
+
+    .ox-score-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #94a3b8;
+    }
+
+    .ox-score-val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 15px;
+      font-weight: 900;
+      margin-top: 2px;
+    }
+
+    .ox-status-banner {
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 10px;
+      padding: 8px 12px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12.5px;
+      font-weight: 800;
     }
 
     .ox-board {
-      background: #131b27;
+      background: #09101d;
       border-radius: 16px;
       padding: 12px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
       margin-bottom: 14px;
-      border: 1px solid #28364a;
+      border: 1.5px solid #22324c;
+      box-shadow: inset 0 4px 14px rgba(0, 0, 0, 0.65);
     }
 
     .ox-cell {
       aspect-ratio: 1 / 1;
-      background: #243247;
-      border: none;
-      border-bottom: 4px solid #141c29;
-      border-radius: 13px;
-      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(180deg, #22324a 0%, #172336 100%);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 4px solid #0c1421;
+      border-radius: 14px;
       font-size: 34px;
       font-weight: 900;
       display: flex;
@@ -725,22 +801,28 @@
     }
 
     .ox-cell.x-mark {
-      color: #38bdf8;
-      text-shadow: 0 0 12px rgba(56, 189, 248, 0.7);
-      background: #1b283b;
+      background: linear-gradient(180deg, #163052 0%, #0f223d 100%);
+      border-color: rgba(56, 189, 248, 0.4);
+      text-shadow: 0 0 14px rgba(56, 189, 248, 0.75);
     }
 
     .ox-cell.o-mark {
-      color: #f43f5e;
-      text-shadow: 0 0 12px rgba(244, 63, 94, 0.7);
-      background: #1b283b;
+      background: linear-gradient(180deg, #3b182c 0%, #260f1d 100%);
+      border-color: rgba(244, 63, 94, 0.4);
+      text-shadow: 0 0 14px rgba(244, 63, 94, 0.75);
     }
 
     .ox-cell.win-cell {
-      background: #0ea568 !important;
-      color: #ffffff !important;
-      border-bottom-color: #047857;
-      box-shadow: 0 0 16px rgba(14, 165, 104, 0.65);
+      background: linear-gradient(180deg, #10b981 0%, #059669 100%) !important;
+      border-color: #34d399 !important;
+      border-bottom-color: #047857 !important;
+      box-shadow: 0 0 18px rgba(16, 185, 129, 0.75);
+      animation: winPulse 0.6s infinite alternate;
+    }
+
+    @keyframes winPulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.04); }
     }
 
     /* =====================================================
@@ -761,13 +843,14 @@
 
     .adm-green-btn {
       width: 100%;
-      background: #4e7d58;
+      background: linear-gradient(180deg, #52855d 0%, #3f6a49 100%);
       color: #ffffff;
       border: none;
-      border-radius: 11px;
+      border-bottom: 3px solid #2b4c33;
+      border-radius: 12px;
       padding: 13px 10px;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -775,11 +858,15 @@
       gap: 6px;
     }
 
+    .adm-green-btn:active {
+      transform: translateY(2px);
+    }
+
     .admin-modal-box {
       background: #f8fafc;
       border: 1.5px solid #cbd5e1;
-      border-radius: 14px;
-      padding: 14px;
+      border-radius: 15px;
+      padding: 15px;
       margin-bottom: 14px;
       text-align: left;
       display: none;
@@ -790,15 +877,15 @@
     }
 
     .admin-modal-box h4 {
-      font-size: 14px;
+      font-size: 14.5px;
       color: #0f172a;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       font-weight: 800;
     }
 
     .adm-field-label {
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
       color: #334155;
       margin-bottom: 4px;
       display: block;
@@ -808,7 +895,7 @@
     .lock-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(6, 13, 24, 0.96);
+      background: rgba(5, 10, 20, 0.96);
       z-index: 9999;
       display: none;
       justify-content: center;
@@ -827,11 +914,12 @@
       transform: translateX(-50%);
       background: #0f172a;
       color: #ffffff;
-      border: 1px solid #334155;
-      padding: 11px 20px;
+      border: 1.5px solid #38bdf8;
+      padding: 11px 22px;
       border-radius: 99px;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.55);
       z-index: 100000;
       display: none;
       white-space: nowrap;
@@ -840,9 +928,9 @@
 </head>
 <body>
 
-  <!-- 1% TO 100% ANIMATED LOADING OVERLAY -->
+  <!-- 1% TO 100% ANIMATED GAMING LOADING SCREEN -->
   <div id="loadingScreen">
-    <div class="loader-logo-ring">🚀</div>
+    <div class="loader-orb">🚀</div>
     <div class="loader-title">SMARTU WALLET</div>
     <div id="loaderStatusText" class="loader-status">Connecting to Firebase Realtime Server...</div>
     <div class="loader-bar-wrap">
@@ -855,13 +943,13 @@
   <div id="missingUidOverlay" class="lock-overlay">
     <div class="wallet-card">
       <div class="app-title">⚠️ User ID Required</div>
-      <p class="subtitle" style="color:#ef4444; font-weight:700;">
+      <p class="subtitle" style="color:#ef4444; font-weight:800;">
         Direct Access Without User ID is Restricted!
       </p>
       <div class="inner-box">
-        <p style="font-size:13.5px; color:#334155; line-height:1.6;">
-          Please open SMARTU Wallet directly from the <b>Official Telegram Bot</b> or use your personal User ID URL:<br><br>
-          <code style="color:#256ef0; font-weight:700;">/userid-7335163273</code>
+        <p style="font-size:13.5px; color:#334155; line-height:1.6; font-weight:600;">
+          Please launch SMARTU Wallet directly from the <b>Official Telegram Bot</b> or use your personal User ID link:<br><br>
+          <code style="color:#2563eb; font-weight:800;">/userid-7335163273</code>
         </p>
       </div>
     </div>
@@ -871,12 +959,12 @@
   <div id="deviceLockOverlay" class="lock-overlay">
     <div class="wallet-card">
       <div class="app-title">🚫 Device Locked</div>
-      <p class="subtitle" style="color:#ef4444; font-weight:700;">
+      <p class="subtitle" style="color:#ef4444; font-weight:800;">
         1 Device = 1 User Security Policy
       </p>
       <div class="inner-box">
-        <p style="font-size:13.5px; color:#334155; line-height:1.6;">
-          This device is already linked to Telegram User ID:<br>
+        <p style="font-size:13.5px; color:#334155; line-height:1.6; font-weight:600;">
+          This device is permanently linked to Telegram User ID:<br>
           <b id="boundUserIdText" style="font-size:16px; color:#0f172a;"></b><br><br>
           Opening another account on the same device is not permitted.
         </p>
@@ -888,11 +976,11 @@
   <div id="bannedUserOverlay" class="lock-overlay">
     <div class="wallet-card">
       <div class="app-title">🚫 Account Suspended</div>
-      <p class="subtitle" style="color:#ef4444; font-weight:700;">
+      <p class="subtitle" style="color:#ef4444; font-weight:800;">
         Access Restricted by Administrator
       </p>
       <div class="inner-box">
-        <p style="font-size:13.5px; color:#334155; line-height:1.6;">
+        <p style="font-size:13.5px; color:#334155; line-height:1.6; font-weight:600;">
           Your account (<b id="bannedUidLabel"></b>) has been suspended. Please contact Support in the Telegram Bot.
         </p>
       </div>
@@ -904,21 +992,26 @@
     <div class="wallet-card">
       <div class="app-title">📢 Join Official Channel</div>
       <p class="subtitle">
-        You must join all required Telegram channels below to unlock the website & claim referral rewards!
+        Join all required Telegram channels below to unlock SMARTU Wallet & claim referral rewards!
       </p>
       <div class="inner-box">
         <div id="channelButtonsList" style="margin-bottom: 12px;"></div>
         <button class="btn-green" onclick="window.verifyChannelMembership(true)">
-          ✅ I HAVE JOINED (UNLOCK WEBSITE)
+          ✅ I HAVE JOINED (UNLOCK APP)
         </button>
       </div>
     </div>
   </div>
 
-  <!-- MAIN SMARTU WALLET CARD -->
+  <!-- =====================================================
+       MAIN SMARTU WALLET LUXURY CARD
+       ===================================================== -->
   <div class="wallet-card">
     <div class="top-utility-bar">
-      <div class="uid-pill">🆔 ID: <span id="topUidDisplay">---</span></div>
+      <div class="uid-pill">
+        <span class="online-dot"></span>
+        <span>ID: <span id="topUidDisplay">---</span></span>
+      </div>
       <button id="soundToggleBtn" class="sound-btn" onclick="window.toggleSound()">🔊 Sound: ON</button>
     </div>
 
@@ -928,8 +1021,14 @@
     </div>
 
     <div class="mini-balance-strip">
-      <div class="mini-bal-chip">🪙 <span id="headerCoinsText" class="coins-val">0</span></div>
-      <div class="mini-bal-chip">💵 <span id="headerCashText" class="cash-val">₹0</span></div>
+      <div class="mini-bal-chip coins-chip">
+        <span>🪙</span>
+        <span id="headerCoinsText" class="chip-val coins-val">0</span>
+      </div>
+      <div class="mini-bal-chip cash-chip">
+        <span>💵</span>
+        <span id="headerCashText" class="chip-val cash-val">₹0</span>
+      </div>
     </div>
 
     <!-- SCREEN 1: HOME MENU -->
@@ -937,42 +1036,73 @@
       <p class="subtitle">Welcome! Select an option below to continue.</p>
 
       <button class="menu-btn" onclick="window.openGamesMenu()">
-        <span>🎮</span> PLAY GAMES & EARN
+        <div class="menu-btn-left">
+          <div class="menu-icon-box">🎮</div>
+          <div>
+            <span class="menu-btn-title">PLAY GAMES & EARN</span>
+            <span class="menu-btn-sub">Aviator X & OX Pro Arena</span>
+          </div>
+        </div>
+        <span class="menu-arrow">›</span>
       </button>
 
       <button class="menu-btn" onclick="window.showScreen('screenWallet')">
-        <span>💳</span> MY WALLET & CONVERT
+        <div class="menu-btn-left">
+          <div class="menu-icon-box">💳</div>
+          <div>
+            <span class="menu-btn-title">MY WALLET & CONVERT</span>
+            <span class="menu-btn-sub">Coins ➔ ₹ Cash & ₹ Cash ➔ Coins</span>
+          </div>
+        </div>
+        <span class="menu-arrow">›</span>
       </button>
 
       <button class="menu-btn" onclick="window.showScreen('screenGift')">
-        <span>🎁</span> GIFT CODE & INVITE
+        <div class="menu-btn-left">
+          <div class="menu-icon-box">🎁</div>
+          <div>
+            <span class="menu-btn-title">GIFT CODE & INVITE</span>
+            <span class="menu-btn-sub">Redeem Codes & Invite QR</span>
+          </div>
+        </div>
+        <span class="menu-arrow">›</span>
       </button>
 
       <div class="footer-note">
-        <span>💸</span> For Withdrawal, please use the Telegram Bot menu.
+        <span>💸</span> For Instant Withdrawal, use the Telegram Bot menu.
       </div>
     </div>
 
-    <!-- SCREEN 2: GAMES SELECTION MENU -->
+    <!-- SCREEN 2: GAMES SELECTION MENU (AVIATOR X & OX GAME ONLY) -->
     <div id="screenGamesMenu" class="screen">
-      <p class="subtitle">Select a real-time game below & win instant Coins!</p>
+      <p class="subtitle">Choose your arena below & multiply your Market Coins!</p>
 
       <div class="inner-box" style="padding:11px; margin-bottom:14px;">
-        <span style="font-size:12.5px; font-weight:700; color:#475569;">
-          🕹️ Daily Games Played: <b id="gamesPlayedCounter" style="color:#256ef0;">0 / 50</b>
+        <span style="font-size:12.5px; font-weight:800; color:#334155;">
+          🕹️ Daily Games Played: <b id="gamesPlayedCounter" style="color:#2563eb;">0 / 50</b>
         </span>
       </div>
 
       <button class="menu-btn" onclick="window.openAviatorGame()">
-        <span>✈️</span> AVIATOR X
-      </button>
-
-      <button class="menu-btn" onclick="window.openMinesGame()">
-        <span>💣</span> MINES GAME
+        <div class="menu-btn-left">
+          <div class="menu-icon-box">✈️</div>
+          <div>
+            <span class="menu-btn-title">AVIATOR X (CRASH PRO)</span>
+            <span class="menu-btn-sub">Cashout before the plane flies away!</span>
+          </div>
+        </div>
+        <span class="menu-arrow">›</span>
       </button>
 
       <button class="menu-btn" onclick="window.openOXGame()">
-        <span>❌⭕</span> OX GAME (EASY / NORMAL / HARD)
+        <div class="menu-btn-left">
+          <div class="menu-icon-box">❌⭕</div>
+          <div>
+            <span class="menu-btn-title">OX GAME (TIC-TAC-TOE)</span>
+            <span class="menu-btn-sub">Easy, Normal & Hard AI Modes</span>
+          </div>
+        </div>
+        <span class="menu-arrow">›</span>
       </button>
 
       <button class="btn-back" onclick="window.showScreen('screenHome')">
@@ -983,7 +1113,7 @@
     <!-- SCREEN 3: AVIATOR X GAME -->
     <div id="screenAviator" class="screen">
       <div class="aviator-header">
-        <span>✈️ AVIATOR X</span>
+        <span>✈️ AVIATOR X LIVE</span>
         <span>🛑 Max Bet: <span id="aviatorMaxBetText" style="color:#ef4444;">5000 Coins</span></span>
       </div>
 
@@ -992,10 +1122,11 @@
         <span class="hist-pill high">3.40x</span>
         <span class="hist-pill">1.22x</span>
         <span class="hist-pill high">4.80x</span>
+        <span class="hist-pill">1.75x</span>
       </div>
 
       <div class="aviator-screen">
-        <canvas id="aviatorCanvas" width="350" height="185"></canvas>
+        <canvas id="aviatorCanvas" width="360" height="195"></canvas>
         <div class="aviator-overlay-content">
           <div id="aviatorMainDisplay" class="aviator-main-text">Next Round: 00:03</div>
           <div id="aviatorSubDisplay" class="aviator-sub-text">Place your bets! Waiting...</div>
@@ -1021,69 +1152,15 @@
       </button>
     </div>
 
-    <!-- SCREEN 4: MINES GAME (WITH CUSTOM MINES COUNT SELECTOR) -->
-    <div id="screenMines" class="screen">
-      <div class="section-heading">
-        <span>💣</span> Mines Game
-      </div>
-
-      <div class="mines-card">
-        <div class="mines-top-bar">
-          <span class="mines-count-label">💣 Active Mines: <span id="minesCountDisplay" style="color:#f59e0b;">3</span></span>
-          <span id="minesStatusText" class="mines-status-label" style="color:#10b981;">READY</span>
-        </div>
-
-        <!-- SELECT HOW MANY MINES YOU WANT -->
-        <div class="mines-selector-wrap">
-          <div class="mines-selector-title">
-            <span>🎯 SELECT NUMBER OF MINES (1 - 24):</span>
-            <span id="minesNextMultPreview" style="color:#38bdf8;">Next Tile: +0.28x</span>
-          </div>
-          <div class="mines-Select-pills">
-            <button class="mine-count-btn" id="mineBtn1" onclick="window.selectMinesCount(1)">1</button>
-            <button class="mine-count-btn active" id="mineBtn3" onclick="window.selectMinesCount(3)">3</button>
-            <button class="mine-count-btn" id="mineBtn5" onclick="window.selectMinesCount(5)">5</button>
-            <button class="mine-count-btn" id="mineBtn10" onclick="window.selectMinesCount(10)">10</button>
-            <button class="mine-count-btn" id="mineBtn15" onclick="window.selectMinesCount(15)">15</button>
-            <button class="mine-count-btn" id="mineBtn20" onclick="window.selectMinesCount(20)">20</button>
-          </div>
-          <div style="margin-top:8px; display:flex; align-items:center; justify-content:space-between; gap:8px;">
-            <span style="font-size:11px; color:#94a3b8; font-weight:700;">Custom Mines (1-24):</span>
-            <input
-              type="number"
-              id="customMinesInput"
-              min="1"
-              max="24"
-              value="3"
-              oninput="window.onCustomMinesInput(this.value)"
-              style="width:75px; padding:5px 8px; border-radius:7px; border:1px solid #334155; background:#1e293b; color:#fbbf24; font-weight:800; text-align:center; font-size:12.5px; outline:none;"
-            />
-          </div>
-        </div>
-
-        <div id="minesGrid" class="mines-grid-box"></div>
-
-        <input type="number" id="minesBetInput" class="input-field" placeholder="Enter Bet Coins (Min: 10)" value="50" style="margin-bottom:10px; background:#131b27; color:#fff; border-color:#334155;" />
-
-        <button id="minesActionBtn" class="btn-green" onclick="window.handleMinesAction()">
-          <span>🎮</span> START MINES GAME
-        </button>
-      </div>
-
-      <button class="btn-back" onclick="window.showScreen('screenGamesMenu')">
-        <span>🔙</span> BACK TO GAMES
-      </button>
-    </div>
-
-    <!-- SCREEN 4B: OX GAME (TIC-TAC-TOE: EASY / NORMAL / HARD) -->
+    <!-- SCREEN 4: OX GAME (TIC-TAC-TOE: EASY / NORMAL / HARD) -->
     <div id="screenOX" class="screen">
       <div class="section-heading">
-        <span>❌⭕</span> OX Game (Tic-Tac-Toe)
+        <span>❌⭕</span> OX Cyber Arena
       </div>
 
       <div class="ox-card">
-        <div style="font-size:12px; font-weight:800; color:#94a3b8; margin-bottom:8px;">
-          🎯 SELECT DIFFICULTY LEVEL & WIN REWARD:
+        <div style="font-size:11.5px; font-weight:800; color:#94a3b8; margin-bottom:8px; letter-spacing:0.3px;">
+          🎯 SELECT DIFFICULTY & WIN REWARD:
         </div>
 
         <!-- Difficulty Selector: Easy, Normal, Hard -->
@@ -1104,16 +1181,32 @@
           </button>
         </div>
 
-        <div class="mines-top-bar" style="margin-bottom:10px;">
-          <span class="mines-count-label">You: <b style="color:#38bdf8;">❌</b> vs Bot: <b style="color:#f43f5e;">⭕</b></span>
-          <span id="oxStatusText" class="mines-status-label" style="color:#10b981; font-size:13.5px;">YOUR TURN (❌)</span>
+        <!-- Session Scoreboard -->
+        <div class="ox-scoreboard">
+          <div class="ox-score-box">
+            <span>YOU (❌)</span>
+            <span id="oxScorePlayer" class="ox-score-val" style="color:#38bdf8;">0</span>
+          </div>
+          <div class="ox-score-box">
+            <span>DRAWS</span>
+            <span id="oxScoreDraw" class="ox-score-val" style="color:#fbbf24;">0</span>
+          </div>
+          <div class="ox-score-box">
+            <span>BOT (⭕)</span>
+            <span id="oxScoreBot" class="ox-score-val" style="color:#f43f5e;">0</span>
+          </div>
+        </div>
+
+        <div class="ox-status-banner">
+          <span style="color:#cbd5e1;">Mode: <b id="oxCurrentModeLabel" style="color:#38bdf8;">EASY</b></span>
+          <span id="oxStatusText" style="color:#10b981;">YOUR TURN (❌)</span>
         </div>
 
         <!-- 3x3 OX Board -->
         <div id="oxBoardGrid" class="ox-board"></div>
 
         <button id="oxRestartBtn" class="btn-green" style="margin-bottom:0;" onclick="window.startNewOXRound(true)">
-          <span>🔄</span> NEW OX GAME
+          <span>🔄</span> PLAY NEW OX ROUND
         </button>
       </div>
 
@@ -1125,7 +1218,7 @@
     <!-- SCREEN 5: MY WALLET & TWO-WAY CONVERT (COINS TO RUPEES + RUPEES TO COINS) -->
     <div id="screenWallet" class="screen">
       <div class="section-heading">
-        <span>💳</span> Live Balance
+        <span>💳</span> Live Wallet Balance
       </div>
 
       <div class="inner-box">
@@ -1135,7 +1228,7 @@
         <div class="balance-row">
           <span>💵</span> Cash: <span id="walletCashText" class="cash-val">₹0</span>
         </div>
-        <div id="walletRateLabel" class="rate-label">(Rate: 100 Coins = ₹1)</div>
+        <div id="walletRateLabel" class="rate-label">Exchange Rate: 100 Coins = ₹1</div>
       </div>
 
       <div class="inner-box">
@@ -1155,6 +1248,12 @@
 
         <!-- PANEL A: COINS TO RUPEES -->
         <div id="panelCoinsToRupees">
+          <div class="quick-bet-chips" style="margin-bottom:8px;">
+            <button class="chip-btn" onclick="window.fillConvertCoins(100)">100</button>
+            <button class="chip-btn" onclick="window.fillConvertCoins(500)">500</button>
+            <button class="chip-btn" onclick="window.fillConvertCoins(1000)">1000</button>
+            <button class="chip-btn" onclick="window.fillConvertCoins('MAX')">ALL COINS</button>
+          </div>
           <input
             type="number"
             id="convertCoinsInput"
@@ -1162,7 +1261,7 @@
             placeholder="Enter Coins Amount (e.g. 100)"
             oninput="window.updateConvertPreview()"
           />
-          <div id="convertPreviewText" style="font-size:13px; font-weight:700; color:#0ea568; margin-bottom:12px;">
+          <div id="convertPreviewText" class="preview-banner" style="color:#059669;">
             You will receive: ₹0.00 Real Cash
           </div>
           <button class="btn-blue" style="margin-bottom:0;" onclick="window.convertCoinsToCash()">
@@ -1172,6 +1271,12 @@
 
         <!-- PANEL B: RUPEES TO COINS -->
         <div id="panelRupeesToCoins" style="display:none;">
+          <div class="quick-bet-chips" style="margin-bottom:8px;">
+            <button class="chip-btn" onclick="window.fillConvertRupees(5)">₹5</button>
+            <button class="chip-btn" onclick="window.fillConvertRupees(10)">₹10</button>
+            <button class="chip-btn" onclick="window.fillConvertRupees(50)">₹50</button>
+            <button class="chip-btn" onclick="window.fillConvertRupees('MAX')">MAX ₹</button>
+          </div>
           <input
             type="number"
             id="convertRupeesInput"
@@ -1179,8 +1284,8 @@
             placeholder="Enter Rupees ₹ Amount (e.g. 10)"
             oninput="window.updateRupeesToCoinsPreview()"
           />
-          <div id="convertRupeesPreviewText" style="font-size:13px; font-weight:700; color:#f59e0b; margin-bottom:12px;">
-            You will receive: 0 Market Coins
+          <div id="convertRupeesPreviewText" class="preview-banner" style="color:#d97706;">
+            You will receive: +0 Market Coins
           </div>
           <button class="btn-green" style="margin-bottom:0;" onclick="window.convertRupeesToCoins()">
             <span>🪙</span> CONVERT RUPEES (₹) TO COINS
@@ -1197,27 +1302,27 @@
     <div id="screenGift" class="screen">
       <div class="inner-box">
         <div class="section-heading">
-          <span>🎁</span> Have a Gift Code?
+          <span>🎁</span> Redeem Gift Code
         </div>
         <input type="text" id="giftCodeInput" class="input-field" placeholder="ENTER GIFT CODE HERE" />
-        <button class="btn-green" onclick="window.redeemGiftCode()">
-          REDEEM GIFT
+        <button class="btn-green" style="margin-bottom:0;" onclick="window.redeemGiftCode()">
+          <span>✨</span> CLAIM GIFT REWARD
         </button>
       </div>
 
       <div class="inner-box">
         <div class="section-heading">
-          <span>📱</span> My Invite QR Code
+          <span>📱</span> Personal Invite QR & Link
         </div>
-        <p style="font-size:12.5px; color:#64748b; margin-bottom:12px;">
-          Ask your friends to scan this and join! Earn <b id="referRewardLabel">200 Coins</b> after they join the channel & open the app!
+        <p style="font-size:12.5px; color:#64748b; margin-bottom:12px; font-weight:600;">
+          Share with friends & earn <b id="referRewardLabel" style="color:#2563eb;">200 Coins</b> per verified friend!
         </p>
         <div id="qrCodeContainer" style="display:none; margin-bottom:14px;">
-          <img id="qrImage" src="" alt="Invite QR" style="width:160px; height:160px; border-radius:12px; border:2px solid #cbd5e1; padding:6px; background:#fff;" />
-          <p id="inviteLinkText" style="font-size:11px; color:#475569; word-break:break-all; margin-top:6px;"></p>
+          <img id="qrImage" src="" alt="Invite QR" style="width:165px; height:165px; border-radius:14px; border:2px solid #cbd5e1; padding:6px; background:#fff;" />
+          <p id="inviteLinkText" style="font-size:11px; color:#334155; font-weight:700; word-break:break-all; margin-top:8px; background:#e2e8f0; padding:6px 10px; border-radius:8px;"></p>
         </div>
         <button class="btn-dark" onclick="window.generateInviteQR()">
-          <span>🔄</span> GENERATE MY QR
+          <span>🔄</span> GENERATE MY INVITE QR
         </button>
       </div>
 
@@ -1231,15 +1336,15 @@
          Includes OX Game Rewards (Easy / Normal / Hard)!
          ===================================================== -->
     <div id="screenAdmin" class="screen">
-      <div class="section-heading">⚙️ Website Admin Settings</div>
-      <p style="font-size:12px; color:#64748b; margin-bottom:12px;">
-        Configure Website Games, OX Difficulty Rewards, Conversion Rate & Device Locks below.
+      <div class="section-heading">👑 Website Admin Controls</div>
+      <p style="font-size:12px; color:#64748b; margin-bottom:12px; font-weight:600;">
+        Manage Website Games, OX Difficulty Rewards, Conversion Rate & Device Locks.
       </p>
 
       <div id="adminActionModal" class="admin-modal-box"></div>
 
       <div class="admin-grid">
-        <button class="adm-green-btn" onclick="window.openWebAdminTool('toggleGames')">⚙️ All Games (ON / OFF)</button>
+        <button class="adm-green-btn" onclick="window.openWebAdminTool('toggleGames')">⚙️ All Games Master Switch (ON / OFF)</button>
 
         <button class="adm-green-btn" onclick="window.openWebAdminTool('oxRewards')">❌⭕ Set OX Game Rewards (Easy / Normal / Hard)</button>
 
@@ -1266,7 +1371,6 @@
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
     import { getDatabase, ref, get, set, update, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-    // Your web app's Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyBPlTvs8e_3F1Yb9Kr-ZHZp0nBmiG7tu44",
       authDomain: "smartu-grup-bot.firebaseapp.com",
@@ -1278,13 +1382,11 @@
       measurementId: "G-QB1ZCEE15H"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     let analytics = null;
     try { analytics = getAnalytics(app); } catch (e) {}
     const db = getDatabase(app);
 
-    // State Variables
     let currentUserId = "";
     let isDeviceUniqueForUser = true;
     let soundEnabled = true;
@@ -1311,7 +1413,7 @@
       channels: []
     };
 
-    // Sound Synthesizer (Zero external MP3 lag)
+    // Web Audio Synthesizer
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
 
@@ -1328,8 +1430,8 @@
 
         if (type === "click") {
           osc.type = "sine";
-          osc.frequency.setValueAtTime(500, now);
-          osc.frequency.exponentialRampToValueAtTime(240, now + 0.05);
+          osc.frequency.setValueAtTime(520, now);
+          osc.frequency.exponentialRampToValueAtTime(250, now + 0.05);
           gain.gain.setValueAtTime(0.1, now);
           gain.gain.linearRampToValueAtTime(0.01, now + 0.05);
           osc.start(now);
@@ -1338,14 +1440,14 @@
           osc.type = "triangle";
           osc.frequency.setValueAtTime(587, now);
           osc.frequency.setValueAtTime(880, now + 0.08);
-          gain.gain.setValueAtTime(0.2, now);
-          gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+          gain.gain.setValueAtTime(0.22, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.26);
           osc.start(now);
-          osc.stop(now + 0.25);
+          osc.stop(now + 0.26);
         } else if (type === "boom") {
           osc.type = "sawtooth";
-          osc.frequency.setValueAtTime(130, now);
-          osc.frequency.exponentialRampToValueAtTime(40, now + 0.3);
+          osc.frequency.setValueAtTime(140, now);
+          osc.frequency.exponentialRampToValueAtTime(38, now + 0.3);
           gain.gain.setValueAtTime(0.25, now);
           gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
           osc.start(now);
@@ -1383,7 +1485,7 @@
 
         if (pct === 25) statusEl.innerText = "Verifying Telegram User ID...";
         if (pct === 55) statusEl.innerText = "Checking 1-Device Security Lock...";
-        if (pct === 80) statusEl.innerText = "Checking Channel Join & Referrals...";
+        if (pct === 80) statusEl.innerText = "Syncing Pro Gaming Arena...";
 
         if (pct >= 100) {
           clearInterval(iv);
@@ -1394,7 +1496,6 @@
       }, 20);
     }
 
-    // Strict User ID Extractor
     function extractStrictUserId() {
       const pathMatch = window.location.pathname.match(/userid-(\d+)/i);
       if (pathMatch && pathMatch[1]) return pathMatch[1].trim();
@@ -1409,7 +1510,6 @@
       return "";
     }
 
-    // Device Fingerprint
     function getDeviceFingerprint() {
       let devId = localStorage.getItem("smartu_device_fingerprint");
       if (!devId) {
@@ -1457,7 +1557,6 @@
       return true;
     }
 
-    // Channel Verification + Auto Referral Trigger
     window.verifyChannelMembership = async function (manualClick = false) {
       try {
         const resp = await fetch(`/api?action=check_channel&userid=${currentUserId}&device_unique=${isDeviceUniqueForUser}`);
@@ -1508,13 +1607,12 @@
       document.getElementById("headerCashText").innerText = "₹" + r;
       document.getElementById("walletCoinsText").innerText = c;
       document.getElementById("walletCashText").innerText = "₹" + r;
-      document.getElementById("walletRateLabel").innerText = `(Rate: ${rate} Coins = ₹1)`;
+      document.getElementById("walletRateLabel").innerText = `Exchange Rate: ${rate} Coins = ₹1`;
       document.getElementById("aviatorMaxBetText").innerText = (appConfig.aviatorMaxBet || 5000) + " Coins";
       document.getElementById("referRewardLabel").innerText = (appConfig.referReward || 200) + " Coins";
       document.getElementById("gamesPlayedCounter").innerText =
         `${Number(currentUserData.gamesPlayedToday || 0)} / ${Number(appConfig.gamePlayLimit || 50)}`;
 
-      // Update OX Game Reward Labels from Admin Config
       const easyC = Number(appConfig.oxEasyCoins !== undefined ? appConfig.oxEasyCoins : 20);
       const normC = Number(appConfig.oxNormalCoins !== undefined ? appConfig.oxNormalCoins : 50);
       const hardC = Number(appConfig.oxHardCoins !== undefined ? appConfig.oxHardCoins : 150);
@@ -1584,7 +1682,20 @@
       }
     };
 
-    // 1. Coins -> Rupees Preview & Action
+    window.fillConvertCoins = function (val) {
+      playSound("click");
+      const c = Number(currentUserData.coins || 0);
+      document.getElementById("convertCoinsInput").value = (val === "MAX") ? c : val;
+      window.updateConvertPreview();
+    };
+
+    window.fillConvertRupees = function (val) {
+      playSound("click");
+      const r = Number(currentUserData.cash || 0);
+      document.getElementById("convertRupeesInput").value = (val === "MAX") ? r : val;
+      window.updateRupeesToCoinsPreview();
+    };
+
     window.updateConvertPreview = function () {
       const rate = Number(appConfig.conversionRate || 100);
       const val = Number(document.getElementById("convertCoinsInput").value || 0);
@@ -1624,13 +1735,12 @@
       showToast(`✅ Converted ${enteredCoins} Coins to ₹${cashAdded} Real Cash!`);
     };
 
-    // 2. Rupees -> Coins Preview & Action
     window.updateRupeesToCoinsPreview = function () {
       const rate = Number(appConfig.conversionRate || 100);
       const val = Number(document.getElementById("convertRupeesInput").value || 0);
       const el = document.getElementById("convertRupeesPreviewText");
       if (val <= 0) {
-        el.innerText = "You will receive: 0 Market Coins";
+        el.innerText = "You will receive: +0 Market Coins";
         return;
       }
       const coinsOut = Math.floor(val * rate);
@@ -1691,11 +1801,11 @@
       document.getElementById("qrImage").src = qrApi;
       document.getElementById("inviteLinkText").innerText = inviteUrl;
       document.getElementById("qrCodeContainer").style.display = "block";
-      showToast("📱 Invite QR Code Generated!");
+      showToast("📱 Personal Invite QR Generated!");
     };
 
     // =====================================================
-    // AVIATOR X ENGINE (OPTIMIZED ZERO-LAG CANVAS)
+    // AVIATOR X PRO ENGINE (WITH RADAR GRID & GLOW TRAIL)
     // =====================================================
     let aviatorInterval = null;
     let aviatorState = "WAITING";
@@ -1723,22 +1833,46 @@
       const h = canvas.height;
       ctx.clearRect(0, 0, w, h);
 
+      // Subtle Cyber Radar Grid
+      ctx.strokeStyle = "rgba(56, 189, 248, 0.1)";
+      ctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 45) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      for (let y = 0; y < h; y += 38) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+
       if (state === "WAITING") return;
 
-      const startX = 20;
-      const startY = h - 20;
-      const curX = startX + Math.min(progress * (w - 65), w - 55);
-      const curY = startY - Math.min(Math.pow(progress, 1.3) * (h - 50), h - 42);
+      const startX = 22;
+      const startY = h - 22;
+      const curX = startX + Math.min(progress * (w - 68), w - 58);
+      const curY = startY - Math.min(Math.pow(progress, 1.32) * (h - 52), h - 44);
+
+      // Glowing Area Fill Under Curve
+      const grad = ctx.createLinearGradient(0, curY, 0, h);
+      grad.addColorStop(0, state === "CRASHED" ? "rgba(239, 68, 68, 0.35)" : "rgba(16, 185, 129, 0.35)");
+      grad.addColorStop(1, "rgba(16, 185, 129, 0.0)");
 
       ctx.beginPath();
       ctx.moveTo(startX, startY);
-      ctx.quadraticCurveTo(startX + (curX - startX) * 0.5, startY, curX, curY);
+      ctx.quadraticCurveTo(startX + (curX - startX) * 0.55, startY, curX, curY);
+      ctx.lineTo(curX, startY);
+      ctx.closePath();
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      // Flight Curve Line
+      ctx.beginPath();
+      ctx.moveTo(startX, startY);
+      ctx.quadraticCurveTo(startX + (curX - startX) * 0.55, startY, curX, curY);
       ctx.strokeStyle = state === "CRASHED" ? "#ef4444" : "#10b981";
       ctx.lineWidth = 3.5;
       ctx.stroke();
 
-      ctx.font = "20px sans-serif";
-      ctx.fillText(state === "CRASHED" ? "💥" : "✈️", curX - 8, curY + 5);
+      ctx.font = "21px sans-serif";
+      ctx.fillText(state === "CRASHED" ? "💥" : "✈️", curX - 9, curY + 6);
     }
 
     function pushAviatorHistoryPill(mult) {
@@ -1772,7 +1906,7 @@
       const subDisp = document.getElementById("aviatorSubDisplay");
       const btn = document.getElementById("aviatorActionBtn");
 
-      mainDisp.style.color = "#3b82f6";
+      mainDisp.style.color = "#38bdf8";
       subDisp.innerText = "Place your bets! Waiting...";
       drawAviatorCanvas("WAITING", 0);
 
@@ -1806,8 +1940,8 @@
           mainDisp.style.color = "#10b981";
           mainDisp.innerText = `${aviatorMultiplier.toFixed(2)}x`;
           subDisp.innerText = (userAviatorBet > 0 && !userCashedOut)
-            ? `Cashout: ${Math.floor(userAviatorBet * aviatorMultiplier)} Coins`
-            : "Plane is flying...";
+            ? `Cashout Now: ${Math.floor(userAviatorBet * aviatorMultiplier)} Coins`
+            : "Plane is flying live...";
 
           if (aviatorMultiplier >= aviatorCrashPoint) {
             aviatorState = "CRASHED";
@@ -1869,182 +2003,13 @@
     };
 
     // =====================================================
-    // MINES GAME ENGINE (WITH SELECTABLE MINES 1 - 24)
-    // =====================================================
-    let minesActive = false;
-    let selectedMinesCount = 3;
-    let minesBombPositions = [];
-    let minesRevealedCount = 0;
-    let minesCurrentBet = 50;
-
-    function getMinesStepBoost(minesCount) {
-      // Dynamic risk-based multiplier boost per safe diamond
-      return Number(((0.12 + (minesCount / (25 - minesCount)) * 0.85)).toFixed(2));
-    }
-
-    function calculateMinesMultiplier(minesCount, revealed) {
-      if (revealed <= 0) return 1.00;
-      const step = getMinesStepBoost(minesCount);
-      return Number((1 + revealed * step).toFixed(2));
-    }
-
-    window.selectMinesCount = function (count) {
-      if (minesActive) {
-        return showToast("⚠️ Finish or Cashout current round before changing mines!");
-      }
-      playSound("click");
-      let validCount = Math.max(1, Math.min(24, Number(count || 3)));
-      selectedMinesCount = validCount;
-
-      document.getElementById("minesCountDisplay").innerText = validCount;
-      document.getElementById("customMinesInput").value = validCount;
-
-      const stepBoost = getMinesStepBoost(validCount);
-      document.getElementById("minesNextMultPreview").innerText = `Per Diamond: +${stepBoost.toFixed(2)}x`;
-
-      document.querySelectorAll(".mine-count-btn").forEach(b => b.classList.remove("active"));
-      const presetBtn = document.getElementById("mineBtn" + validCount);
-      if (presetBtn) presetBtn.classList.add("active");
-    };
-
-    window.onCustomMinesInput = function (val) {
-      if (minesActive) {
-        document.getElementById("customMinesInput").value = selectedMinesCount;
-        return showToast("⚠️ Cannot change mines during an active game!");
-      }
-      let num = parseInt(val, 10);
-      if (isNaN(num)) return;
-      if (num < 1) num = 1;
-      if (num > 24) num = 24;
-      window.selectMinesCount(num);
-    };
-
-    window.openMinesGame = function () {
-      window.showScreen("screenMines");
-      window.selectMinesCount(selectedMinesCount);
-      renderMinesBoard(true);
-    };
-
-    function renderMinesBoard(resetStatus = true) {
-      const grid = document.getElementById("minesGrid");
-      grid.innerHTML = "";
-      for (let i = 0; i < 25; i++) {
-        const btn = document.createElement("button");
-        btn.className = "mine-tile";
-        btn.innerHTML = "💎";
-        btn.onclick = () => clickMineTile(i, btn);
-        grid.appendChild(btn);
-      }
-      if (resetStatus) {
-        const st = document.getElementById("minesStatusText");
-        st.innerText = "READY";
-        st.style.color = "#10b981";
-        document.getElementById("minesActionBtn").innerHTML = "<span>🎮</span> START MINES GAME";
-      }
-    }
-
-    window.handleMinesAction = async function () {
-      const actionBtn = document.getElementById("minesActionBtn");
-
-      if (!minesActive) {
-        const betVal = Number(document.getElementById("minesBetInput").value || 50);
-        if (betVal < 10) return showToast("⚠️ Minimum bet is 10 Coins!");
-        if (betVal > Number(currentUserData.coins || 0)) return showToast("❌ Insufficient Coins!");
-
-        const ok = await checkAndIncrementGamePlay();
-        if (!ok) return;
-
-        playSound("click");
-        const nextCoins = Number(currentUserData.coins || 0) - betVal;
-        minesCurrentBet = betVal;
-        await update(ref(db, `users/${currentUserId}`), { coins: nextCoins });
-
-        minesActive = true;
-        minesRevealedCount = 0;
-        minesBombPositions = [];
-        while (minesBombPositions.length < selectedMinesCount) {
-          const r = Math.floor(Math.random() * 25);
-          if (!minesBombPositions.includes(r)) minesBombPositions.push(r);
-        }
-
-        renderMinesBoard(false);
-        const st = document.getElementById("minesStatusText");
-        st.innerText = "1.00x";
-        st.style.color = "#38bdf8";
-        actionBtn.innerHTML = "<span>💸</span> CASHOUT NOW";
-        showToast(`💣 Game Started with ${selectedMinesCount} Mines!`);
-      } else {
-        if (minesRevealedCount < 1) return showToast("⚠️ Open at least 1 diamond first!");
-        playSound("win");
-        const mult = calculateMinesMultiplier(selectedMinesCount, minesRevealedCount);
-        const winAmount = Math.floor(minesCurrentBet * mult);
-        const nextCoins = Number(currentUserData.coins || 0) + winAmount;
-        minesActive = false;
-
-        await update(ref(db, `users/${currentUserId}`), { coins: nextCoins });
-        const st = document.getElementById("minesStatusText");
-        st.innerText = `WON +${winAmount}`;
-        st.style.color = "#10b981";
-        actionBtn.innerHTML = "<span>🎮</span> START NEW GAME";
-        showToast(`🎉 Cashed Out ${winAmount} Coins at ${mult.toFixed(2)}x!`);
-      }
-    };
-
-    function clickMineTile(index, tileEl) {
-      if (!minesActive) {
-        window.handleMinesAction();
-        return;
-      }
-      if (tileEl.classList.contains("safe") || tileEl.classList.contains("bomb-hit")) return;
-
-      const allTiles = document.querySelectorAll(".mine-tile");
-
-      if (minesBombPositions.includes(index)) {
-        minesActive = false;
-        playSound("boom");
-        tileEl.classList.add("bomb-hit");
-        tileEl.innerHTML = "💣";
-
-        minesBombPositions.forEach(bIdx => {
-          if (bIdx !== index) {
-            allTiles[bIdx].classList.add("bomb-reveal");
-            allTiles[bIdx].innerHTML = "💣";
-          }
-        });
-
-        const st = document.getElementById("minesStatusText");
-        st.innerText = "CRASHED";
-        st.style.color = "#ef4444";
-        document.getElementById("minesActionBtn").innerHTML = "<span>🎮</span> PLAY AGAIN";
-        showToast("💥 BOOM! You hit a mine!");
-      } else {
-        playSound("win");
-        tileEl.classList.add("safe");
-        tileEl.innerHTML = "💎";
-        minesRevealedCount++;
-
-        const nextMult = calculateMinesMultiplier(selectedMinesCount, minesRevealedCount);
-        const st = document.getElementById("minesStatusText");
-        st.innerText = `${nextMult.toFixed(2)}x`;
-        st.style.color = "#10b981";
-
-        const potentialWin = Math.floor(minesCurrentBet * nextMult);
-        document.getElementById("minesActionBtn").innerHTML = `<span>💸</span> CASHOUT (${potentialWin} COINS)`;
-
-        // Auto-Cashout if user cleared all safe tiles on the board!
-        if (minesRevealedCount >= (25 - selectedMinesCount)) {
-          window.handleMinesAction();
-        }
-      }
-    }
-
-    // =====================================================
     // OX GAME (TIC-TAC-TOE) ENGINE - EASY / NORMAL / HARD
     // =====================================================
-    let oxDifficulty = "EASY"; // EASY, NORMAL, HARD
+    let oxDifficulty = "EASY";
     let oxBoardState = ["", "", "", "", "", "", "", "", ""];
     let oxGameActive = false;
     let oxPlayerTurn = true;
+    let oxScores = { player: 0, draw: 0, bot: 0 };
 
     const OX_WIN_LINES = [
       [0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -2072,6 +2037,7 @@
       document.getElementById("oxDiffEasy").classList.toggle("active", diff === "EASY");
       document.getElementById("oxDiffNormal").classList.toggle("active", diff === "NORMAL");
       document.getElementById("oxDiffHard").classList.toggle("active", diff === "HARD");
+      document.getElementById("oxCurrentModeLabel").innerText = diff;
 
       window.startNewOXRound(false);
     };
@@ -2089,7 +2055,7 @@
 
       const statusEl = document.getElementById("oxStatusText");
       statusEl.innerText = "YOUR TURN (❌)";
-      statusEl.style.color = "#38bdf8";
+      statusEl.style.color = "#10b981";
 
       renderOXBoard([]);
     };
@@ -2136,7 +2102,6 @@
     async function handlePlayerOXMove(idx) {
       if (!oxGameActive || !oxPlayerTurn || oxBoardState[idx] !== "") return;
 
-      // Count daily game limit on the first move of the board
       const movesMade = oxBoardState.filter(x => x !== "").length;
       if (movesMade === 0) {
         const ok = await checkAndIncrementGamePlay();
@@ -2156,7 +2121,7 @@
 
       const statusEl = document.getElementById("oxStatusText");
       statusEl.innerText = "BOT THINKING (⭕)...";
-      statusEl.style.color = "#f59e0b";
+      statusEl.style.color = "#fbbf24";
 
       setTimeout(async () => {
         if (!oxGameActive) return;
@@ -2172,9 +2137,9 @@
         } else {
           oxPlayerTurn = true;
           statusEl.innerText = "YOUR TURN (❌)";
-          statusEl.style.color = "#38bdf8";
+          statusEl.style.color = "#10b981";
         }
-      }, 320);
+      }, 300);
     }
 
     function computeBotOXMove(board, difficulty) {
@@ -2184,23 +2149,19 @@
       }
       if (emptyIndices.length === 0) return -1;
 
-      // EASY MODE: 80% Random moves, 20% Smart moves
       if (difficulty === "EASY") {
         if (Math.random() < 0.80) {
           return emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
         }
       }
 
-      // NORMAL MODE: Checks immediate win or block, otherwise random
       if (difficulty === "NORMAL" || difficulty === "EASY") {
-        // 1. Check if Bot ("O") can win immediately
         for (const idx of emptyIndices) {
           board[idx] = "O";
           const res = checkOXWinner(board);
           board[idx] = "";
           if (res && res.winner === "O") return idx;
         }
-        // 2. Check if Player ("X") is about to win and block (75% chance in Normal)
         if (Math.random() < 0.75) {
           for (const idx of emptyIndices) {
             board[idx] = "X";
@@ -2213,7 +2174,6 @@
         return emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
       }
 
-      // HARD MODE: Minimax Tactical AI (Small 12% opening variance so skilled players can strategize & win)
       if (emptyIndices.length >= 7 && Math.random() < 0.12) {
         return emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
       }
@@ -2275,23 +2235,32 @@
 
       if (result.winner === "X") {
         playSound("win");
+        oxScores.player++;
+        document.getElementById("oxScorePlayer").innerText = oxScores.player;
+
         const reward = getOXRewardForDifficulty(oxDifficulty);
         const nextCoins = Number(currentUserData.coins || 0) + reward;
         await update(ref(db, `users/${currentUserId}`), { coins: nextCoins });
 
-        statusEl.innerText = `YOU WON +${reward} 🪙!`;
+        statusEl.innerText = `WON +${reward} 🪙!`;
         statusEl.style.color = "#10b981";
         showToast(`🎉 Victory on ${oxDifficulty}! You won +${reward} Coins!`);
       } else if (result.winner === "O") {
         playSound("boom");
+        oxScores.bot++;
+        document.getElementById("oxScoreBot").innerText = oxScores.bot;
+
         statusEl.innerText = "BOT WON! TRY AGAIN";
         statusEl.style.color = "#ef4444";
-        showToast("🤖 Bot won this round! Tap New OX Game to try again.");
+        showToast("🤖 Bot won this round! Tap Play New OX Round.");
       } else {
         playSound("click");
+        oxScores.draw++;
+        document.getElementById("oxScoreDraw").innerText = oxScores.draw;
+
         statusEl.innerText = "MATCH DRAW!";
-        statusEl.style.color = "#f59e0b";
-        showToast("🤝 It's a Draw! Tap New OX Game to play again.");
+        statusEl.style.color = "#fbbf24";
+        showToast("🤝 It's a Draw! Tap Play New OX Round.");
       }
     }
 
@@ -2382,7 +2351,7 @@
         box.innerHTML = `
           <h4>🔓 Reset 1-Device Lock</h4>
           <input id="webAdmResetUid" class="input-field" placeholder="Enter User ID or type ALL" value="${currentUserId}" />
-          <button class="btn-blue" style="background:#ef4444;" onclick="window.resetWebDeviceLock()">🔓 Reset Device Lock</button>
+          <button class="btn-blue" style="background:#ef4444; border-bottom-color:#b91c1c;" onclick="window.resetWebDeviceLock()">🔓 Reset Device Lock</button>
         `;
       }
     };
@@ -2442,7 +2411,6 @@
       const refCode = q.get("ref") || "";
       await fetch(`/api?action=profile&userid=${currentUserId}&ref=${encodeURIComponent(refCode)}`);
 
-      // Real-time Firebase Listener 1: Global Config (Zero Polling Lag)
       onValue(ref(db, "config"), (snapshot) => {
         if (snapshot.exists()) {
           appConfig = { ...appConfig, ...snapshot.val() };
@@ -2450,7 +2418,6 @@
         }
       });
 
-      // Real-time Firebase Listener 2: User Balance & Status (Instant Sync)
       onValue(ref(db, `users/${currentUserId}`), async (snapshot) => {
         if (snapshot.exists()) {
           const u = snapshot.val();
@@ -2475,7 +2442,6 @@
         }
       });
 
-      // Verify Channel Membership on load + passive check every 15 seconds
       await window.verifyChannelMembership(false);
       setInterval(() => {
         window.verifyChannelMembership(false);
